@@ -218,19 +218,17 @@ class AccionUsuarioSpec: DescribeSpec({
             }
         }
         describe("Test solicitud de figuritas con accion IncorporarFiguritaReservada") {
-            //TODO: Preguntar si hay otra manera de no llamar a IncorporarFiguritaRepetidasReservadas
-            val IncorporarFiguritaARepetidasReservadas = IncorporarFiguritaARepetidasReservadas()
-
-            it("Si usuario Solicitante si posee figurita repetida, no se registra como repetida en lista RepetidaReservada"){
-
+            it("Si usuario Solicitante si posee figurita repetida, se registra como repetida en lista RepetidaReservada"){
                 val usuarioConFiguritaRepetida = usuarioGeneral.apply {
                         repeat(2){recibirFigurita(figuritaComun)}
                 }
 
+                val IncorporarFiguritaARepetidasReservadas = IncorporarFiguritaARepetidasReservadas(usuarioConFiguritaRepetida, figuritaComun)
+
                 usuarioConFiguritaRepetida.activarAccion(IncorporarFiguritaARepetidasReservadas)
                 usuarioConFiguritaRepetida.pedirFigurita(figuritaBase,usuarioCercano)
 
-                IncorporarFiguritaARepetidasReservadas.figuritasRepetidasReservadas.isEmpty().shouldBeTrue()
+                IncorporarFiguritaARepetidasReservadas.figuritasReservadas.isEmpty().shouldBeFalse()
 
             }
             /*it("Si usuario Solicitante ademas de no poseer ninguna figurita repetida, la figurita solicitada es de mayor o igual valoracion que alguna de las repetidas reservadas se agrega a la lista"){

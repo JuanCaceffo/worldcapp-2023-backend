@@ -87,19 +87,39 @@ class ConvertirUsuarioEnNacionalista():  AccionesUsuarios(){
 
 
 }
-//TODO: Preguntar si los metodos estan correcto o hay algun problema de compension de la consigna
-class IncorporarFiguritaARepetidasReservadas():  AccionesUsuarios(){
-    val figuritasRepetidasReservadas: MutableList<Figurita> = mutableListOf()
+class IncorporarFiguritaARepetidasReservadas(usuario: Usuario, vararg figuritas: Figurita):  AccionesUsuarios(){
+    val figuritasReservadas: MutableList<Figurita> = mutableListOf()
 
-    override fun ejecutarAccion(usuario: Usuario, figurita: Figurita){
-        if(noTieneFiguritasRepetidas(usuario) && sePuederegistrarFiguritaRepetidaResevada(figurita)){
-            agregarFiguritaReservada(figuritaAIncorporar(usuario))
+    init{
+        if (figuritas.isEmpty())
+            throw IllegalArgumentException("Debe elegirse al menos una figurita a reservar")
+        val figusNoRepetidas = figuritas.filter{figu -> !usuario.estaRepetida(figu)}
+        if (figusNoRepetidas.isNotEmpty())
+            throw IllegalArgumentException("Se pasaron figuritas que el usuario ${usuario.nombreUsuario} no tiene repetidas: $figusNoRepetidas")
+        figuritas.forEach { figurita ->
+            usuario.figuritas.remove(figurita)
+            figuritasReservadas.add(figurita)
         }
     }
-    fun noTieneFiguritasRepetidas(usuario: Usuario) = usuario.figuritasRepetidas().isEmpty()
-    fun figuritaAIncorporar(usuario: Usuario): Figurita = usuario.listaFiguritasARegalar().minBy { it.valoracion() }
-    fun sePuederegistrarFiguritaRepetidaResevada(figurita: Figurita) :Boolean = figuritasRepetidasReservadas.any { figurita.valoracion() >= it.valoracion() }
-    fun agregarFiguritaReservada(figurita: Figurita){
-        figuritasRepetidasReservadas.add(figurita)
+
+    override fun ejecutarAccion(usuario: Usuario, figuritaSolicitada: Figurita){
+        if (usuario.figuritasRepetidas().isNotEmpty())
+            return
+        
+        val reservadasRegalables = figuritasReservadasRegalablesPor(usuario)
+        if (reservadasRegalables.isEmpty())
+            return
+        
+        val regalablesMenosValiosas = reservadasRegalables.filter { figuritaSolicitada.valoracion() >= it.valoracion() }
+        if(regalablesMenosValiosas.isEmpty())
+            return
+        
+        val reservadaParaRegistrar = regalablesMenosValiosas.first()
+        usuario.recibirFigurita(reservadaParaRegistrar)
+        figuritasReservadas.remove(reservadaParaRegistrar)
+        
+        if (figuritasReservadas.isEmpty())
+            usuario.desactivarAccion(this)
     }
+    private fun figuritasReservadasRegalablesPor(usuario: Usuario) : List<Figurita> = figuritasReservadas.filter{ usuario.puedoDar(it) }
 }
