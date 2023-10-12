@@ -1,1 +1,1 @@
-rootProject.name = "worldCappBackend"
+rootProject.name = "WorldCapp08"
