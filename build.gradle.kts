@@ -64,6 +64,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    //abrimos el paquete de java.time para que pueda ser accedido por cualquer modulo
+    jvmArgs = listOf("--add-opens", "java.base/java.time=ALL-UNNAMED")
 }
 
 tasks.test {
