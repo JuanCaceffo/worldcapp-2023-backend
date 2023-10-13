@@ -1,9 +1,9 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.repository.RepositorioFiguritas
-import ar.edu.unsam.algo3.repository.RepositorioPuntosDeVenta
-import ar.edu.unsam.algo3.repository.RepositorioSelecciones
-import ar.edu.unsam.algo3.repository.RepositorioUsuarios
+import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
+import ar.edu.unsam.algo3.repository.SeleccionesRepository
+import ar.edu.unsam.algo3.repository.UsuariosRepository
 import com.google.gson.Gson
 
 abstract class Proceso() {
@@ -18,14 +18,14 @@ abstract class Proceso() {
     }
 }
 
-class BorrarUserInactivo(private val toProcess: RepositorioUsuarios, override var mailSender: MailSender): Proceso() {
+class BorrarUserInactivo(private val toProcess: UsuariosRepository, override var mailSender: MailSender): Proceso() {
     override fun execute(){
         toProcess.massiveDelete(toProcess.inactivos())
         super.execute()
     }
 }
 
-class UpdateSelecciones(private val toProcess: RepositorioSelecciones, val service: String, override var mailSender: MailSender): Proceso() {
+class UpdateSelecciones(private val toProcess: SeleccionesRepository, val service: String, override var mailSender: MailSender): Proceso() {
     fun obtainSelecciones() = Gson().fromJson(service, Array<SeleccionDataExterna>::class.java).toList()
     override fun execute(){
         obtainSelecciones().forEach{ toProcess.update(Seleccion.crear(it)) }
@@ -33,21 +33,21 @@ class UpdateSelecciones(private val toProcess: RepositorioSelecciones, val servi
     }
 }
 
-class BorrarPuntosVentaInactivo(private val toProcess: RepositorioPuntosDeVenta, override var mailSender: MailSender): Proceso() {
+class BorrarPuntosVentaInactivo(private val toProcess: PuntosDeVentaRepository, override var mailSender: MailSender): Proceso() {
     override fun execute(){
         toProcess.massiveDelete(toProcess.inactivos())
         super.execute()
     }
 }
 
-class CambiarAOnFire(private val toProcess: RepositorioFiguritas, val nros: MutableList<Int>, override var mailSender: MailSender): Proceso() {
+class CambiarAOnFire(private val toProcess: FiguritasRepository, val nros: MutableList<Int>, override var mailSender: MailSender): Proceso() {
     override fun execute() {
         toProcess.setOnFire(nros)
         super.execute()
     }
 }
 
-class UpdateStockPuntosVenta(private val toProcess: RepositorioPuntosDeVenta, val recibidos: MutableList<Pedido>, override var mailSender: MailSender): Proceso() {
+class UpdateStockPuntosVenta(private val toProcess: PuntosDeVentaRepository, val recibidos: MutableList<Pedido>, override var mailSender: MailSender): Proceso() {
     override fun execute(){
         toProcess.updateStock(recibidos)
         super.execute()

@@ -5,6 +5,6 @@ import ar.edu.unsam.algo3.domain.Usuario
 import org.springframework.stereotype.Repository
 
 @Repository
-class RepositorioUsuarios: Repositorio<Usuario>() {
+class UsuariosRepository: Repositorio<Usuario>() {
     fun inactivos() = elementos.filter{it.value.figuritasFaltantes.isEmpty() && it.value.figuritasRepetidas().isEmpty()}
 }

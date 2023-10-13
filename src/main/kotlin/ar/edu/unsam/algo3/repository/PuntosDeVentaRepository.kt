@@ -6,7 +6,7 @@ import ar.edu.unsam.algo3.domain.Repositorio
 import org.springframework.stereotype.Repository
 
 @Repository
-class RepositorioPuntosDeVenta: Repositorio<PuntoDeVenta>() {
+class PuntosDeVentaRepository: Repositorio<PuntoDeVenta>() {
     fun inactivos() = elementos.filter{(!it.value.disponibilidad() && it.value.pedidosPendientes.isEmpty()) || (!it.value.disponibilidad() && !it.value.tienePedidoConEntregaProxima())}
 
     fun updateStock(recibidos: MutableList<Pedido>){
