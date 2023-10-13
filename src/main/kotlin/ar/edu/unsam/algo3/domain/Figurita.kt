@@ -1,6 +1,8 @@
 package ar.edu.unsam.algo3.domain
 
-class Figurita (val numero:Int, var onFire:Boolean, val cantidadImpresa: NivelImpresion, val jugador: Jugador): RepositorioProps(){
+import ar.edu.unsam.algo3.repository.RepositoryProps
+
+class Figurita (val numero:Int, var onFire:Boolean, val cantidadImpresa: NivelImpresion, val jugador: Jugador): RepositoryProps(){
     init {
         validarNumero()
     }

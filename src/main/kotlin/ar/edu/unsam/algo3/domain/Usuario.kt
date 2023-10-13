@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositoryProps
 import java.time.LocalDate
 
 const val MENSAJE_ERROR_INGRESAR_NOMBRE_USUARIO = "Debe ingresar un nombre de usuario"
@@ -13,7 +14,7 @@ data class Usuario(
     var fechaNacimiento:LocalDate,
     val email:String,
     val direccion:Direccion
-): RepositorioProps() {
+): RepositoryProps() {
     //Lista de acciones que el usuario puede activar o desactivar segun sus necesidades de negocio
     val acciones = mutableSetOf<AccionesUsuarios>()
     var condicionParaDar:CondicionesParaDar = Desprendido()

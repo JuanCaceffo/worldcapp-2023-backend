@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositoryProps
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlin.math.ceil
@@ -16,7 +17,7 @@ abstract class PuntoDeVenta(
     var nombre: String,
     val direccion : Direccion,
     var stockSobres: Int
-): Cloneable, RepositorioProps(){
+): Cloneable, RepositoryProps(){
     val pedidosPendientes: MutableSet<Pedido> = mutableSetOf()
     private var maxKmEnvio: Double = 10.0
     private var baseDeEnvio = 1000.0

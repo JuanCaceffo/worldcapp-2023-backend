@@ -1,7 +1,7 @@
-package ar.edu.unsam.algo3.domain
+package ar.edu.unsam.algo3.repository
 
 const val MENSAJE_ERROR_ID_INEXISTENTE= "El ID no corresponde con ningun elementod del repositorio"
-open class Repositorio<T : RepositorioProps> {
+open class Repositorio<T : RepositoryProps> {
     var elementos = mutableMapOf<Int, T>()
 
     private var idCounter = 0

@@ -1,5 +1,7 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
+import ar.edu.unsam.algo3.repository.Repositorio
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec

@@ -9,5 +9,4 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
     fun login(dataUser: UsuarioLoginDTO) {
 
     }
-
 }
