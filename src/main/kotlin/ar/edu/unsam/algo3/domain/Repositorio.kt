@@ -39,24 +39,5 @@ open class Repositorio<T : RepositorioProps> {
     }
 }
 
-class RepositorioFiguritas: Repositorio<Figurita>() {
-    fun setOnFire(nros: MutableList<Int>){
-        elementos.forEach{ if (nros.contains(it.value.numero)) {it.value.OnFire(true)}}
-    }
-}
-
-class RepositorioUsuarios: Repositorio<Usuario>() {
-    fun inactivos() = elementos.filter{it.value.figuritasFaltantes.isEmpty() && it.value.figuritasRepetidas().isEmpty()}
-}
-
-class RepositorioPuntosDeVenta: Repositorio<PuntoDeVenta>() {
-    fun inactivos() = elementos.filter{(!it.value.disponibilidad() && it.value.pedidosPendientes.isEmpty()) || (!it.value.disponibilidad() && !it.value.tienePedidoConEntregaProxima())}
-
-    fun updateStock(recibidos: MutableList<Pedido>){
-        elementos.values.forEach{ it.procesarPedidos(recibidos) }
-    }
-}
-
-class RepositorioSelecciones:Repositorio<Seleccion>()
 
 

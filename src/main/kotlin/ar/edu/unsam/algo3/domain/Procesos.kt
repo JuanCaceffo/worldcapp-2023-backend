@@ -1,5 +1,9 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioFiguritas
+import ar.edu.unsam.algo3.repository.RepositorioPuntosDeVenta
+import ar.edu.unsam.algo3.repository.RepositorioSelecciones
+import ar.edu.unsam.algo3.repository.RepositorioUsuarios
 import com.google.gson.Gson
 
 abstract class Proceso() {
