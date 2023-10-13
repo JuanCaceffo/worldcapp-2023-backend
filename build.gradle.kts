@@ -23,34 +23,30 @@ repositories {
 
 dependencies {
     val kotestVersion = "5.4.2"
-    val mockkVersion = "1.12.4"
 
     // básicos de cualquier proyecto Spring Boot
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-web-services")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2") //
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2")
     implementation("org.springdoc:springdoc-openapi-starter-common:2.2.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.boot:spring-boot-devtools")
-    implementation("org.uqbar-project:geodds-xtend:1.0.3")
-    implementation ("com.google.code.gson:gson:2.10.1")
-    implementation(kotlin("stdlib"))
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation("org.uqbar-project:geodds-xtend:1.0.3")
 
     // testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.mockk:mockk:1.12.8")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
-    testImplementation ("io.mockk:mockk:$mockkVersion")
 }
 
 dependencyManagement {
