@@ -1,5 +1,9 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioFiguritas
+import ar.edu.unsam.algo3.repository.RepositorioPuntosDeVenta
+import ar.edu.unsam.algo3.repository.RepositorioSelecciones
+import ar.edu.unsam.algo3.repository.RepositorioUsuarios
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
