@@ -5,13 +5,14 @@ import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.stereotype.Service
 import java.time.LocalDate
 
+@Service
 class WorldCappBoostrap (
   val figuritasRepository: FiguritasRepository,
   val jugadorRepository: JugadorRepository,
   val seleccionesRepository: SeleccionesRepository,
-  val confeRepository: MutableList<Confederacion>
   // val usuariosRepositorio: UsuarioRepositorio,
   // val puestosDeVentaRepositorio: PuestoDeVentaRepositorio,
 ): InitializingBean {
@@ -27,7 +28,7 @@ class WorldCappBoostrap (
 
   fun crearFiguritas() {
     figuritasRepository.apply {
-      create(Figurita(numero=1, onFire=true, cantidadImpresa=impresionBaja, jugador=jugadorRepository.getById(1)!!))
+      create(Figurita(numero=1, onFire=true, cantidadImpresa=impresionBaja, jugador=jugadorRepository.getById(0)!!))
     }
   }
 
