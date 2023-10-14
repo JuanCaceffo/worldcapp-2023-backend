@@ -22,7 +22,7 @@ class Repositorio<T : RepositorioProps> {
         elementos.remove(elemento.id)
     }
 
-    fun massiveDelete(lista: Map<Int, T>){
+    fun massiveDelete(lista: Map<Int,T>){
         lista.forEach{this.delete(it.value)}
     }
 

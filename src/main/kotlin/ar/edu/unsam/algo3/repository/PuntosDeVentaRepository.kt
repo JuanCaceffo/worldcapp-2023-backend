@@ -9,6 +9,6 @@ class PuntosDeVentaRepository: Repositorio<PuntoDeVenta>() {
     fun inactivos() = elementos.filter{(!it.value.disponibilidad() && it.value.pedidosPendientes.isEmpty()) || (!it.value.disponibilidad() && !it.value.tienePedidoConEntregaProxima())}
 
     fun updateStock(recibidos: MutableList<Pedido>){
-        elementos.values.forEach{ it.procesarPedidos(recibidos) }
+        elementos.forEach{ it.value.procesarPedidos(recibidos) }
     }
 }
