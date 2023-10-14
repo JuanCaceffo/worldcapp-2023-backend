@@ -3,11 +3,13 @@ package ar.edu.unsam.algo3.repository
 const val MENSAJE_ERROR_ID_INEXISTENTE= "El ID no corresponde con ningun elementod del repositorio"
 
 open class Repositorio<T : RepositorioProps> {
-    var elementos = mutableMapOf<Int, T>()
+    var elementos = mutableListOf<T>()
 
     companion object {
         private var ultimoId = 1
     }
+
+    fun getAll():List<T> = elementos
 
     fun create(elemento: T):T{
         elemento.id = ultimoId++
@@ -16,11 +18,11 @@ open class Repositorio<T : RepositorioProps> {
     }
 
     fun delete(elemento: T){
-        elementos.remove(elemento.id)
+        elementos.remove(elemento)
     }
 
-    fun massiveDelete(lista: Map<Int, T>){
-        lista.forEach{this.delete(it.value)}
+    fun massiveDelete(lista: List<T>){
+        lista.forEach{this.delete(it)}
     }
 
     fun update(updatedElement: T){
@@ -33,10 +35,10 @@ open class Repositorio<T : RepositorioProps> {
         return elementos[id]
     }
 
-    fun search(value: String) = elementos.values.filter { it.validSearchCondition(value) }
+    fun search(value: String) = elementos.filter { it.validSearchCondition(value) }
 
     private fun validarIDElemento(id: Int) {
-        if (!elementos.keys.contains(id)){
+        if (elementos.map{ e -> e.id }.contains(id)){
             throw IllegalArgumentException(MENSAJE_ERROR_ID_INEXISTENTE)
         }
     }

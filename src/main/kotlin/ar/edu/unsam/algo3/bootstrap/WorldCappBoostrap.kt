@@ -11,7 +11,6 @@ class WorldCappBoostrap (
   val figuritasRepository: FiguritasRepository,
   val jugadorRepository: JugadorRepository,
   val seleccionesRepository: SeleccionesRepository,
-  val confeRepository: MutableList<Confederacion>
   // val usuariosRepositorio: UsuarioRepositorio,
   // val puestosDeVentaRepositorio: PuestoDeVentaRepositorio,
 ): InitializingBean {

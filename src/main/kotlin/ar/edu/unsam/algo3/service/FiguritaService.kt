@@ -12,20 +12,24 @@ class FiguritaService (
   val usuarioRepository: Repositorio<Usuario>
 ){
   fun search(figuritaFilter: FiguritaFilter):List<Figurita> {
-    var listaFiltrada = figuritaRepository.search(figuritaFilter.palabraClave)
+    var listaFiltrada = figuritaRepository.search(figuritaFilter.palabraClave!!)
 
     if(figuritaFilter.onFire!!) {
-      listaFiltrada.filter { it.estaOnfire() }
+      listaFiltrada = listaFiltrada.filter { it.estaOnfire() }
     }
 
     if(figuritaFilter.esPromesa!!) {
-      listaFiltrada.filter { it.jugador.promesaDelFutbol() }
+      listaFiltrada = listaFiltrada.filter { it.jugador.promesaDelFutbol() }
     }
 
-    if(figuritaFilter.cotizacionFinal!! > 0.0) {
-      listaFiltrada.filter { it.valoracion() in figuritaFilter.cotizacionInicial!!..figuritaFilter.cotizacionFinal!!}
+    if((0.0..0.0) != figuritaFilter.rangoCotizacion) {
+      listaFiltrada = listaFiltrada.filter { it.valoracion() in figuritaFilter.rangoCotizacion}
     }
 
     return listaFiltrada
+  }
+
+  fun getAll():List<Figurita>{
+    return figuritaRepository.getAll()
   }
 }
