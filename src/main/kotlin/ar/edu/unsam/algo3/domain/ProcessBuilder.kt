@@ -1,8 +1,8 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.repository.RepositorioFiguritas
-import ar.edu.unsam.algo3.repository.RepositorioPuntosDeVenta
-import ar.edu.unsam.algo3.repository.RepositorioSelecciones
+import ar.edu.unsam.algo3.repository.FiguritasRepositorio
+import ar.edu.unsam.algo3.repository.PuntosDeVentaRepositorio
+import ar.edu.unsam.algo3.repository.SeleccionesRepositorio
 import ar.edu.unsam.algo3.repository.RepositorioUsuarios
 
 class BusinessException(message: String) : RuntimeException(message)
@@ -15,22 +15,22 @@ class ProcessBuilder(var mailSender: MailSender) {
         return this
     }
 
-    fun updateSelecciones(toProcess: RepositorioSelecciones, service: String): ProcessBuilder {
+    fun updateSelecciones(toProcess: SeleccionesRepositorio, service: String): ProcessBuilder {
         proc.add(UpdateSelecciones(toProcess, service, mailSender))
         return this
     }
 
-    fun borrarPuntosVentaInactivo(toProcess: RepositorioPuntosDeVenta): ProcessBuilder {
+    fun borrarPuntosVentaInactivo(toProcess: PuntosDeVentaRepositorio): ProcessBuilder {
         proc.add(BorrarPuntosVentaInactivo(toProcess, mailSender))
         return this
     }
 
-    fun cambiarAOnFire(toProcess: RepositorioFiguritas, nros: MutableList<Int>): ProcessBuilder {
+    fun cambiarAOnFire(toProcess: FiguritasRepositorio, nros: MutableList<Int>): ProcessBuilder {
         proc.add(CambiarAOnFire(toProcess, nros, mailSender))
         return this
     }
 
-    fun updateStockPuntosVenta(toProcess: RepositorioPuntosDeVenta, recibidos: MutableList<Pedido>): ProcessBuilder {
+    fun updateStockPuntosVenta(toProcess: PuntosDeVentaRepositorio, recibidos: MutableList<Pedido>): ProcessBuilder {
         proc.add(UpdateStockPuntosVenta(toProcess,recibidos, mailSender))
         return this
     }

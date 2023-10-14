@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioProps
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlin.math.ceil

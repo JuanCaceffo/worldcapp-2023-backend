@@ -1,8 +1,8 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.repository.RepositorioFiguritas
-import ar.edu.unsam.algo3.repository.RepositorioPuntosDeVenta
-import ar.edu.unsam.algo3.repository.RepositorioSelecciones
+import ar.edu.unsam.algo3.repository.FiguritasRepositorio
+import ar.edu.unsam.algo3.repository.PuntosDeVentaRepositorio
+import ar.edu.unsam.algo3.repository.SeleccionesRepositorio
 import ar.edu.unsam.algo3.repository.RepositorioUsuarios
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
@@ -57,18 +57,18 @@ class ProcesosSpec: DescribeSpec  ({
             create(userInactivo)
         }
 
-        val repositorioFigus = RepositorioFiguritas().apply {
+        val repositorioFigus = FiguritasRepositorio().apply {
             create(figu1Emi)
             create(figu2Messi)
             create(figu3Mbappe)
         }
 
-        val repositorioPuntosVenta = RepositorioPuntosDeVenta().apply {
+        val repositorioPuntosVenta = PuntosDeVentaRepositorio().apply {
             create(negocioActivo)
             create(negocioInactivo)
         }
 
-        val repositorioSelecciones = RepositorioSelecciones().apply {
+        val repositorioSelecciones = SeleccionesRepositorio().apply {
             create(Seleccion(pais="Argentina", confederacion=CONMEBOL, copasDelMundo = 2, copasConfederacion = 18))
             create(seleccionBrasil)
             create(seleccionAlemania)

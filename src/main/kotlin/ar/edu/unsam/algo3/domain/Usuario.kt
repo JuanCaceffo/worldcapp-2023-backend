@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioProps
 import java.time.LocalDate
 
 const val MENSAJE_ERROR_INGRESAR_NOMBRE_USUARIO = "Debe ingresar un nombre de usuario"

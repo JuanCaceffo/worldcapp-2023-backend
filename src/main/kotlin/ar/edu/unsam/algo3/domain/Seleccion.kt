@@ -1,5 +1,7 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioProps
+
 class Seleccion(
     val pais: String,
     val confederacion: Confederacion,
