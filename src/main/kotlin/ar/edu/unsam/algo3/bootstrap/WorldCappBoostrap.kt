@@ -38,7 +38,7 @@ class WorldCappBoostrap (
   }
 
   private fun crearSelecciones() {
-    argentina = Seleccion(pais="Argentina", confederacion=confeRepository[3], copasConfederacion=22, copasDelMundo=3 )
+    argentina = Seleccion(pais="Argentina", conmebol, copasConfederacion=22, copasDelMundo=3 )
 
     seleccionesRepository.apply {
       create(argentina)
