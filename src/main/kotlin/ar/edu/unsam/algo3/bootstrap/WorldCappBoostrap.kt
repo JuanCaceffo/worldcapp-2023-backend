@@ -1,16 +1,16 @@
 package ar.edu.unsam.algo3.bootstrap
 
-import ar.edu.unsam.algo3.repository.FiguritasRepositorio
+import ar.edu.unsam.algo3.repository.FiguritasRepository
 import org.springframework.beans.factory.InitializingBean
 
 class WorldCappBoostrap (
-  val figuritasRepositorio: FiguritasRepositorio,
-  val jugadoresR
+  val figuritasRepository: FiguritasRepository,
+  val jugadorRepository: JugadorRepository
   // val usuariosRepositorio: UsuarioRepositorio,
   // val puestosDeVentaRepositorio: PuestoDeVentaRepositorio,
 ): InitializingBean {
   fun crearFiguritas() {
-    figuritasRepositorio.apply {
+    figuritasRepository.apply {
       create(1, true,
 
       )
@@ -18,8 +18,12 @@ class WorldCappBoostrap (
   }
 
   fun crearJugador() {
+    jugadorRepositorio.apply {
 
+    }
   }
+
+
 
   override fun afterPropertiesSet() {
     TODO("Not yet implemented")

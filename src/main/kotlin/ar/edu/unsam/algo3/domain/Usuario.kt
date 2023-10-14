@@ -10,6 +10,7 @@ data class Usuario(
     val nombre:String,
     val apellido:String,
     val nombreUsuario:String,
+    val contrasenia:String = "",
     var fechaNacimiento:LocalDate,
     val email:String,
     val direccion:Direccion

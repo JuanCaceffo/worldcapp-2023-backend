@@ -1,9 +1,9 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.repository.FiguritasRepositorio
-import ar.edu.unsam.algo3.repository.PuntosDeVentaRepositorio
-import ar.edu.unsam.algo3.repository.SeleccionesRepositorio
-import ar.edu.unsam.algo3.repository.RepositorioUsuarios
+import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
+import ar.edu.unsam.algo3.repository.SeleccionesRepository
+import ar.edu.unsam.algo3.repository.UsuariosRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
@@ -51,24 +51,25 @@ class ProcesosSpec: DescribeSpec  ({
             hayEmpleados = true
         )
 
-        val repositorioUsers = RepositorioUsuarios().apply {
+        val repositorioUsers = UsuariosRepository().apply {
             create(userActivo1)
             create(userActivo2)
             create(userInactivo)
         }
 
-        val repositorioFigus = FiguritasRepositorio().apply {
+
+        val repositorioFigus = FiguritasRepository().apply {
             create(figu1Emi)
             create(figu2Messi)
             create(figu3Mbappe)
         }
 
-        val repositorioPuntosVenta = PuntosDeVentaRepositorio().apply {
+        val repositorioPuntosVenta = PuntosDeVentaRepository().apply {
             create(negocioActivo)
             create(negocioInactivo)
         }
 
-        val repositorioSelecciones = SeleccionesRepositorio().apply {
+        val repositorioSelecciones = SeleccionesRepository().apply {
             create(Seleccion(pais="Argentina", confederacion=CONMEBOL, copasDelMundo = 2, copasConfederacion = 18))
             create(seleccionBrasil)
             create(seleccionAlemania)

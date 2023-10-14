@@ -1,11 +1,8 @@
 package ar.edu.unsam.algo3.repository
 
-import org.springframework.stereotype.Repository
-
 const val MENSAJE_ERROR_ID_INEXISTENTE= "El ID no corresponde con ningun elementod del repositorio"
 
-@Repository
-class Repositorio<T : RepositorioProps> {
+open class Repositorio<T : RepositorioProps> {
     var elementos = mutableMapOf<Int, T>()
 
     private var idCounter = 0
