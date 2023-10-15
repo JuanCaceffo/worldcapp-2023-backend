@@ -1,15 +1,19 @@
 package ar.edu.unsam.algo3.repository
 
 const val MENSAJE_ERROR_ID_INEXISTENTE= "El ID no corresponde con ningun elemento del repositorio"
-open class Repositorio<T : RepositoryProps> {
+
+open class Repositorio<T : RepositorioProps> {
+
     var elementos = mutableMapOf<Int, T>()
 
-    private var idCounter = 0
+    companion object {
+        private var ultimoId = 1
+    }
 
-    fun create(elemento: T){
-        elemento.id(idCounter)
+    fun create(elemento: T):T{
+        elemento.id = ultimoId++
         elementos[elemento.id] = elemento
-        idCounter += 1
+        return elemento
     }
 
     fun delete(elemento: T){

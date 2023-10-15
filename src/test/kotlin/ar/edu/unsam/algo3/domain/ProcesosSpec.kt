@@ -57,6 +57,7 @@ class ProcesosSpec: DescribeSpec  ({
             create(userInactivo)
         }
 
+
         val repositorioFigus = FiguritasRepository().apply {
             create(figu1Emi)
             create(figu2Messi)

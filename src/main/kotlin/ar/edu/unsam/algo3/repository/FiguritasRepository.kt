@@ -1,4 +1,5 @@
 package ar.edu.unsam.algo3.repository
+
 import ar.edu.unsam.algo3.domain.Figurita
 import org.springframework.stereotype.Repository
 

@@ -1,8 +1,6 @@
 package ar.edu.unsam.algo3.domain
 //TODO:ver si se puede pasarle la lista de selecciones a la confederacion por parametro a la hora de instanciarlas
-class Confederacion(val nombre: String) {
-    
-}
+class Confederacion(val nombre: String)
 
 val AFC = Confederacion("AFC")
 val CAF = Confederacion("CAF")
