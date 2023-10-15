@@ -1,13 +1,13 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.repository.RepositoryProps
+import ar.edu.unsam.algo3.repository.RepositorioProps
 
 class Seleccion(
     val pais: String,
     val confederacion: Confederacion,
     val copasDelMundo: Int,
     val copasConfederacion: Int
-): RepositoryProps() {
+): RepositorioProps() {
     companion object {
         fun crear(dataExterna: SeleccionDataExterna): Seleccion {
             //Si el nombre de la confederacion recibida por el servicio externo es igual lo setea si no, excepción

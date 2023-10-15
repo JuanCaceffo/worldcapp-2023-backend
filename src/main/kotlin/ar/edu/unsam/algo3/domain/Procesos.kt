@@ -4,6 +4,7 @@ import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
+
 import com.google.gson.Gson
 
 abstract class Proceso() {

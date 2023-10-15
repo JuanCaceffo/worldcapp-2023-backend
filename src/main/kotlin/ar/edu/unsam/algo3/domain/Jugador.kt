@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.repository.RepositoryProps
+import ar.edu.unsam.algo3.repository.RepositorioProps
 import java.time.LocalDate
 
 const val MENSAJE_ERROR_NUM_CAMISETA = "No se puede ingresar un numero de camiseta menor a 1 o mayor a 99"
@@ -19,7 +19,7 @@ class Jugador (
     val peso: Double,
     val esLider: Boolean,
     val cotizacion: Double
-): RepositoryProps(){
+): RepositorioProps(){
     init {
         validadorStrings.errorStringVacio(nombre, errorMessage =  MENSAJE_ERROR_INGRESAR_NOMBRE)
         validadorStrings.errorStringVacio(apellido, errorMessage = MENSAJE_ERROR_INGRESAR_APELLIDO)
