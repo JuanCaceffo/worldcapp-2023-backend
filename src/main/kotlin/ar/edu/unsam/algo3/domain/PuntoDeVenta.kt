@@ -29,6 +29,7 @@ abstract class PuntoDeVenta(
         validadorNumeros.errorNumeroNegativo(stockSobres, MENSAJE_ERROR_PV_STOCK_SOBRES_NEGATIVOS)
         validadorStrings.errorStringVacio(nombre,MENSAJE_ERROR_PV_NOMBRE_VACIO)
     }
+    fun tipoPuntoDeVenta() = this::class.simpleName.toString()
     fun copy(): PuntoDeVenta = this.clone() as PuntoDeVenta
     fun cambiarBaseDeEnvio(nuevaBase:Double) {
         validadorNumeros.errorNumeroNegativo(nuevaBase, MENSAJE_ERROR_PV_BASE_ENVIO_NEGATIVA)

@@ -20,6 +20,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 0,
                 "nombre": "La Scaloneta",
+                "tipoPuntoDeVenta": "Kioscos",
                 "calle": "rodriguez peña",
                 "altura": 211,
                 "distancia": 2.0,
@@ -30,6 +31,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 1,
                 "nombre": "Señor Kioskero",
+                "tipoPuntoDeVenta": "Kioscos",
                 "calle": "Urquiza",
                 "altura": 31,
                 "distancia": 2.0,
@@ -40,6 +42,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 2,
                 "nombre": "Un Nombre",
+                "tipoPuntoDeVenta": "Kioscos",
                 "calle": "Figueroa Alcorta",
                 "altura": 1000,
                 "distancia": 2.0,
@@ -50,6 +53,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 3,
                 "nombre": "Chinito",
+                "tipoPuntoDeVenta": "Supermercados",
                 "calle": "Brasil",
                 "altura": 211,
                 "distancia": 2.0,
@@ -60,6 +64,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 4,
                 "nombre": "Polque",
+                "tipoPuntoDeVenta": "Supermercados",
                 "calle": "Bolivia",
                 "altura": 211,
                 "distancia": 2.0,
@@ -70,6 +75,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 5,
                 "nombre": "No hay polque",
+                "tipoPuntoDeVenta": "Supermercados",
                 "calle": "J.B.Justo",
                 "altura": 211,
                 "distancia": 2.0,
@@ -80,6 +86,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 6,
                 "nombre": "El Principito",
+                "tipoPuntoDeVenta": "Librerias",
                 "calle": "Giorello",
                 "altura": 211,
                 "distancia": 2.0,
@@ -90,6 +97,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 7,
                 "nombre": "Roberto Carlos",
+                "tipoPuntoDeVenta": "Librerias",
                 "calle": "Av. Libertador",
                 "altura": 3000,
                 "distancia": 2.0,
@@ -100,6 +108,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
             {
                 "id": 8,
                 "nombre": "Lapicito",
+                "tipoPuntoDeVenta": "Librerias",
                 "calle": "Av. Cabildo",
                 "altura": 2121,
                 "distancia": 2.0,
