@@ -8,8 +8,6 @@ import org.uqbar.geodds.Point
 
 @Repository
 class PuntosDeVentaRepository: Repositorio<PuntoDeVenta>() {
-    fun findAll(): List<PuntosDeVentaDTO> = elementos.map { it.value.toDTO() }
-
     fun inactivos() = elementos.filter{(!it.value.disponibilidad() && it.value.pedidosPendientes.isEmpty()) || (!it.value.disponibilidad() && !it.value.tienePedidoConEntregaProxima())}
 
     fun updateStock(recibidos: MutableList<Pedido>){
