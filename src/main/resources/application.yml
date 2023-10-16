@@ -4,4 +4,6 @@ server:
     whitelabel:
       enabled: false
     include-message: always
-
+    include-binding-errors: always
+    include-exception: true
+    include-stacktrace: never
