@@ -1,18 +1,20 @@
 package ar.edu.unsam.algo3.repository
 
-const val MENSAJE_ERROR_ID_INEXISTENTE= "El ID no corresponde con ningun elemento del repositorio"
+import org.springframework.stereotype.Repository
 
-open class Repositorio<T : RepositorioProps> {
+const val MENSAJE_ERROR_ID_INEXISTENTE= "El ID no corresponde con ningun elementod del repositorio"
 
+@Repository
+class Repositorio<T : RepositorioProps> {
     var elementos = mutableMapOf<Int, T>()
+    private var idCounter = 0
 
-    companion object {
-        private var ultimoId = 1
-    }
+    fun getAll():List<T> = elementos.map{ e -> e.value }
 
     fun create(elemento: T):T{
-        elemento.id = ultimoId++
+        elemento.id(idCounter)
         elementos[elemento.id] = elemento
+        idCounter += 1
         return elemento
     }
 
@@ -20,7 +22,7 @@ open class Repositorio<T : RepositorioProps> {
         elementos.remove(elemento.id)
     }
 
-    fun massiveDelete(lista: Map<Int, T>){
+    fun massiveDelete(lista: Map<Int,T>){
         lista.forEach{this.delete(it.value)}
     }
 

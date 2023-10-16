@@ -23,7 +23,8 @@ class PuntosDeVentaBootstrap(val puntosDeVentaRepository: PuntosDeVentaRepositor
         puntosDeVentaRepository.apply {
             kiosko2.addPedidosPendientes(Pedido(2, LocalDate.now()))
             libreria1.addPedidosPendientes(Pedido(1, LocalDate.now()))
-            bootstrapAddElements(arrayOf(kiosko1, kiosko2, kiosko3, mercado1, mercado2, mercado3, libreria1, libreria2, libreria3))
+            val puntosDeVentas = arrayOf(kiosko1, kiosko2, kiosko3, mercado1, mercado2, mercado3, libreria1, libreria2, libreria3)
+            puntosDeVentas.forEach { this.create(it) }
         }
     }
 
