@@ -125,7 +125,7 @@ class WorldCappBoostrap (
         apellido = "lopez",
         nombre = "sol",
         nombreUsuario = "sol_lop",
-        contrasenia = "1234",
+        contrasenia = "12345",
         fechaNacimiento = LocalDate.of(2001, 2, 15),
         email = "lopezSol@gmail.com",
         direccion = Direccion(

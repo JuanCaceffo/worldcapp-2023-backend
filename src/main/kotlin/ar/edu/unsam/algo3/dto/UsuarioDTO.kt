@@ -6,4 +6,6 @@ import org.uqbar.geodds.Point
 import java.time.LocalDate
 
 data class UsuarioLoginDTO (val userName: String, val password: String)
-fun Usuario.loginDTO() = UsuarioLoginDTO(this.nombreUsuario,this.contrasenia)
+data class UsuarioLogeadoDTO (val userLogedID: Int)
+
+fun Usuario.loginResponseDTO() = UsuarioLogeadoDTO(this.id)
