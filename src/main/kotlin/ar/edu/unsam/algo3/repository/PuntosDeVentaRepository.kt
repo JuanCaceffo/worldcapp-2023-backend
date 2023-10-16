@@ -1,7 +1,6 @@
 package ar.edu.unsam.algo3.repository
 
-import ar.edu.unsam.algo3.domain.Pedido
-import ar.edu.unsam.algo3.domain.PuntoDeVenta
+import ar.edu.unsam.algo3.domain.*
 import org.springframework.stereotype.Repository
 
 @Repository
