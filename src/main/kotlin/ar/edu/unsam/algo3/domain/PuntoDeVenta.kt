@@ -45,9 +45,11 @@ abstract class PuntoDeVenta(
         maxKmEnvio = cantKm
     }
 
+    fun distanciaPuntoVentaUsuario(usuario: Usuario) = direccion.distanciaConPoint(usuario.direccion.ubiGeografica)
+
     private fun extraPorKm(usuario: Usuario): Double {
         val multiExecso = 100.0
-        val distanciaPuntoVentaVsUsuario = direccion.distanciaConPoint(usuario.direccion.ubiGeografica)
+        val distanciaPuntoVentaVsUsuario = this.distanciaPuntoVentaUsuario(usuario)
 
         return (max(0.0,(ceil(distanciaPuntoVentaVsUsuario - maxKmEnvio))) * multiExecso)
     }

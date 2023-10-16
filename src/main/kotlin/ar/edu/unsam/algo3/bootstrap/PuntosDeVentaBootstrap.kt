@@ -5,6 +5,7 @@ import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Service
 import org.uqbar.geodds.Point
+import java.time.LocalDate
 
 @Service
 class PuntosDeVentaBootstrap(val puntosDeVentaRepository: PuntosDeVentaRepository): InitializingBean {
@@ -20,7 +21,9 @@ class PuntosDeVentaBootstrap(val puntosDeVentaRepository: PuntosDeVentaRepositor
 
     fun createPuntosDeVentas() {
         puntosDeVentaRepository.apply {
-            addElements(arrayOf(kiosko1, kiosko2, kiosko3, mercado1, mercado2, mercado3, libreria1, libreria2, libreria3))
+            kiosko2.addPedidosPendientes(Pedido(2, LocalDate.now()))
+            libreria1.addPedidosPendientes(Pedido(1, LocalDate.now()))
+            bootstrapAddElements(arrayOf(kiosko1, kiosko2, kiosko3, mercado1, mercado2, mercado3, libreria1, libreria2, libreria3))
         }
     }
 

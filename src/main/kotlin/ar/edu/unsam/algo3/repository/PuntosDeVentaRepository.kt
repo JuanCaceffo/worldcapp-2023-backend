@@ -8,9 +8,8 @@ import org.uqbar.geodds.Point
 
 @Repository
 class PuntosDeVentaRepository: Repositorio<PuntoDeVenta>() {
-    fun addElements(elements: Array<PuntoDeVenta>){
-        elements.forEach { this.create(it) }
-    }
+
+    fun bootstrapAddElements(elements: Array<PuntoDeVenta>) = elements.forEach { this.create(it) }
 
     fun findAll(): List<PuntosDeVentaDTO> = elementos.map { it.value.toDTO() }
 
