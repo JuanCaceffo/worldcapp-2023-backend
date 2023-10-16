@@ -52,12 +52,12 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
         )
         userRepositorty.create(usuario)
     }
+    val mapper= ObjectMapper()
 
     @Test
     fun `puedo mockear una llamada a el meotodo post que logea el usuario y funciona correctamente`() {
         val userData= UsuarioLoginDTO(userName = usuario.nombreUsuario, password = usuario.contrasenia)
         val userResponse= UsuarioLogeadoDTO(userLogedID = usuario.id)
-        val mapper= ObjectMapper()
         mockMvc
             .perform(
                 MockMvcRequestBuilders
@@ -72,7 +72,6 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
     @Test
     fun `al utilizar el metodo post para logear un usuario que no coincide con ninguno de la base de datos tenemos un error`(){
         val userData = UsuarioLoginDTO(userName = "pablitoLescano", password = "chiquiritabri")
-        val mapper= ObjectMapper()
         mockMvc
             .perform(
                 MockMvcRequestBuilders
