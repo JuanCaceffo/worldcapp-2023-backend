@@ -9,7 +9,7 @@ import java.time.LocalDate
 
 @Service
 class PuntosDeVentaBootstrap(val puntosDeVentaRepository: PuntosDeVentaRepository): InitializingBean {
-    val kiosko1 = Kioscos("La Scaloneta", Direccion("bs as","3 de Febrero", "rodriguez peña", 211, Point(2,2)),2, false)
+    val kiosko1 = Kioscos("La Scaloneta", Direccion("bs as","3 de Febrero", "rodriguez peña", 211, Point(2123123,28712387)),2, false)
     val kiosko2 = Kioscos("Señor Kioskero", Direccion("bs as","3 de Febrero", "Urquiza", 31, Point(20,20)),20, true)
     val kiosko3 = Kioscos("Un Nombre", Direccion("bs as","Nuñez", "Figueroa Alcorta", 1000, Point(200,12)),1, true)
     val mercado1 = Supermercados("Chinito", Direccion("bs as","3 de Febrero", "Brasil", 211, Point(112,22)),0, SinDescuento())

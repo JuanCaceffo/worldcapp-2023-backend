@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+//TODO: @CrossOrigin("http://localhost:9000")
 @RestController
 @CrossOrigin("*")
 class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
