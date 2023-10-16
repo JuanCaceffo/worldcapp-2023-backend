@@ -1,10 +1,7 @@
 package ar.edu.unsam.algo3.repository
 
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.PuntosDeVentaDTO
-import ar.edu.unsam.algo3.dto.toDTO
 import org.springframework.stereotype.Repository
-import org.uqbar.geodds.Point
 
 @Repository
 class PuntosDeVentaRepository: Repositorio<PuntoDeVenta>() {
