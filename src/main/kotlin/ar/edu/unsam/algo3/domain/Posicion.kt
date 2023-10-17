@@ -1,19 +1,22 @@
 package ar.edu.unsam.algo3.domain
 
-abstract class Posicion {
+abstract class Posicion(val nombre: String) {
     open val valoracionBase: Double = 0.0
+
     abstract fun valor(jugador: Jugador): Double
     open fun plus(jugador: Jugador): Double = 0.0
+
+
 }
 
-object Arquero:Posicion() {
+object Arquero:Posicion("Arquero") {
     override val valoracionBase = 100.0
 
     override fun valor(jugador: Jugador): Double = valoracionBase * plus(jugador)
     override fun plus(jugador: Jugador): Double = if(jugador.esAlto()) jugador.altura else 1.0
 }
 
-object Defensor:Posicion() {
+object Defensor:Posicion("Defensor") {
     private const val PUNTOS_ANTIGUEDAD = 10.0
     override val valoracionBase = 50.0
 
@@ -22,7 +25,7 @@ object Defensor:Posicion() {
 }
 
 //Los mediocampistas valen 150 puntos pero si son ligeros, es decir que pesan entre 65  y 70 kg (ambos inclusivos) se suma su peso como puntos extras.
-object Mediocampista:Posicion() {
+object Mediocampista:Posicion("Mediocampista") {
     override val valoracionBase = 150.0
 
     override fun valor(jugador: Jugador): Double = valoracionBase + plus(jugador)
@@ -30,7 +33,7 @@ object Mediocampista:Posicion() {
 }
 
 //Los delanteros valen 200 puntos pero si son de una selección campeona del mundo se suman como puntos extras su Nro de camiseta * 10
-object Delantero:Posicion() {
+object Delantero:Posicion("Delantero") {
     private const val PUNTOS_CAMPEON = 10.0
     override val valoracionBase = 200.0
 
@@ -38,7 +41,7 @@ object Delantero:Posicion() {
     override fun plus(jugador: Jugador): Double = if (jugador.esDeSeleccionCampeonaDelMundo()) PUNTOS_CAMPEON * jugador.nroCamiseta else 0.0
 }
 
-class Polivalente(posiciones: List<Posicion>):Posicion(){
+class Polivalente(posiciones: List<Posicion>):Posicion("Polivalente"){
     private val posicionesEnLasQueJuega: MutableSet<Posicion> = mutableSetOf()
 
     init {
