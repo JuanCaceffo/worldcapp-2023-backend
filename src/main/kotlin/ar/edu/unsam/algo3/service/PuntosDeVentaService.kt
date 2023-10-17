@@ -19,6 +19,7 @@ class PuntosDeVentaService(
         //el mismo error (400).
         //TODO: Ver de donde obtener el usuario logeado para incluir al path
         //Obtenemos el primer usuario (debería ser el unico de la collection) que cumpla con la condición
+        //RTA: SI NO ENCUENTRA EL USUARIO 404
         val user = usuariosRepository.elementos.filter { it.value.nombreUsuario == userName  }.values.first()
         return puntosDeVentaRepository.getAll().map { pup -> pup.toMarketCardDTO(user) }
     }
