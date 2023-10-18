@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.dto.PuntosDeVentatoMarketCardDTO
+import ar.edu.unsam.algo3.dto.PuntoDeVentatoMarketCardDTO
 import ar.edu.unsam.algo3.service.PuntosDeVentaService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.RestController
 class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     @GetMapping("/puntosDeVenta/")
     @Operation(summary = "Obtiene todos los puntos de venta")
-    fun getAll(@RequestParam userName: String): List<PuntosDeVentatoMarketCardDTO> = this.puntosDeVentaService.getAll(userName)
+    fun getAll(@RequestParam userId: Int): List<PuntoDeVentatoMarketCardDTO> = this.puntosDeVentaService.getAll(userId)
 }
