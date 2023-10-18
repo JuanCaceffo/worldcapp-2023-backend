@@ -12,13 +12,6 @@ class PuntosDeVentaService(
     val puntosDeVentaRepository: PuntosDeVentaRepository,
     val usuariosRepository: UsuariosRepository
 ) {
-    fun getAll(userId: Int): List<PuntoDeVentatoMarketCardDTO> {
-        //TODO: Ver de donde obtener el usuario logeado para incluir al path en el front
-        //Obtenemos el primer usuario (debería ser el unico de la collection) que cumpla con la condición
-        val user = usuariosRepository.elementos.filter { it.value.id == userId  }.values
-        if(user.isEmpty()){
-            throw NotFoundException("No se encontró el usuario")
-        }
-        return puntosDeVentaRepository.getAll().map { pup -> pup.toMarketCardDTO(user.first()) }
-    }
+    fun getAll(userId: Int): List<PuntoDeVentatoMarketCardDTO> =
+        puntosDeVentaRepository.getAll().map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
 }
