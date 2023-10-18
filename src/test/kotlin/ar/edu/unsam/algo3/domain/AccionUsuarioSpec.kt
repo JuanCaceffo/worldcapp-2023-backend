@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.BussinesExpetion
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
@@ -226,10 +227,9 @@ class AccionUsuarioSpec: DescribeSpec({
                 val IncorporarFiguritaARepetidasReservadas = IncorporarFiguritaARepetidasReservadas(usuarioConFiguritaRepetida, figuritaComun)
 
                 usuarioConFiguritaRepetida.activarAccion(IncorporarFiguritaARepetidasReservadas)
-                usuarioConFiguritaRepetida.pedirFigurita(figuritaBase,usuarioCercano)
-
-                IncorporarFiguritaARepetidasReservadas.figuritasReservadas.isEmpty().shouldBeFalse()
-
+                shouldThrow<BussinesExpetion> {
+                    usuarioConFiguritaRepetida.pedirFigurita(figuritaBase,usuarioCercano)
+                }.message shouldBe MENSAJE_ERROR_FIGURITA_INACCESIBLE
             }
             /*it("Si usuario Solicitante ademas de no poseer ninguna figurita repetida, la figurita solicitada es de mayor o igual valoracion que alguna de las repetidas reservadas se agrega a la lista"){
 

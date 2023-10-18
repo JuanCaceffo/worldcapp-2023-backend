@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.Repositorio
 import io.kotest.assertions.throwables.shouldThrow
@@ -34,7 +35,7 @@ class RepositorioSpec: DescribeSpec({
 
             it("Al borrar una figurita esta no debe pertenercer mas a la repositorio"){
                 repositorioFiguritas.delete(figu2Messi)
-                shouldThrow<IllegalArgumentException> {
+                shouldThrow<NotFoundException> {
                     repositorioFiguritas.getById(figu2Messi.id)
                 }.message shouldBe MENSAJE_ERROR_ID_INEXISTENTE
             }
