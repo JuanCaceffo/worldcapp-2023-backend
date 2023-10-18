@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@CrossOrigin("*")
 class UserController(val userService: UsuarioService) {
     @PostMapping("/user/login")
     @Operation(summary = "Permite logear un usuario al sistema.",)
