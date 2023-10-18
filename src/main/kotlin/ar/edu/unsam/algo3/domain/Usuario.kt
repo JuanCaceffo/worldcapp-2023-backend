@@ -21,6 +21,7 @@ data class Usuario(
     val seleccionesFavoritas = mutableSetOf<Seleccion>()
     val jugadoresFavoritos = mutableSetOf<Jugador>()
     val figuritasFaltantes = mutableSetOf<Figurita>()
+    val figuritasRepetidas = mutableListOf<Figurita>()
     val figuritas = mutableListOf<Figurita>()
     var distanciaMaximaCercania:Int = 5
     init {
@@ -35,7 +36,7 @@ data class Usuario(
     fun edad():Int = calculadoraEdad.calcularEdad(fechaNacimiento)
     fun puedoDar(figurita:Figurita):Boolean = estaRepetida(figurita) && condicionParaDar.puedeDar(figurita)
     //Retorna una lista inmutable de figus repetidas que el usuario puede regalar
-    fun listaFiguritasARegalar(): List<Figurita> = figuritasRepetidas().filter{ puedoDar(it) }
+    fun listaFiguritasARegalar(): List<Figurita> = figuritasRepetidas.filter{ puedoDar(it) }
     fun darFigurita(figurita: Figurita, solicitante: Usuario){
         if(puedoDar(figurita)){
             removeFiguritaRepetida(figurita)
