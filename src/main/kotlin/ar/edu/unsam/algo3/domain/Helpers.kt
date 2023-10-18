@@ -29,7 +29,7 @@ object HelperNumerosEnteros {
 object calculadoraEdad {
     fun calcularEdad(fechaNacimiento: LocalDate):Int = Period.between(fechaNacimiento, LocalDate.now()).years
 }
-class BussinesExpetion(override val message: String):Exception(message){}
+
 object Comparar {
     fun total(buscado: String, listaComparar: List<String>, caseSense:Boolean = true) = listaComparar.any{ it.equals(buscado, ignoreCase = caseSense)}
     fun parcial(busquedoParcial: String, listaComparar: List<String>, caseSense:Boolean = true) = listaComparar.any { it.contains(busquedoParcial, ignoreCase = caseSense) }
