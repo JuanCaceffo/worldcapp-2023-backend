@@ -1,0 +1,208 @@
+package ar.edu.unsam.algo3.bootstrap
+
+import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.JugadorRepository
+import ar.edu.unsam.algo3.repository.SeleccionesRepository
+import org.springframework.beans.factory.InitializingBean
+import org.springframework.core.annotation.Order
+import org.springframework.stereotype.Component
+import java.time.LocalDate
+
+@Order(1)
+@Component
+class FiguritasBoostrap(
+  val figuritasRepository: FiguritasRepository,
+  val jugadorRepository: JugadorRepository,
+  val seleccionesRepository: SeleccionesRepository,
+) : InitializingBean {
+
+  private val selecciones = mapOf(
+    "Argentina" to Seleccion(pais = "Argentina", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 3),
+    "Brasil" to Seleccion(pais = "Brasil", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 5),
+    "España" to Seleccion(pais = "España", Confederacion.UEFA, copasConfederacion = 8, copasDelMundo = 4),
+    "Polonia" to Seleccion(pais = "Polonia", Confederacion.UEFA, copasConfederacion = 7, copasDelMundo = 3),
+    "Belgica" to Seleccion(pais = "Belgica", Confederacion.UEFA, copasConfederacion = 3, copasDelMundo = 2),
+    "Holanda" to Seleccion(pais = "Holanda", Confederacion.UEFA, copasConfederacion = 4, copasDelMundo = 2),
+    "Francia" to Seleccion(pais = "Francia", Confederacion.UEFA, copasConfederacion = 2, copasDelMundo = 1)
+  )
+
+  private val jugadores = mapOf(
+    "Martinez" to Jugador(
+      nombre = "Gonzalo",
+      apellido = "Martinez",
+      fechaNacimiento = LocalDate.of(1993, 6, 13),
+      nroCamiseta = 10,
+      seleccionPerteneciente = selecciones["Argentina"]!!,
+      posicion = Mediocampista,
+      anioDeDebut = 2008,
+      altura = 1.72,
+      peso = 70.0,
+      esLider = true,
+      cotizacion = 9000000.0
+    ),
+    "Otamendi" to Jugador(
+      nombre = "Nicolas",
+      apellido = "Otamendi",
+      fechaNacimiento = LocalDate.of(1998, 12, 2),
+      nroCamiseta = 3,
+      seleccionPerteneciente = selecciones["Argentina"]!!,
+      posicion = Defensor,
+      anioDeDebut = 2003,
+      altura = 1.83,
+      peso = 75.0,
+      esLider = false,
+      cotizacion = 1200000.0
+    ),
+    "Argento" to Jugador(
+      nombre = "Pepe",
+      apellido = "Argento",
+      fechaNacimiento = LocalDate.of(1993, 2, 12),
+      nroCamiseta = 5,
+      seleccionPerteneciente = selecciones["Argentina"]!!,
+      posicion = Arquero,
+      anioDeDebut = 2012,
+      altura = 1.69,
+      peso = 69.0,
+      esLider = true,
+      cotizacion = 1700000.0
+    ),
+    "Messi" to Jugador(
+      nombre = "Lionel",
+      apellido = "Messi",
+      fechaNacimiento = LocalDate.of(1987, 6, 24),
+      nroCamiseta = 10,
+      seleccionPerteneciente = selecciones["Argentina"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2004,
+      altura = 1.7,
+      peso = 69.0,
+      esLider = true,
+      cotizacion = 19003000.0
+    ),
+    "Ramos" to Jugador(
+      nombre = "Sergio",
+      apellido = "Ramos",
+      fechaNacimiento = LocalDate.of(1986, 3, 30),
+      nroCamiseta = 4,
+      seleccionPerteneciente = selecciones["España"]!!,
+      posicion = Defensor,
+      anioDeDebut = 2002,
+      altura = 1.84,
+      peso = 75.0,
+      esLider = false,
+      cotizacion = 1035000.0
+    ),
+    "Neymar" to Jugador(
+      nombre = "Jr",
+      apellido = "Neymar",
+      fechaNacimiento = LocalDate.of(1992, 2, 5),
+      nroCamiseta = 11,
+      seleccionPerteneciente = selecciones["Brasil"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2010,
+      altura = 1.75,
+      peso = 71.0,
+      esLider = false,
+      cotizacion = 39000000.0
+    ),
+    "Lewandowski" to Jugador(
+      nombre = "Robert",
+      apellido = "Lewandowski",
+      fechaNacimiento = LocalDate.of(1988, 8, 21),
+      nroCamiseta = 9,
+      seleccionPerteneciente = selecciones["Polonia"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2006,
+      altura = 1.84,
+      peso = 80.0,
+      esLider = true,
+      cotizacion = 1600000.0
+    ),
+    "Hazard" to Jugador(
+      nombre = "Eden",
+      apellido = "Hazard",
+      fechaNacimiento = LocalDate.of(1991, 1, 7),
+      nroCamiseta = 7,
+      seleccionPerteneciente = selecciones["Belgica"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2006,
+      altura = 1.73,
+      peso = 73.0,
+      esLider = true,
+      cotizacion = 1100000.0
+    ),
+    "DeBruyne" to Jugador(
+      nombre = "Kevin",
+      apellido = "De Bruyne",
+      fechaNacimiento = LocalDate.of(1991, 6, 28),
+      nroCamiseta = 17,
+      seleccionPerteneciente = selecciones["Belgica"]!!,
+      posicion = Mediocampista,
+      anioDeDebut = 2008,
+      altura = 1.81,
+      peso = 76.0,
+      esLider = false,
+      cotizacion = 1200000.0
+    ),
+    "CanDijk" to Jugador(
+      nombre = "Virgil",
+      apellido = "Can Dijk",
+      fechaNacimiento = LocalDate.of(1991, 7, 8),
+      nroCamiseta = 4,
+      seleccionPerteneciente = selecciones["Holanda"]!!,
+      posicion = Defensor,
+      anioDeDebut = 2009,
+      altura = 1.93,
+      peso = 72.0,
+      esLider = true,
+      cotizacion = 1400000.0
+    ),
+    "Mbappe" to Jugador(
+      nombre = "Kylian",
+      apellido = "Mbappé",
+      fechaNacimiento = LocalDate.of(1998, 12, 20),
+      nroCamiseta = 7,
+      seleccionPerteneciente = selecciones["Francia"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2016,
+      altura = 1.78,
+      peso = 74.0,
+      esLider = false,
+      cotizacion = 1700000.0
+    )
+  )
+
+  private val figuritas = listOf(
+    Figurita(numero = 1, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Martinez"]!!),
+    (Figurita(numero = 2, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Otamendi"]!!)),
+    (Figurita(numero = 3, onFire = true, cantidadImpresa = impresionMedia, jugador = jugadores["Argento"]!!)),
+    (Figurita(numero = 4, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Messi"]!!)),
+    (Figurita(numero = 5, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Ramos"]!!)),
+    (Figurita(numero = 6, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Neymar"]!!)),
+    (Figurita(numero = 8, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Lewandowski"]!!)),
+    (Figurita(numero = 15, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Hazard"]!!)),
+    (Figurita(numero = 6, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Debruyne"]!!)),
+    (Figurita(numero = 9, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Vandijk"]!!)),
+    (Figurita(numero = 12, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Mbappe"]!!)),
+  )
+
+
+  fun crearFiguritas() {
+    figuritas.forEach { figurita -> figuritasRepository.apply { create(figurita) } }
+  }
+
+  fun crearJugador() {
+    jugadores.values.forEach { jugador -> jugadorRepository.apply { create(jugador) } }
+  }
+
+  fun crearSelecciones() {
+    selecciones.values.forEach { seleccion -> seleccionesRepository.apply { create(seleccion) } }
+  }
+
+  override fun afterPropertiesSet() {
+    this.crearSelecciones()
+    this.crearJugador()
+    this.crearFiguritas()
+  }
+}
