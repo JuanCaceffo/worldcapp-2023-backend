@@ -8,6 +8,7 @@ const val MENSAJE_ERROR_INGRESAR_NOMBRE_USUARIO = "Debe ingresar un nombre de us
 const val MENSAJE_ERROR_INGRESAR_EMAIL = "Debe ingresar un email"
 const val MENSAJE_ERROR_DESACTIVAR_ACCION = "No puede desactivar una accion que nunca fue activada"
 const val MENSAJE_ERROR_FIGURITA_INACCESIBLE = "El usuario no puede otrogar la figurita solicitada"
+const val MENSAJE_ERROR_USUARIO_LEJANO = "El usuario al que le intenta solicitar la figurita esta demasiado lejos"
 
 data class Usuario(
     val nombre: String,
@@ -59,11 +60,10 @@ data class Usuario(
 
     // Proceso habitual de solicitud de una figurita a otro usuario
     fun pedirFigurita(figurita: Figurita, usuario: Usuario) {
-        if (this.estaCerca(usuario)) {
-            usuario.darFigurita(figurita, this)
-            //Ejecuta la acción ConvertirUsuarioEnDesprendido
-            acciones.forEach { accion -> accion.ejecutarAccion(this, figurita) }
-        }
+        validarDistanciaPedidoDeFigu(usuario)
+        usuario.darFigurita(figurita, this)
+        //Ejecuta la acción ConvertirUsuarioEnDesprendido
+        acciones.forEach { accion -> accion.ejecutarAccion(this, figurita) }
     }
 
     //TODO: Preguntar si la implementación es correcta, hay alguna forma más eficiente?
@@ -139,6 +139,10 @@ data class Usuario(
     }
 
     private fun validarEntregaDeFigu(figurita: Figurita) {
-        if (puedoDar(figurita)) throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_INACCESIBLE)
+        if (!puedoDar(figurita)) throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_INACCESIBLE)
+    }
+
+    private fun validarDistanciaPedidoDeFigu(usuario: Usuario) {
+        if (!this.estaCerca(usuario)) throw BussinesExpetion(MENSAJE_ERROR_USUARIO_LEJANO)
     }
 }

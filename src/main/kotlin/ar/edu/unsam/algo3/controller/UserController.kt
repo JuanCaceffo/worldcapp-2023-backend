@@ -26,7 +26,7 @@ class UserController(val userService: UsuarioService) {
     //TODO: Serializar datos necesarios del usuario para el fornt
     fun searchUser(@PathVariable id: Int): Usuario = userService.searchByID(id)
 
-    @PatchMapping("user/request-figurita")
+    @PatchMapping("/user/request-figurita")
     @Operation(summary = "Permite realizar una solicitud de una figurita a un usuario")
     fun figuritaRequest(@RequestBody requestData: RequestFiguDTO) = userService.figuritaRequest(requestData)
 

@@ -31,7 +31,7 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
         val figuRequested = userRequested.listaFiguritasARegalar().find { it.id == requestData.requestedFiguID }
             ?: throw NotFoundException(ERROR_MSG_INVALID_REQUESTED_FIGU)
 
-        userRequested.pedirFigurita(figuRequested,logedUser)
+        logedUser.pedirFigurita(figuRequested,userRequested)
     }
 
 }
