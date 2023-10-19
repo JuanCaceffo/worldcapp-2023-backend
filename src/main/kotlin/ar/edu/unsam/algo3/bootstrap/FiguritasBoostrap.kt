@@ -24,7 +24,11 @@ class FiguritasBoostrap(
     "Polonia" to Seleccion(pais = "Polonia", Confederacion.UEFA, copasConfederacion = 7, copasDelMundo = 3),
     "Belgica" to Seleccion(pais = "Belgica", Confederacion.UEFA, copasConfederacion = 3, copasDelMundo = 2),
     "Holanda" to Seleccion(pais = "Holanda", Confederacion.UEFA, copasConfederacion = 4, copasDelMundo = 2),
-    "Francia" to Seleccion(pais = "Francia", Confederacion.UEFA, copasConfederacion = 2, copasDelMundo = 1)
+    "Francia" to Seleccion(pais = "Francia", Confederacion.UEFA, copasConfederacion = 2, copasDelMundo = 1),
+    "Japón" to Seleccion(pais = "Japón", Confederacion.AFC, copasConfederacion = 3, copasDelMundo = 0),
+    "China" to Seleccion(pais = "China", Confederacion.AFC, copasConfederacion = 1, copasDelMundo = 0),
+    "Corea del Sur" to Seleccion(pais = "Corea del Sur", Confederacion.AFC, copasConfederacion = 2, copasDelMundo = 0),
+    "México" to Seleccion(pais = "México", Confederacion.CONCACAF, copasConfederacion = 1, copasDelMundo = 0)
   )
 
   private val jugadores = mapOf(
@@ -170,21 +174,91 @@ class FiguritasBoostrap(
       peso = 74.0,
       esLider = false,
       cotizacion = 1700000.0
+    ),
+    "Nakamura" to Jugador(
+      nombre = "Hiroshi",
+      apellido = "Nakamura",
+      fechaNacimiento = LocalDate.of(1991, 4, 8),
+      nroCamiseta = 8,
+      seleccionPerteneciente = selecciones["Japón"]!!,
+      posicion = Mediocampista,
+      anioDeDebut = 2010,
+      altura = 1.76,
+      peso = 68.5,
+      esLider = false,
+      cotizacion = 8000000.0
+    ),
+    "Zhang" to Jugador(
+      nombre = "Yun",
+      apellido = "Zhang",
+      fechaNacimiento = LocalDate.of(1994, 9, 15),
+      nroCamiseta = 6,
+      seleccionPerteneciente = selecciones["China"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2012,
+      altura = 1.84,
+      peso = 75.2,
+      esLider = false,
+      cotizacion = 7000000.0
+    ),
+    "Santos" to Jugador(
+      nombre = "Carlos",
+      apellido = "Santos",
+      fechaNacimiento = LocalDate.of(1990, 3, 22),
+      nroCamiseta = 11,
+      seleccionPerteneciente = selecciones["Brasil"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2009,
+      altura = 1.79,
+      peso = 71.0,
+      esLider = true,
+      cotizacion = 8500000.0
+    ),
+    "Lee" to Jugador(
+      nombre = "Ji-hoon",
+      apellido = "Lee",
+      fechaNacimiento = LocalDate.of(1992, 12, 3),
+      nroCamiseta = 14,
+      seleccionPerteneciente = selecciones["Corea del Sur"]!!,
+      posicion = Defensor,
+      anioDeDebut = 2012,
+      altura = 1.86,
+      peso = 76.5,
+      esLider = false,
+      cotizacion = 7500000.0
+    ),
+    "Fernandez" to Jugador(
+      nombre = "Rafael",
+      apellido = "Fernandez",
+      fechaNacimiento = LocalDate.of(1994, 7, 17),
+      nroCamiseta = 7,
+      seleccionPerteneciente = selecciones["México"]!!,
+      posicion = Delantero,
+      anioDeDebut = 2013,
+      altura = 1.81,
+      peso = 72.8,
+      esLider = true,
+      cotizacion = 9000000.0
     )
   )
 
   private val figuritas = listOf(
     Figurita(numero = 1, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Martinez"]!!),
-    (Figurita(numero = 2, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Otamendi"]!!)),
-    (Figurita(numero = 3, onFire = true, cantidadImpresa = impresionMedia, jugador = jugadores["Argento"]!!)),
-    (Figurita(numero = 4, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Messi"]!!)),
-    (Figurita(numero = 5, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Ramos"]!!)),
-    (Figurita(numero = 6, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Neymar"]!!)),
-    (Figurita(numero = 8, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Lewandowski"]!!)),
-    (Figurita(numero = 15, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Hazard"]!!)),
-    (Figurita(numero = 6, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Debruyne"]!!)),
-    (Figurita(numero = 9, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Vandijk"]!!)),
-    (Figurita(numero = 12, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Mbappe"]!!)),
+    Figurita(numero = 2, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Otamendi"]!!),
+    Figurita(numero = 3, onFire = true, cantidadImpresa = impresionMedia, jugador = jugadores["Argento"]!!),
+    Figurita(numero = 4, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Messi"]!!),
+    Figurita(numero = 5, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Ramos"]!!),
+    Figurita(numero = 6, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Neymar"]!!),
+    Figurita(numero = 8, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Lewandowski"]!!),
+    Figurita(numero = 15, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Hazard"]!!),
+    Figurita(numero = 6, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Debruyne"]!!),
+    Figurita(numero = 9, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Vandijk"]!!),
+    Figurita(numero = 12, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Mbappe"]!!),
+    Figurita(numero = 23, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Nakamura"]!!),
+    Figurita(numero = 34, onFire = false, cantidadImpresa = impresionMedia, jugador = jugadores["Zhang"]!!),
+    Figurita(numero = 20, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Santos"]!!),
+    Figurita(numero = 28, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Lee"]!!),
+    Figurita(numero = 25, onFire = true, cantidadImpresa = impresionMedia, jugador = jugadores["Fernandez"]!!)
   )
 
 

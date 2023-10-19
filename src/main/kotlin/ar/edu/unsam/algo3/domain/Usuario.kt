@@ -22,7 +22,6 @@ data class Usuario(
     val jugadoresFavoritos = mutableSetOf<Jugador>()
     val figuritasFaltantes = mutableSetOf<Figurita>()
     val figuritasRepetidas = mutableListOf<Figurita>()
-    val figuritas = mutableListOf<Figurita>()
     var distanciaMaximaCercania:Int = 5
     init {
         validadorStrings.errorStringVacio(nombre, errorMessage = MENSAJE_ERROR_INGRESAR_NOMBRE)
@@ -70,21 +69,26 @@ data class Usuario(
     fun modificarComportamientoIntercambio(comportamiento: CondicionesParaDar) {
         condicionParaDar = comportamiento
     }
-    fun topCincoFiguritasRepetidas() = figuritasRepetidas().sortedBy { it.valoracion() }.takeLast(5).toSet()
-    fun estaRepetida(figurita: Figurita) = figuritasRepetidas().contains(figurita)
-    fun figuritasRepetidas() = figuritas.distinct().filter { x -> figuritas.count { it == x } > 1 }.toSet()
+    fun topCincoFiguritasRepetidas() = figuritasRepetidas.sortedBy { it.valoracion() }.takeLast(5).toSet()
+    fun estaRepetida(figurita: Figurita) = figuritasRepetidas.contains(figurita)
     override fun validSearchCondition(value: String) =  Comparar.parcial(value, listOf(nombre, apellido)) ||
                                                         Comparar.total(value, listOf(nombreUsuario))
 
     fun addFiguritaFaltante(figurita:Figurita){
         validarFaltanteExistente(figurita)
-        validarFiguritaExistente(figurita)
+        validarRepetidaExistente(figurita)
         figuritasFaltantes.add(figurita)
     }
+
+    fun addFiguritaRepetida(figurita:Figurita){
+        validarFaltanteExistente(figurita)
+        figuritasRepetidas.add(figurita)
+    }
+
     fun recibirFigurita(figurita:Figurita){
         removeFiguritaFaltante(figurita)
-        figuritas.add(figurita)
     }
+
     fun estaCerca(otroUsuario:Usuario):Boolean {
         return direccion.distanciaConPoint(point = otroUsuario.direccion.ubiGeografica) <= distanciaMaximaCercania
     }
@@ -94,20 +98,20 @@ data class Usuario(
         }
     }
     private fun removeFiguritaRepetida(figurita: Figurita) {
-        figuritas.remove(figurita)
+        figuritasRepetidas.remove(figurita)
     }
     private fun buscadorFaltanteExistente(figurita: Figurita): Boolean = figuritasFaltantes.map{it.numero}.contains(figurita.numero)
 
     //---------------------- VALIDACIONES -------------------------//
-    private fun validarFiguritaExistente(figurita: Figurita) {
-        if (figuritas.contains(figurita)){
-            throw IllegalArgumentException(MENSAJE_ERROR_FIGURITA_EXISTENTE)
+    private fun validarRepetidaExistente(figurita: Figurita) {
+        if (figuritasRepetidas.contains(figurita)){
+            throw IllegalArgumentException(MENSAJE_ERROR_FIGURITA_ENFALTANTES)
         }
     }
 
     private fun validarFaltanteExistente(figurita: Figurita) {
         if(figuritasFaltantes.contains(figurita)){
-            throw IllegalArgumentException(MENSAJE_ERROR_FIGURITA_EXISTENTE)
+            throw IllegalArgumentException(MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
         }
     }
 

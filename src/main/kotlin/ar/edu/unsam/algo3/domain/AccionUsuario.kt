@@ -97,13 +97,13 @@ class IncorporarFiguritaARepetidasReservadas(usuario: Usuario, vararg figuritas:
         if (figusNoRepetidas.isNotEmpty())
             throw IllegalArgumentException("Se pasaron figuritas que el usuario ${usuario.nombreUsuario} no tiene repetidas: $figusNoRepetidas")
         figuritas.forEach { figurita ->
-            usuario.figuritas.remove(figurita)
+            usuario.figuritasRepetidas.remove(figurita)
             figuritasReservadas.add(figurita)
         }
     }
 
     override fun ejecutarAccion(usuario: Usuario, figuritaSolicitada: Figurita){
-        if (usuario.figuritasRepetidas().isNotEmpty())
+        if (usuario.figuritasRepetidas.isNotEmpty())
             return
         
         val reservadasRegalables = figuritasReservadasRegalablesPor(usuario)
