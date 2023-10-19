@@ -7,7 +7,7 @@ class Figurita (val numero:Int, var onFire:Boolean, val cantidadImpresa: NivelIm
         validarNumero()
     }
 
-    private val valorInicial = 100.0
+    val valorInicial = 100.0
     private fun multiplicadorOnFire():Double = if (onFire) 1.2 else 1.0
     private fun multiplicadorCartaPar():Double = if (HelperNumerosEnteros.esPar((numero))) 1.1 else 1.0
     fun valoracionBase() = valorInicial * multiplicadorOnFire() * multiplicadorCartaPar() * cantidadImpresa.afectaValorEn

@@ -35,7 +35,7 @@ class RepositorioSpec: DescribeSpec({
 
             it("Al borrar una figurita esta no debe pertenercer mas a la repositorio"){
                 repositorioFiguritas.delete(figu2Messi)
-                println(repositorioFiguritas.elementos)
+
                 shouldThrow<NotFoundException> {
                     repositorioFiguritas.getById(figu2Messi.id)
                 }.message shouldBe MENSAJE_ERROR_ID_INEXISTENTE

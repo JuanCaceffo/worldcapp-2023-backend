@@ -6,11 +6,11 @@ import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.core.annotation.Order
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Order(1)
-@Component
+@Service
 class FiguritasBoostrap(
   val figuritasRepository: FiguritasRepository,
   val jugadorRepository: JugadorRepository,
@@ -251,8 +251,8 @@ class FiguritasBoostrap(
     Figurita(numero = 6, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Neymar"]!!),
     Figurita(numero = 8, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Lewandowski"]!!),
     Figurita(numero = 15, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Hazard"]!!),
-    Figurita(numero = 6, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Debruyne"]!!),
-    Figurita(numero = 9, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Vandijk"]!!),
+    Figurita(numero = 6, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["DeBruyne"]!!),
+    Figurita(numero = 9, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["CanDijk"]!!),
     Figurita(numero = 12, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Mbappe"]!!),
     Figurita(numero = 23, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Nakamura"]!!),
     Figurita(numero = 34, onFire = false, cantidadImpresa = impresionMedia, jugador = jugadores["Zhang"]!!),

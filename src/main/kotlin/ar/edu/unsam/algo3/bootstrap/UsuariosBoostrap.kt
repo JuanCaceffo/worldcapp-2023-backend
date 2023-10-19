@@ -2,17 +2,19 @@ package ar.edu.unsam.algo3.bootstrap
 
 import ar.edu.unsam.algo3.domain.Direccion
 import ar.edu.unsam.algo3.domain.Usuario
+import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.core.annotation.Order
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 
 @Order(2)
-@Component
+@Service
 class UsuariosBoostrap(
-  val usuariosRepositorio: UsuariosRepository
+  val usuariosRepositorio: UsuariosRepository,
+  val figuritaRepositorio: FiguritasRepository
 ) : InitializingBean {
 
   private val usuarios = mapOf(
@@ -88,8 +90,16 @@ class UsuariosBoostrap(
     usuarios.values.forEach { usuario -> usuariosRepositorio.apply { create(usuario) } }
   }
 
-  override fun afterPropertiesSet() {
-    this.crearUsuarios()
+  fun agregarFigusEnUsuariosCreados() {
+    repeat(4) { usuarios["Pablo"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it)) }
+    repeat(2) { usuarios["Sol"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 3)) }
+    repeat(6) { usuarios["Facundito"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 7)) }
+    repeat(3) { usuarios["Juan"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 10)) }
+    repeat(5) { usuarios["Alejo"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 5)) }
   }
 
+  override fun afterPropertiesSet() {
+    this.crearUsuarios()
+    this.agregarFigusEnUsuariosCreados()
+  }
 }

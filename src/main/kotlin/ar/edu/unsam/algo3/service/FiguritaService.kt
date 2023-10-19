@@ -15,7 +15,7 @@ class FiguritaService (
     val otrosUsuarios = usuarioRepository.getAll().filter { it.id != filtro.idUsuario }
     var listaFiltrada = otrosUsuarios.flatMap { it.listaFiguritasARegalar() }
 
-    if(filtro.palabraClave!! != "") {
+    if(filtro.palabraClave != null) {
       listaFiltrada = figuritaRepository.search(filtro.palabraClave!!)
     }
 
