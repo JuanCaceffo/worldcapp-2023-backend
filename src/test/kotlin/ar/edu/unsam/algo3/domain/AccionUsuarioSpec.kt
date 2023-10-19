@@ -8,7 +8,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 
-class AccionUsuarioSpec: DescribeSpec({
+class AccionUsuarioSpec : DescribeSpec({
     isolationMode = IsolationMode.InstancePerTest
 
     describe("Test Acciones de Usuarios") {
@@ -47,6 +47,8 @@ class AccionUsuarioSpec: DescribeSpec({
                     addFiguritaFaltante(figuritaBase)
                 }
                 val figuritaArgenta = figuritaComun
+                repeat(4) { usuarioCercano.recibirFigurita(figuritaChilena) }
+                repeat(2) { usuarioCercano.recibirFigurita(figuritaArgenta) }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
                 usuarioSolicitante.pedirFigurita(figuritaArgenta, usuarioCercano)
@@ -61,6 +63,7 @@ class AccionUsuarioSpec: DescribeSpec({
                 val usuarioSolicitante = usuarioGeneral.apply {
                     addFiguritaFaltante(figuritaBase)
                 }
+                repeat(3) { usuarioCercano.recibirFigurita(figuritaChilena) }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
                 repeat(2) { usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano) }
@@ -71,6 +74,8 @@ class AccionUsuarioSpec: DescribeSpec({
                 //arrange
                 val usuarioSolicitante = usuarioCercano
                 val figuritaArgenta = figuritaComun
+                repeat(4) { usuarioCercano.recibirFigurita(figuritaChilena) }
+                repeat(2) { usuarioCercano.recibirFigurita(figuritaArgenta) }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
                 repeat(3) { usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano) }
@@ -84,6 +89,8 @@ class AccionUsuarioSpec: DescribeSpec({
                     addFiguritaFaltante(figuritaBase)
                 }
                 val figuritaArgenta = figuritaComun
+                repeat(4) { usuarioCercano.recibirFigurita(figuritaChilena) }
+                repeat(2) { usuarioCercano.recibirFigurita(figuritaArgenta) }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
                 repeat(2) { usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano) }
@@ -219,16 +226,17 @@ class AccionUsuarioSpec: DescribeSpec({
             }
         }
         describe("Test solicitud de figuritas con accion IncorporarFiguritaReservada") {
-            it("Si usuario Solicitante si posee figurita repetida, se registra como repetida en lista RepetidaReservada"){
+            it("Si usuario Solicitante si posee figurita repetida, se registra como repetida en lista RepetidaReservada") {
                 val usuarioConFiguritaRepetida = usuarioGeneral.apply {
-                        repeat(2){recibirFigurita(figuritaComun)}
+                    repeat(2) { recibirFigurita(figuritaComun) }
                 }
 
-                val IncorporarFiguritaARepetidasReservadas = IncorporarFiguritaARepetidasReservadas(usuarioConFiguritaRepetida, figuritaComun)
+                val IncorporarFiguritaARepetidasReservadas =
+                    IncorporarFiguritaARepetidasReservadas(usuarioConFiguritaRepetida, figuritaComun)
 
                 usuarioConFiguritaRepetida.activarAccion(IncorporarFiguritaARepetidasReservadas)
                 shouldThrow<BussinesExpetion> {
-                    usuarioConFiguritaRepetida.pedirFigurita(figuritaBase,usuarioCercano)
+                    usuarioConFiguritaRepetida.pedirFigurita(figuritaBase, usuarioCercano)
                 }.message shouldBe MENSAJE_ERROR_FIGURITA_INACCESIBLE
             }
             /*it("Si usuario Solicitante ademas de no poseer ninguna figurita repetida, la figurita solicitada es de mayor o igual valoracion que alguna de las repetidas reservadas se agrega a la lista"){
