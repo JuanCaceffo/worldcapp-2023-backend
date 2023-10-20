@@ -1,10 +1,13 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.Usuario
+import ar.edu.unsam.algo3.dto.RequestFiguDTO
 import ar.edu.unsam.algo3.dto.UsuarioLogeadoDTO
 import ar.edu.unsam.algo3.dto.UsuarioLoginDTO
 import ar.edu.unsam.algo3.dto.loginResponseDTO
+import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -29,15 +32,18 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
 
     @Autowired
     lateinit var userRepositorty: UsuariosRepository
+    @Autowired
+    lateinit var figusRepositorty: FiguritasRepository
 
     lateinit var usuario: Usuario
+    lateinit var usuarioLogeado: Usuario
 
     @BeforeEach
     fun init() {
-        userRepositorty.elementos.clear()
+        userRepositorty.clear()
         usuario = Usuario(
-            apellido = "pablo",
-            nombre = "foglia",
+            apellido = "foglia",
+            nombre = "pablo",
             nombreUsuario = "madescoses",
             contrasenia = "pablitoLoco",
             fechaNacimiento = LocalDate.of(2000, 2, 1),
@@ -50,7 +56,24 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
                 ubiGeografica = Point(-34.57461948921918, -58.5378840940197)
             )
         )
+        usuarioLogeado = Usuario(
+            apellido = "juan",
+            nombre = "caceffo",
+            nombreUsuario = "juanceto01",
+            contrasenia = "sacaleno",
+            fechaNacimiento = LocalDate.of(2003, 2, 1),
+            email = "juanchi@gmail.com",
+            direccion = Direccion(
+                provincia = "Buenos Aires",
+                localidad = "San Martin",
+                calle = "Av. Rodríguez Peña",
+                altura = 3237,
+                ubiGeografica = Point(-34.58424206690573, -58.52112943577023)
+            ),
+
+        )
         userRepositorty.create(usuario)
+        userRepositorty.create(usuarioLogeado)
     }
     val mapper= ObjectMapper()
 
@@ -81,4 +104,31 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
             )
             .andExpect(MockMvcResultMatchers.status().is4xxClientError)
     }
-}
+    @Test
+    fun `Al utilizar el endpoint de patch para que el usuario logeado le pida una figu a otro sale bien`(){
+        repeat(2){usuario.recibirFigurita(figusRepositorty.getById(0))}
+        val ReqeustData = RequestFiguDTO(userLogedID = 1, requestedFiguID = 0, requestedUserID = 0)
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .patch("/user/request-figurita")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(ReqeustData))
+            )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+    }
+    @Test
+    fun `Al utilizar el endpoint de patch para que el usuario logeado le pida una figu a otro usuario lejano no sale bien`(){
+        repeat(2){usuario.recibirFigurita(figusRepositorty.getById(0))}
+        usuario.direccion.ubiGeografica.x= 0.0
+        usuario.direccion.ubiGeografica.x= 1.0
+        val ReqeustData = RequestFiguDTO(userLogedID = 1, requestedFiguID = 0, requestedUserID = 0)
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .patch("/user/request-figurita")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(ReqeustData))
+            )
+            .andExpect(MockMvcResultMatchers.status().is4xxClientError)
+    }}
