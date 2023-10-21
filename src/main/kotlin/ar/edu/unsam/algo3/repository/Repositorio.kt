@@ -10,6 +10,11 @@ class Repositorio<T : RepositorioProps> {
     var elementos = mutableMapOf<Int, T>()
     private var idCounter = 0
 
+    fun clear() {
+        elementos.clear()
+        idCounter = 0
+    }
+
     fun getAll():List<T> = elementos.values.toList()
 
     fun create(elemento: T):T{
