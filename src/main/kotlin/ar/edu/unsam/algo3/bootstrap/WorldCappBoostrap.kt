@@ -17,6 +17,7 @@ class WorldCappBoostrap (
   val seleccionesRepository: SeleccionesRepository,
   val confeRepository: MutableList<Confederacion>,
   val usuariosRepositorio: UsuariosRepository,
+
   // val puestosDeVentaRepositorio: PuestoDeVentaRepositorio,
 ): InitializingBean {
 
@@ -153,6 +154,7 @@ class WorldCappBoostrap (
       ))
     }
   }
+
   override fun afterPropertiesSet() {
     this.crearConfederaciones()
     this.crearSelecciones()

@@ -199,7 +199,7 @@ class AccionUsuarioSpec : DescribeSpec({
                     addFiguritaFaltante(figuritaComun)
                 }
                 val usuarioCercanoConFiguRep = usuarioCercano.apply {
-                    condicionParaDar = Desprendido()
+                    condicionParaDar = Desprendido(this)
                     repeat(2) { recibirFigurita(figuritaComun) }
                 }
                 //active
@@ -215,7 +215,7 @@ class AccionUsuarioSpec : DescribeSpec({
                     addFiguritaFaltante(figuritaBase)
                 }
                 val usuarioCercanoConFiguRep = usuarioCercano.apply {
-                    condicionParaDar = Desprendido()
+                    condicionParaDar = Desprendido(this)
                     repeat(2) { recibirFigurita(figuritaComun) }
                 }
                 //active

@@ -1,8 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
-import ar.edu.unsam.algo3.domain.Direccion
-import ar.edu.unsam.algo3.domain.Nacionalista
-import ar.edu.unsam.algo3.domain.Usuario
+import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.error.BussinesExpetion
 import jakarta.validation.constraints.Email
 import org.uqbar.geodds.Point
 import java.time.LocalDate
@@ -28,6 +27,21 @@ fun Usuario.setInfoProfileDTO(infoProfile: UsuarioInfoProfileDTO){
         altura = infoProfile.address.altura,
         ubiGeografica = Point(infoProfile.address.ubiGeografica.x, infoProfile.address.ubiGeografica.y))
     this.distanciaMaximaCercania = infoProfile.exchangeProximity
-    //TODO: Cambiar esto hardcodeado
-    this.modificarComportamientoIntercambio(Nacionalista(this))
+
+    val condicionesMap: Map<String, CondicionesParaDar> = mapOf(
+        "Desprendido"   to Desprendido(this),
+        "Par"           to Par(this),
+        "Nacionalista"  to Nacionalista(this),
+        "Conservador"   to Conservador(this),
+        "Apostador"     to Apostador(this),
+        "Interesado"    to Interesado(this),
+        "Cambiante"     to Cambiante(this),
+        "Fanatico"      to Fanatico(this)
+    )
+
+    val criterioIntercambio: CondicionesParaDar = condicionesMap[infoProfile.criteria]
+        ?: throw BussinesExpetion("El criterio de intercambio no existe")
+
+    this.modificarComportamientoIntercambio(criterioIntercambio)
+
 }
