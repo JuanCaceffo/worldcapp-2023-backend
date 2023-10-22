@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository
 @Repository
 class UsuariosRepository: Repositorio<Usuario>() {
     fun inactivos() = elementos.filter{it.value.figuritasFaltantes.isEmpty() && it.value.figuritasRepetidas().isEmpty()}
-    fun editProfileInfo(infoProfile: UsuarioInfoProfileDTO, id: Int): Usuario = this.getById(id)
 }

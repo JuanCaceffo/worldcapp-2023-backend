@@ -40,7 +40,7 @@ fun Usuario.setInfoProfileDTO(infoProfile: UsuarioInfoProfileDTO){
     )
 
     val criterioIntercambio: CondicionesParaDar = condicionesMap[infoProfile.criteria]
-        ?: throw BussinesExpetion("El criterio de intercambio no existe")
+        ?: throw BussinesExpetion("Criterio de intercambio inexistente")
 
     this.modificarComportamientoIntercambio(criterioIntercambio)
 

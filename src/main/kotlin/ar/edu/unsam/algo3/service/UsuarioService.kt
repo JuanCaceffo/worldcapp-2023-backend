@@ -33,7 +33,7 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
 
     fun getProfileInfo(id: Int): UsuarioInfoProfileDTO = usuarioRepo.getById(id).toInfoProfileDTO()
     fun editProfileInfo(infoProfile: UsuarioInfoProfileDTO, id: Int): UsuarioInfoProfileDTO {
-        val user = usuarioRepo.editProfileInfo(infoProfile, id)
+        val user = usuarioRepo.getById(id)
         user.setInfoProfileDTO(infoProfile)
         return user.toInfoProfileDTO()
     }
