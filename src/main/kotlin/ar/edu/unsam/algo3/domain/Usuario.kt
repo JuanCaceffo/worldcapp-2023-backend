@@ -11,13 +11,13 @@ const val MENSAJE_ERROR_FIGURITA_INACCESIBLE = "El usuario no puede otrogar la f
 const val MENSAJE_ERROR_USUARIO_LEJANO = "El usuario al que le intenta solicitar la figurita esta demasiado lejos"
 
 data class Usuario(
-    val nombre: String,
-    val apellido: String,
+    var nombre: String,
+    var apellido: String,
     val nombreUsuario: String,
     val contrasenia: String = "",
     var fechaNacimiento: LocalDate,
-    val email: String,
-    val direccion: Direccion
+    var email: String,
+    var direccion: Direccion
 ) : RepositorioProps() {
     //Lista de acciones que el usuario puede activar o desactivar segun sus necesidades de negocio
     val acciones = mutableSetOf<AccionesUsuarios>()
