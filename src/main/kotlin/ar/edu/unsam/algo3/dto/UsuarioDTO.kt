@@ -12,4 +12,4 @@ data class UsuarioInfoProfileDTO(val name: String, val lastName: String, val ema
 
 fun Usuario.loginResponseDTO() = UsuarioLogeadoDTO(this.id)
 fun Usuario.dataFiguritaDTO() = UsuarioFiguDTO(this.id, this.nombreUsuario)
-fun Usuario.UsuarioInfoProfileDTO() = UsuarioInfoProfileDTO(this.nombre, this.apellido, this.email, this.fechaNacimiento.toString(), this.direccion, this.distanciaMaximaCercania, this.condicionParaDar.criterioParaCambio() )
+fun Usuario.toInfoProfileDTO() = UsuarioInfoProfileDTO(this.nombre, this.apellido, this.email, this.fechaNacimiento.toString(), this.direccion, this.distanciaMaximaCercania, this.condicionParaDar.criterioParaCambio() )

@@ -1,10 +1,7 @@
 package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.Usuario
-import ar.edu.unsam.algo3.dto.RequestFiguDTO
-import ar.edu.unsam.algo3.dto.UsuarioLogeadoDTO
-import ar.edu.unsam.algo3.dto.UsuarioLoginDTO
-import ar.edu.unsam.algo3.dto.loginResponseDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -33,5 +30,7 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
 
         logedUser.pedirFigurita(figuRequested,userRequested)
     }
+
+    fun getProfileInfo(id: Int): UsuarioInfoProfileDTO = usuarioRepo.getById(id).toInfoProfileDTO()
 
 }
