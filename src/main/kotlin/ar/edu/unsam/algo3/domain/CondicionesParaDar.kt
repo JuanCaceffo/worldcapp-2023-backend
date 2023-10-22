@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.domain
 
 abstract class CondicionesParaDar {
     abstract fun puedeDar(figurita:Figurita):Boolean
+    fun criterioParaCambio() = this::class.simpleName.toString()
 }
 
 class Desprendido : CondicionesParaDar() {
