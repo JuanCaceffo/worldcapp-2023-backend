@@ -90,12 +90,18 @@ class UsuariosBoostrap(
     usuarios.values.forEach { usuario -> usuariosRepositorio.apply { create(usuario) } }
   }
 
+  fun obtenerIdsFiguritasCreadas() = figuritaRepositorio.getAll().map { it.id }
+
   fun agregarFigusEnUsuariosCreados() {
-    repeat(4) { usuarios["Pablo"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it)) }
-    repeat(2) { usuarios["Sol"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 3)) }
-    repeat(6) { usuarios["Facundito"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 7)) }
-    repeat(3) { usuarios["Juan"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 10)) }
-    repeat(5) { usuarios["Alejo"]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + 5)) }
+    seleccionarFigus(4,"Pablo")
+    seleccionarFigus(7,"Sol", 3)
+    seleccionarFigus(6,"Facundito", 7)
+    seleccionarFigus(4,"Juan", 10)
+    seleccionarFigus(5,"Pablo", 5)
+  }
+
+  fun seleccionarFigus(cantidad:Int, usuario:String, desde:Int = 0 ) {
+    repeat(cantidad) { usuarios[usuario]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + obtenerIdsFiguritasCreadas()[desde]))}
   }
 
   override fun afterPropertiesSet() {

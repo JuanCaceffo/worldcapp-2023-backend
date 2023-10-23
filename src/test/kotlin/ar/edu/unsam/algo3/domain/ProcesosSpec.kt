@@ -70,7 +70,7 @@ class ProcesosSpec: DescribeSpec  ({
         }
 
         val repositorioSelecciones = SeleccionesRepository().apply {
-            create(Seleccion(pais="Argentina", confederacion=Confederacion.CONMEBOL, copasDelMundo = 2, copasConfederacion = 18))
+            create(Seleccion(pais="Argentina", confederacion=Confederacion.CONMEBOL, copasDelMundo = 3, copasConfederacion = 18))
             create(seleccionBrasil)
             create(seleccionAlemania)
             create(seleccionUruguay)

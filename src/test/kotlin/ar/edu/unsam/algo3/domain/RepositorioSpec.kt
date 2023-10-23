@@ -29,8 +29,8 @@ class RepositorioSpec: DescribeSpec({
             repositorioFiguritas.create(figu2Messi)
             repositorioFiguritas.create(figu3Mbappe)
 
-            it("Si se agregan x cant de figuritas a una repositorio vacia, el id de la ultima agregada deberia ser el size de la repositorio menos 1."){
-                figu3Mbappe.id.shouldBe(repositorioFiguritas.elementos.size - 1)
+            it("El id de la última figurita agregada debe coincidir con el último id generdo por el repositorio"){
+                figu3Mbappe.id.shouldBe(Repositorio.lastUsedID()-1)
             }
 
             it("Al borrar una figurita esta no debe pertenercer mas a la repositorio"){
