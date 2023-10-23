@@ -353,7 +353,6 @@ class UsuarioSpec: DescribeSpec ({
 
         describe("Comportamiento de un Usuario Cambiante") {
             val cambiante = Cambiante(usuarioConFigus)
-            val desprendido = Desprendido()
             val figuritaImpresionAlta = figuritaDevaluada
             usuarioConFigus.modificarComportamientoIntercambio(cambiante)
             usuarioConFigus.apply {

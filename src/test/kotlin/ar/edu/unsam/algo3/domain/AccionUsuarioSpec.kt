@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.BussinesExpetion
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
@@ -223,30 +224,15 @@ class AccionUsuarioSpec : DescribeSpec({
           addFiguritaRepetida(figuritaComun)
         }
 
-        val IncorporarFiguritaARepetidasReservadas =
+        val incorporarFiguritaARepetidasReservadas =
           IncorporarFiguritaARepetidasReservadas(usuarioConFiguritaRepetida, figuritaComun)
 
-        usuarioConFiguritaRepetida.activarAccion(IncorporarFiguritaARepetidasReservadas)
+        usuarioConFiguritaRepetida.activarAccion(incorporarFiguritaARepetidasReservadas)
         usuarioConFiguritaRepetida.pedirFigurita(figuritaBase, usuarioCercano)
 
-        IncorporarFiguritaARepetidasReservadas.figuritasReservadas.isEmpty().shouldBeFalse()
+        incorporarFiguritaARepetidasReservadas.figuritasReservadas.isEmpty().shouldBeFalse()
 
       }
-      /*it("Si usuario Solicitante ademas de no poseer ninguna figurita repetida, la figurita solicitada es de mayor o igual valoracion que alguna de las repetidas reservadas se agrega a la lista"){
-
-          val usuarioConFiguritaReservada = usuarioGeneral.apply {
-              IncorporarFiguritaARepetidasReservadas.agregarFiguritaReservada(figuritaDevaluada)
-              repeat(2){usuarioGeneral.recibirFigurita(figuritaComun)}
-              repeat(2){usuarioGeneral.recibirFigurita(figuritaValorMaximo)}
-          }
-
-          usuarioConFiguritaReservada.activarAccion(IncorporarFiguritaARepetidasReservadas)
-          usuarioConFiguritaReservada.pedirFigurita(figuritaBase,usuarioCercano)
-
-          IncorporarFiguritaARepetidasReservadas.figuritasRepetidasReservadas.contains(figuritaComun).shouldBeTrue()
-
-      }
-      */
     }
   }
 })

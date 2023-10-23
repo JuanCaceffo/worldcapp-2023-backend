@@ -21,7 +21,8 @@ class UsuariosBoostrap(
     "Sol" to Usuario(
       apellido = "lopez",
       nombre = "sol",
-      nombreUsuario = "sol_lop",
+      nombreUsuario = "sol",
+      contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2001, 2, 15),
       email = "lopezSol@gmail.com",
       direccion = Direccion(
@@ -35,6 +36,7 @@ class UsuariosBoostrap(
       apellido = "pablo",
       nombre = "foglia",
       nombreUsuario = "madescoses",
+      contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2000, 2, 1),
       email = "madescoses@gmail.com",
       direccion = Direccion(
@@ -48,6 +50,7 @@ class UsuariosBoostrap(
       apellido = "juan",
       nombre = "caceffo",
       nombreUsuario = "juanceto01",
+      contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2003, 2, 1),
       email = "juanchi@gmail.com",
       direccion = Direccion(
@@ -60,20 +63,22 @@ class UsuariosBoostrap(
     ), "Facundito" to Usuario(
       apellido = "Barneche",
       nombre = "Facundo",
-      nombreUsuario = "roberto_gomez",
+      nombreUsuario = "facu",
+      contrasenia = "12345",
       fechaNacimiento = LocalDate.of(1990, 12, 22),
-      email = "robertoGomez@gmail.com",
+      email = "fh.barneche@gmail.com",
       direccion = Direccion(
         provincia = "Buenos Aires",
-        localidad = "Tigre",
-        calle = "av.Cazon",
-        altura = 130,
-        ubiGeografica = Point(-34.43359068891678, -58.56781331824527)
+        localidad = "3 de Febrero",
+        calle = "Calle Falsa",
+        altura = 123,
+        ubiGeografica = Point(-33.11359068891678, -58.232631824527)
       )
     ), "Alejo" to Usuario(
       apellido = "alejo",
       nombre = "menini",
       nombreUsuario = "nestorKishner",
+      contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2001, 5, 15),
       email = "alete@gmail.com",
       direccion = Direccion(

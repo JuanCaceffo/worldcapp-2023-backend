@@ -1,14 +1,15 @@
 package ar.edu.unsam.algo3.domain
 
-abstract class CondicionesParaDar {
+abstract class CondicionesParaDar() {
     abstract fun puedeDar(figurita:Figurita):Boolean
+    fun criterioParaCambio() = this::class.simpleName.toString()
 }
 
-class Desprendido : CondicionesParaDar() {
+class Desprendido() : CondicionesParaDar() {
     override fun puedeDar(figurita:Figurita): Boolean = true
 }
 
-class Par : CondicionesParaDar() {
+class Par() : CondicionesParaDar() {
     override fun puedeDar(figurita:Figurita): Boolean = !HelperNumerosEnteros.esPar(figurita.numero) && !HelperNumerosEnteros.esPar(figurita.jugador.nroCamiseta) && !HelperNumerosEnteros.esPar(figurita.jugador.seleccionPerteneciente.copasDelMundo)
 }
 class Nacionalista(private val user: Usuario) : CondicionesParaDar() {
@@ -19,7 +20,7 @@ class Conservador(private val user: Usuario) : CondicionesParaDar() {
     override fun puedeDar(figurita: Figurita): Boolean = (figurita.cantidadImpresa == impresionAlta) && (user.figuritasFaltantes.isEmpty())
 }
 
-class Apostador : CondicionesParaDar()  {
+class Apostador() : CondicionesParaDar()  {
     override fun puedeDar(figurita: Figurita): Boolean =  !figurita.onFire && !figurita.jugador.promesaDelFutbol()
 }
 class Interesado(private val user: Usuario) : CondicionesParaDar() {
@@ -32,6 +33,6 @@ class Cambiante(private val user: Usuario) : CondicionesParaDar(){
     override fun puedeDar(figurita: Figurita): Boolean = (if(user.edad() < 25) desprendido else conservador).puedeDar(figurita)
 }
 
-class Fanatico(private val user: Usuario) : CondicionesParaDar() {
+class Fanatico(private val user: Usuario): CondicionesParaDar() {
     override fun puedeDar(figurita: Figurita): Boolean = (!user.jugadoresFavoritos.contains(figurita.jugador)) && (!figurita.jugador.esLeyenda())
 }
