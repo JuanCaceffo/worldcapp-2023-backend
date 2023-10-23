@@ -7,3 +7,12 @@ data class FiltroFigurita(
   var esPromesa: Boolean? = null,
   var rangoCotizacion: ClosedRange<Double> = (0.0..0.0),
 )
+
+data class FiltroPuntoDeVenta(
+  var idUsuario: Int,
+  var palabraClave: String? = "",
+  var menorDistancia: Boolean? = null,
+  var masBarato: Boolean? = null,
+  var masSobre: Boolean? = null,
+  var soloMasCercanos: Boolean? = null,
+)
