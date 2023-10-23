@@ -1,6 +1,8 @@
 package ar.edu.unsam.algo3.repository
 
 import ar.edu.unsam.algo3.domain.Usuario
+import ar.edu.unsam.algo3.dto.UsuarioInfoProfileDTO
+import ar.edu.unsam.algo3.dto.toInfoProfileDTO
 import org.springframework.stereotype.Repository
 
 @Repository

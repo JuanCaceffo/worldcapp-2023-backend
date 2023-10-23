@@ -102,7 +102,7 @@ class IncorporarFiguritaARepetidasReservadas(usuario: Usuario, vararg figuritas:
         }
     }
 
-    override fun ejecutarAccion(usuario: Usuario, figuritaSolicitada: Figurita){
+    override fun ejecutarAccion(usuario: Usuario, figurita: Figurita){
         if (usuario.figuritasRepetidas.isNotEmpty())
             return
         
@@ -110,7 +110,7 @@ class IncorporarFiguritaARepetidasReservadas(usuario: Usuario, vararg figuritas:
         if (reservadasRegalables.isEmpty())
             return
         
-        val regalablesMenosValiosas = reservadasRegalables.filter { figuritaSolicitada.valoracion() >= it.valoracion() }
+        val regalablesMenosValiosas = reservadasRegalables.filter { figurita.valoracion() >= it.valoracion() }
         if(regalablesMenosValiosas.isEmpty())
             return
         
