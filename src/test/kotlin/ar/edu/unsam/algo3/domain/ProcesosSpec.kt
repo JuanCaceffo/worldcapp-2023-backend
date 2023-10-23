@@ -70,7 +70,7 @@ class ProcesosSpec: DescribeSpec  ({
         }
 
         val repositorioSelecciones = SeleccionesRepository().apply {
-            create(Seleccion(pais="Argentina", confederacion=CONMEBOL, copasDelMundo = 2, copasConfederacion = 18))
+            create(Seleccion(pais="Argentina", confederacion=Confederacion.CONMEBOL, copasDelMundo = 2, copasConfederacion = 18))
             create(seleccionBrasil)
             create(seleccionAlemania)
             create(seleccionUruguay)
@@ -113,8 +113,7 @@ class ProcesosSpec: DescribeSpec  ({
         describe("Proceso - Eliminar usuarios inactivos") {
             it("Un proceso sobre una repositorio de Usuario que elimina a los usuarios inactivos") {
                 userActivo1.addFiguritaFaltante(figuritaBase)
-                userActivo2.recibirFigurita(figuritaBase)
-                userActivo2.recibirFigurita(figuritaBase)
+                userActivo2.addFiguritaRepetida(figuritaBase)
 
                 admin.addProcess(BorrarUserInactivo(repositorioUsers,stubMailSender))
 

@@ -29,11 +29,11 @@ fun Usuario.setInfoProfileDTO(infoProfile: UsuarioInfoProfileDTO){
     this.distanciaMaximaCercania = infoProfile.exchangeProximity
 
     val condicionesMap: Map<String, CondicionesParaDar> = mapOf(
-        "Desprendido"   to Desprendido(this),
-        "Par"           to Par(this),
+        "Desprendido"   to Desprendido(),
+        "Par"           to Par(),
         "Nacionalista"  to Nacionalista(this),
         "Conservador"   to Conservador(this),
-        "Apostador"     to Apostador(this),
+        "Apostador"     to Apostador(),
         "Interesado"    to Interesado(this),
         "Cambiante"     to Cambiante(this),
         "Fanatico"      to Fanatico(this)

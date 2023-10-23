@@ -123,14 +123,14 @@ class UsuarioSpec: DescribeSpec ({
                 robertito.addFiguritaFaltante(figu)
                 shouldThrow<IllegalArgumentException>{
                     robertito.addFiguritaFaltante(figu)
-                }.message shouldBe MENSAJE_ERROR_FIGURITA_EXISTENTE
+                }.message shouldBe MENSAJE_ERROR_FIGURITA_ENREPETIDAS
             }
 
-            it("no se puede ingresar una figurita faltante que tengo"){
-                robertito.recibirFigurita(figu)
+            it("no se puede ingresar una figurita faltante que tengo repetida"){
+                robertito.addFiguritaRepetida(figu)
                 shouldThrow<IllegalArgumentException>{
                     robertito.addFiguritaFaltante(figu)
-                }.message shouldBe MENSAJE_ERROR_FIGURITA_EXISTENTE
+                }.message shouldBe MENSAJE_ERROR_FIGURITA_ENFALTANTES
             }
 
             it ( "cuando se agrega una figurita no debe aparecer en figuritas faltantes") {
@@ -216,24 +216,12 @@ class UsuarioSpec: DescribeSpec ({
             }
         }
 
-        describe("Chequeo del funcionamiento de figuritas repetidas") {
-            it("El metodo figuritaRepetida devuelve las figuritas repetidas") {
-                usuarioConFigus.apply {
-                    recibirFigurita(figuritaBase)
-                    recibirFigurita(figuritaBase)
-                    recibirFigurita(figuritaDevaluada)
-                }
-                usuarioConFigus.figuritasRepetidas().contains(figuritaBase).shouldBeTrue()
-                usuarioConFigus.figuritasRepetidas().contains(figuritaDevaluada).shouldBeFalse()
-            }
-        }
-
         describe("Un usuario puede cambiar de comportamiento al dar repetidas") {
             it("Un usuario desprendido cambia a interesado") {
                 val interesado = Interesado(usuarioConFigus)
                 usuarioConFigus.modificarComportamientoIntercambio(interesado)
                 usuarioConFigus.condicionParaDar.shouldBe(interesado)
-                usuarioConFigus.modificarComportamientoIntercambio(Desprendido(usuarioConFigus))
+                usuarioConFigus.modificarComportamientoIntercambio(Desprendido())
             }
         }
 
@@ -241,7 +229,7 @@ class UsuarioSpec: DescribeSpec ({
             it("Un usuario desprendido puede dar cualquier tipo de figurita repetida") {
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaBase)
-                    recibirFigurita(figuritaBase)
+                    addFiguritaRepetida(figuritaBase)
                     recibirFigurita(figuritaDevaluada)
                 }
                 usuarioConFigus.puedoDar(figuritaBase).shouldBeTrue()
@@ -253,14 +241,15 @@ class UsuarioSpec: DescribeSpec ({
             it("Un usuario par no regala ninguna figurita que tenga caracteristicas de numeros pares") {
                 val figuritaNroPar = figuritaValorMaximo
                 val figuritaNroCamisetaPar = figuritaComun
-                usuarioConFigus.modificarComportamientoIntercambio(Par(usuarioConFigus))
+
+                usuarioConFigus.modificarComportamientoIntercambio(Par())
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaNroPar)
-                    recibirFigurita(figuritaNroPar)
-                    recibirFigurita(figuritaNroCamisetaPar)
                     recibirFigurita(figuritaNroCamisetaPar)
                     recibirFigurita(figuritaNroCopasPar)
-                    recibirFigurita(figuritaNroCopasPar)
+                    addFiguritaRepetida(figuritaNroPar)
+                    addFiguritaRepetida(figuritaNroCamisetaPar)
+                    addFiguritaRepetida(figuritaNroCopasPar)
                 }
                 usuarioConFigus.puedoDar(figuritaNroPar).shouldBeFalse()
                 usuarioConFigus.puedoDar(figuritaNroCamisetaPar).shouldBeFalse()
@@ -274,9 +263,9 @@ class UsuarioSpec: DescribeSpec ({
                 usuarioConFigus.modificarComportamientoIntercambio(Nacionalista(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaArgentina)
-                    recibirFigurita(figuritaArgentina)
                     recibirFigurita(figuritaChilena)
-                    recibirFigurita(figuritaChilena)
+                    addFiguritaRepetida(figuritaArgentina)
+                    addFiguritaRepetida(figuritaChilena)
                     addSeleccionFavoritas(seleccionArgentina)
                     addSeleccionFavoritas(seleccionBrasil)
                 }
@@ -291,7 +280,7 @@ class UsuarioSpec: DescribeSpec ({
                 usuarioConFigus.modificarComportamientoIntercambio(Conservador(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaImpresionAlta)
-                    recibirFigurita(figuritaImpresionAlta)
+                    addFiguritaRepetida(figuritaImpresionAlta)
                     figuritasFaltantes.removeAll(figuritasFaltantes)//Simulo llenar el ALBUM
                 }
                 usuarioConFigus.puedoDar(figuritaImpresionAlta).shouldBeTrue()
@@ -306,9 +295,9 @@ class UsuarioSpec: DescribeSpec ({
                 usuarioConFigus.modificarComportamientoIntercambio(Fanatico(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaDibu)
-                    recibirFigurita(figuritaDibu)
+                    addFiguritaRepetida(figuritaDibu)
                     recibirFigurita(figuritaMessiLeyenda)
-                    recibirFigurita(figuritaMessiLeyenda)
+                    addFiguritaRepetida(figuritaMessiLeyenda)
                     addJugadorFavorito(lionelMessi)
                 }
                 usuarioConFigus.puedoDar(figuritaDibu).shouldBeTrue()
@@ -320,14 +309,14 @@ class UsuarioSpec: DescribeSpec ({
             it("Un usuario apostdor no figuritas OnFire ni leyendas del Futbol") {
                 val figuritaMessiLeyenda = figuritaValorMaximo
                 val figuritaOnFire = figuritaValorMedio
-                usuarioConFigus.modificarComportamientoIntercambio(Apostador(usuarioConFigus))
+                usuarioConFigus.modificarComportamientoIntercambio(Apostador())
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaOnFire)
-                    recibirFigurita(figuritaOnFire)
+                    addFiguritaRepetida(figuritaOnFire)
                     recibirFigurita(figuritaComun)
-                    recibirFigurita(figuritaComun)
+                    addFiguritaRepetida(figuritaComun)
                     recibirFigurita(figuritaMessiLeyenda)
-                    recibirFigurita(figuritaMessiLeyenda)
+                    addFiguritaRepetida(figuritaMessiLeyenda)
                 }
                 usuarioConFigus.puedoDar(figuritaOnFire).shouldBeFalse()
                 usuarioConFigus.puedoDar(figuritaMessiLeyenda).shouldBeFalse()
@@ -341,21 +330,21 @@ class UsuarioSpec: DescribeSpec ({
                 usuarioConFigus.modificarComportamientoIntercambio(Interesado(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaBase)
-                    recibirFigurita(figuritaBase)
+                    addFiguritaRepetida(figuritaBase)
                     recibirFigurita(figuritaComun)
-                    recibirFigurita(figuritaComun)
+                    addFiguritaRepetida(figuritaComun)
                     recibirFigurita(figuritaValorMedio)
-                    recibirFigurita(figuritaValorMedio)
+                    addFiguritaRepetida(figuritaValorMedio)
                     recibirFigurita(figuritaValorMaximo)
-                    recibirFigurita(figuritaValorMaximo)
+                    addFiguritaRepetida(figuritaValorMaximo)
                     recibirFigurita(figuritaMenorValoracion)
-                    recibirFigurita(figuritaMenorValoracion)
+                    addFiguritaRepetida(figuritaMenorValoracion)
                 }
                 usuarioConFigus.puedoDar(figuritaMenorValoracion).shouldBeFalse()
 
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaChilena)
-                    recibirFigurita(figuritaChilena)
+                    addFiguritaRepetida(figuritaChilena)
                 }
                 usuarioConFigus.puedoDar(figuritaMenorValoracion).shouldBeTrue()
                 usuarioConFigus.puedoDar(figuritaValorMaximo).shouldBeFalse()
@@ -364,14 +353,13 @@ class UsuarioSpec: DescribeSpec ({
 
         describe("Comportamiento de un Usuario Cambiante") {
             val cambiante = Cambiante(usuarioConFigus)
-            val desprendido = Desprendido(usuarioConFigus)
             val figuritaImpresionAlta = figuritaDevaluada
             usuarioConFigus.modificarComportamientoIntercambio(cambiante)
             usuarioConFigus.apply {
                 recibirFigurita(figuritaBase)
-                recibirFigurita(figuritaBase)
+                addFiguritaRepetida(figuritaBase)
                 recibirFigurita(figuritaImpresionAlta)
-                recibirFigurita(figuritaImpresionAlta)
+                addFiguritaRepetida(figuritaImpresionAlta)
             }
             //Usuario Cambiante con albun NO LLENO menor a 25 puede dar una figu de impresion alta
             it("prueba de Cambiante menor a 25 anios") {

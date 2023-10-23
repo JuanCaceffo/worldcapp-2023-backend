@@ -5,7 +5,8 @@ import org.uqbar.geodds.Point
 const val MENSAJE_ERROR_INGRESAR_PROVINCIA = "debe ingresar una provincia"
 const val MENSAJE_ERROR_INGRESAR_LOCALIDAD = "debe ingresar una localidad"
 const val MENSAJE_ERROR_INGRESAR_CALLE = "debe ingresar una calle"
-const val MENSAJE_ERROR_FIGURITA_EXISTENTE = "La figurita que intenta agregar a faltantes ya existe en figuritas"
+const val MENSAJE_ERROR_FIGURITA_ENFALTANTES = "La figurita que intenta agregar a repetidas esta en faltantes"
+const val MENSAJE_ERROR_FIGURITA_ENREPETIDAS = "La figurita que intenta agregar a faltantes esta en repetidas"
 class Direccion(var provincia:String, var localidad:String, var calle:String, var altura:Int, var ubiGeografica: Point){
     init {
         validadorStrings.errorStringVacio(provincia, errorMessage = MENSAJE_ERROR_INGRESAR_PROVINCIA)
