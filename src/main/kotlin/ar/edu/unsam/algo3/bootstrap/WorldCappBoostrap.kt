@@ -136,6 +136,21 @@ class WorldCappBoostrap (
           ubiGeografica = Point(-34.43359068891678, -58.56781331824527)
         )
       ))
+      create(Usuario(
+        apellido = "Barneche",
+        nombre = "Facundo",
+        nombreUsuario = "facu",
+        contrasenia = "12345",
+        fechaNacimiento = LocalDate.of(1990, 12, 22),
+        email = "fh.barneche@gmail.com",
+        direccion = Direccion(
+          provincia = "Buenos Aires",
+          localidad = "3 de Febrero",
+          calle = "Calle Falsa",
+          altura = 123,
+          ubiGeografica = Point(-33.11359068891678, -58.232631824527)
+        )
+      ))
     }
   }
   override fun afterPropertiesSet() {

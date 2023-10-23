@@ -131,4 +131,33 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
                     .content(mapper.writeValueAsString(ReqeustData))
             )
             .andExpect(MockMvcResultMatchers.status().is4xxClientError)
-    }}
+    }
+
+        @Test
+        fun `mockeo el request con un determinado usuario al endpoint via get y responde correctamente`() {
+            val jsonBody = """
+        {
+            "name": "caceffo",
+            "lastName": "juan",
+            "email": "juanchi@gmail.com",
+            "birthdate": "2003-02-01",
+            "address": {
+                "provincia": "Buenos Aires",
+                "localidad": "San Martin",
+                "calle": "Av. Rodríguez Peña",
+                "altura": 3237,
+                "ubiGeografica": {
+                    "x": -34.58424206690573,
+                    "y": -58.52112943577023
+                }
+            },
+            "exchangeProximity": 5,
+            "criteria": "Desprendido"
+        }
+    """
+            mockMvc
+                .perform(MockMvcRequestBuilders.get("/user/1/info-profile"))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.content().json(jsonBody))
+        }
+}

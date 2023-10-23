@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Usuario
 import ar.edu.unsam.algo3.dto.RequestFiguDTO
+import ar.edu.unsam.algo3.dto.UsuarioInfoProfileDTO
 import ar.edu.unsam.algo3.dto.UsuarioLogeadoDTO
 import ar.edu.unsam.algo3.dto.UsuarioLoginDTO
 import ar.edu.unsam.algo3.service.UsuarioService
@@ -23,11 +24,14 @@ class UserController(val userService: UsuarioService) {
 
     @GetMapping("/user/{id}")
     @Operation(summary = "Permite buscar un usuario por ID")
-    //TODO: Serializar datos necesarios del usuario para el fornt
+    //TODO: Serializar datos necesarios del usuario para el front
     fun searchUser(@PathVariable id: Int): Usuario = userService.searchByID(id)
 
     @PatchMapping("/user/request-figurita")
     @Operation(summary = "Permite realizar una solicitud de una figurita a un usuario")
     fun figuritaRequest(@RequestBody requestData: RequestFiguDTO) = userService.figuritaRequest(requestData)
 
+    @GetMapping("/user/{id}/info-profile")
+    @Operation(summary = "Obtiene la info del profile del usuario")
+    fun getProfileInfo(@PathVariable id: Int): UsuarioInfoProfileDTO = userService.getProfileInfo(id)
 }
