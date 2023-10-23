@@ -117,7 +117,9 @@ class UsuariosBoostrap(
   }
 
   override fun afterPropertiesSet() {
+    println("figuritas ids: " +obtenerIdsFiguritasCreadas())
     this.crearUsuarios()
+    println(usuariosRepositorio.getAll().map { it.id })
     this.agregarFigusEnUsuariosCreados()
     this.cambiarCondicionParaDar()
   }

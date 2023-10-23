@@ -28,9 +28,9 @@ class UserController(val userService: UsuarioService) {
     @Operation(summary = "Obtiene la info del profile del usuario")
     fun getProfileInfo(@PathVariable id: Int): UsuarioInfoProfileDTO = userService.getProfileInfo(id)
 
-    @GetMapping("/user/get-figurita-intercambio/{figuritaId}/{userID}")
+    @GetMapping("/user/get-figurita-intercambio/{userID}/{figuritaId}")
     @Operation(summary = "Devuelve la figurita del usuario de la lita de figuritas a regalar")
-    fun getFiguritaIntercambio(@PathVariable figuritaId: Int,@PathVariable userID: Int): FiguritaDTO{
+    fun getFiguritaIntercambio(@PathVariable userID: Int, @PathVariable figuritaId: Int): FiguritaDTO{
         return userService.getGiftableFigurita(figuritaId,userID)
     }
 
