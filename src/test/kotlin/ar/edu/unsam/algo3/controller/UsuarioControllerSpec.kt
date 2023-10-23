@@ -3,10 +3,7 @@ package ar.edu.unsam.algo3.controller
 import ar.edu.unsam.algo3.domain.Direccion
 import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.Usuario
-import ar.edu.unsam.algo3.dto.RequestFiguDTO
-import ar.edu.unsam.algo3.dto.UsuarioLogeadoDTO
-import ar.edu.unsam.algo3.dto.UsuarioLoginDTO
-import ar.edu.unsam.algo3.dto.loginResponseDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -160,4 +157,42 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json(jsonBody))
         }
+
+    @Test
+    fun `Envio request de edicion de usuario y luego via get responde con los datos que fueron cambiados correctamente`() {
+        val jsonBody = """
+        {
+            "name": "Pablo El Loquito Daniel",
+            "lastName": "foglia",
+            "email": "madescoses@gmail.com",
+            "birthdate": "2000-02-01",
+            "address": {
+                "provincia": "Buenos Aires",
+                "localidad": "San Martin",
+                "calle": "matheu",
+                "altura": 3568,
+                "ubiGeografica": {
+                    "x": -34.57461948921918,
+                    "y": -58.5378840940197
+                }
+            },
+            "exchangeProximity": 5,
+            "criteria": "Desprendido"
+        }
+    """
+        usuario.nombre = "Pablo El Loquito Daniel"
+        val infoProfile = usuario.toInfoProfileDTO()
+        mockMvc.perform(
+            MockMvcRequestBuilders
+                .patch("/user/1/info-profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(infoProfile)))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.content().json(jsonBody))
+        mockMvc.perform(
+            MockMvcRequestBuilders
+                .get("/user/1/info-profile"))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.content().json(jsonBody))
+    }
 }

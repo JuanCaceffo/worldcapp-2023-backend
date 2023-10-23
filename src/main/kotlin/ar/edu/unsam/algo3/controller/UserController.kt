@@ -27,11 +27,15 @@ class UserController(val userService: UsuarioService) {
     //TODO: Serializar datos necesarios del usuario para el front
     fun searchUser(@PathVariable id: Int): Usuario = userService.searchByID(id)
 
+    @GetMapping("/user/{id}/info-profile")
+    @Operation(summary = "Obtiene la info del profile del usuario")
+    fun getProfileInfo(@PathVariable id: Int): UsuarioInfoProfileDTO = userService.getProfileInfo(id)
+
     @PatchMapping("/user/request-figurita")
     @Operation(summary = "Permite realizar una solicitud de una figurita a un usuario")
     fun figuritaRequest(@RequestBody requestData: RequestFiguDTO) = userService.figuritaRequest(requestData)
 
-    @GetMapping("/user/{id}/info-profile")
-    @Operation(summary = "Obtiene la info del profile del usuario")
-    fun getProfileInfo(@PathVariable id: Int): UsuarioInfoProfileDTO = userService.getProfileInfo(id)
+    @PatchMapping("/user/{id}/info-profile")
+    @Operation(summary = "Permite actualizar la informacion del usuario")
+    fun editProfileInfo(@RequestBody profileInfo: UsuarioInfoProfileDTO,  @PathVariable id: Int): UsuarioInfoProfileDTO = userService.editProfileInfo(profileInfo, id)
 }

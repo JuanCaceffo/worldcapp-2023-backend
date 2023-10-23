@@ -233,7 +233,7 @@ class UsuarioSpec: DescribeSpec ({
                 val interesado = Interesado(usuarioConFigus)
                 usuarioConFigus.modificarComportamientoIntercambio(interesado)
                 usuarioConFigus.condicionParaDar.shouldBe(interesado)
-                usuarioConFigus.modificarComportamientoIntercambio(Desprendido())
+                usuarioConFigus.modificarComportamientoIntercambio(Desprendido(usuarioConFigus))
             }
         }
 
@@ -253,7 +253,7 @@ class UsuarioSpec: DescribeSpec ({
             it("Un usuario par no regala ninguna figurita que tenga caracteristicas de numeros pares") {
                 val figuritaNroPar = figuritaValorMaximo
                 val figuritaNroCamisetaPar = figuritaComun
-                usuarioConFigus.modificarComportamientoIntercambio(Par())
+                usuarioConFigus.modificarComportamientoIntercambio(Par(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaNroPar)
                     recibirFigurita(figuritaNroPar)
@@ -320,7 +320,7 @@ class UsuarioSpec: DescribeSpec ({
             it("Un usuario apostdor no figuritas OnFire ni leyendas del Futbol") {
                 val figuritaMessiLeyenda = figuritaValorMaximo
                 val figuritaOnFire = figuritaValorMedio
-                usuarioConFigus.modificarComportamientoIntercambio(Apostador())
+                usuarioConFigus.modificarComportamientoIntercambio(Apostador(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaOnFire)
                     recibirFigurita(figuritaOnFire)
@@ -364,7 +364,7 @@ class UsuarioSpec: DescribeSpec ({
 
         describe("Comportamiento de un Usuario Cambiante") {
             val cambiante = Cambiante(usuarioConFigus)
-            val desprendido = Desprendido()
+            val desprendido = Desprendido(usuarioConFigus)
             val figuritaImpresionAlta = figuritaDevaluada
             usuarioConFigus.modificarComportamientoIntercambio(cambiante)
             usuarioConFigus.apply {
