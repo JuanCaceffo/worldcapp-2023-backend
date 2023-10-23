@@ -99,10 +99,10 @@ class UsuariosBoostrap(
   fun obtenerIdsFiguritasCreadas() = figuritaRepositorio.getAll().map { it.id }
 
   fun agregarFigusEnUsuariosCreados() {
-    seleccionarFigus(4,"Pablo")
+    seleccionarFigus(8,"Pablo")
     seleccionarFigus(7,"Sol", 3)
-    seleccionarFigus(6,"Facundito", 7)
-    seleccionarFigus(4,"Juan", 10)
+    seleccionarFigus(6,"Facundito", 5)
+    seleccionarFigus(4,"Juan", 11)
     seleccionarFigus(5,"Alejo", 5)
   }
 
