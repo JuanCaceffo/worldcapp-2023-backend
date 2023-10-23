@@ -221,7 +221,7 @@ class UsuarioSpec: DescribeSpec ({
                 val interesado = Interesado(usuarioConFigus)
                 usuarioConFigus.modificarComportamientoIntercambio(interesado)
                 usuarioConFigus.condicionParaDar.shouldBe(interesado)
-                usuarioConFigus.modificarComportamientoIntercambio(Desprendido())
+                usuarioConFigus.modificarComportamientoIntercambio(Desprendido(usuarioConFigus))
             }
         }
 
@@ -242,7 +242,7 @@ class UsuarioSpec: DescribeSpec ({
                 val figuritaNroPar = figuritaValorMaximo
                 val figuritaNroCamisetaPar = figuritaComun
 
-                usuarioConFigus.modificarComportamientoIntercambio(Par())
+                usuarioConFigus.modificarComportamientoIntercambio(Par(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaNroPar)
                     recibirFigurita(figuritaNroCamisetaPar)
@@ -309,7 +309,7 @@ class UsuarioSpec: DescribeSpec ({
             it("Un usuario apostdor no figuritas OnFire ni leyendas del Futbol") {
                 val figuritaMessiLeyenda = figuritaValorMaximo
                 val figuritaOnFire = figuritaValorMedio
-                usuarioConFigus.modificarComportamientoIntercambio(Apostador())
+                usuarioConFigus.modificarComportamientoIntercambio(Apostador(usuarioConFigus))
                 usuarioConFigus.apply {
                     recibirFigurita(figuritaOnFire)
                     addFiguritaRepetida(figuritaOnFire)
@@ -325,7 +325,6 @@ class UsuarioSpec: DescribeSpec ({
         }
 
         describe("Comportamiento de un Usuario Interesado") {
-
             it("Un usuario Interesado solo da figuritas que no esten en su top 5") {
                 usuarioConFigus.modificarComportamientoIntercambio(Interesado(usuarioConFigus))
                 usuarioConFigus.apply {

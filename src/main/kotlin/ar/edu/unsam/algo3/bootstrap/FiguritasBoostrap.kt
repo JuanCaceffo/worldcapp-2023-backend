@@ -189,7 +189,7 @@ class FiguritasBoostrap(
       cotizacion = 8000000.0
     ),
     "Zhang" to Jugador(
-      nombre = "Yun",
+      nombre = "Yuning",
       apellido = "Zhang",
       fechaNacimiento = LocalDate.of(1994, 9, 15),
       nroCamiseta = 6,
@@ -201,17 +201,17 @@ class FiguritasBoostrap(
       esLider = false,
       cotizacion = 7000000.0
     ),
-    "Santos" to Jugador(
-      nombre = "Carlos",
-      apellido = "Santos",
-      fechaNacimiento = LocalDate.of(1990, 3, 22),
-      nroCamiseta = 11,
+    "Silva" to Jugador(
+      nombre = "Thiago",
+      apellido = "Silva",
+      fechaNacimiento = LocalDate.of(1984, 9, 22),
+      nroCamiseta = 2,
       seleccionPerteneciente = selecciones["Brasil"]!!,
-      posicion = Delantero,
-      anioDeDebut = 2009,
-      altura = 1.79,
-      peso = 71.0,
-      esLider = true,
+      posicion = Mediocampista,
+      anioDeDebut = 2008,
+      altura = 1.83,
+      peso = 75.0,
+      esLider = false,
       cotizacion = 8500000.0
     ),
     "Lee" to Jugador(
@@ -239,6 +239,19 @@ class FiguritasBoostrap(
       peso = 72.8,
       esLider = true,
       cotizacion = 9000000.0
+    ),
+    "Modric" to Jugador(
+      nombre = "Luka",
+      apellido = "Modric",
+      fechaNacimiento = LocalDate.of(1985, 9, 9),
+      nroCamiseta = 10,
+      seleccionPerteneciente = selecciones["México"]!!,
+      posicion = Mediocampista,
+      anioDeDebut = 2006,
+      altura = 1.72,
+      peso = 66.0,
+      esLider = true,
+      cotizacion = 7432000.0
     )
   )
 
@@ -249,18 +262,18 @@ class FiguritasBoostrap(
     Figurita(numero = 4, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Messi"]!!),
     Figurita(numero = 5, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["Ramos"]!!),
     Figurita(numero = 6, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Neymar"]!!),
-    Figurita(numero = 8, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Lewandowski"]!!),
-    Figurita(numero = 15, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Hazard"]!!),
-    Figurita(numero = 6, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["DeBruyne"]!!),
-    Figurita(numero = 9, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["CanDijk"]!!),
+    Figurita(numero = 7, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Lewandowski"]!!),
+    Figurita(numero = 8, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Modric"]!!),
+    Figurita(numero = 9, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Hazard"]!!),
+    Figurita(numero = 10, onFire = false, cantidadImpresa = impresionAlta, jugador = jugadores["DeBruyne"]!!),
+    Figurita(numero = 11, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["CanDijk"]!!),
     Figurita(numero = 12, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Mbappe"]!!),
     Figurita(numero = 23, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Nakamura"]!!),
     Figurita(numero = 34, onFire = false, cantidadImpresa = impresionMedia, jugador = jugadores["Zhang"]!!),
-    Figurita(numero = 20, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Santos"]!!),
+    Figurita(numero = 20, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Silva"]!!),
     Figurita(numero = 28, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Lee"]!!),
     Figurita(numero = 25, onFire = true, cantidadImpresa = impresionMedia, jugador = jugadores["Fernandez"]!!)
   )
-
 
   fun crearFiguritas() {
     figuritas.forEach { figurita -> figuritasRepository.apply { create(figurita) } }

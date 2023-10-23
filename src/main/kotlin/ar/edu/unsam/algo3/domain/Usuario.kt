@@ -21,7 +21,7 @@ data class Usuario(
 ) : RepositorioProps() {
     //Lista de acciones que el usuario puede activar o desactivar segun sus necesidades de negocio
     val acciones = mutableSetOf<AccionesUsuarios>()
-    var condicionParaDar: CondicionesParaDar = Desprendido()
+    var condicionParaDar: CondicionesParaDar = Desprendido(this)
     val seleccionesFavoritas = mutableSetOf<Seleccion>()
     val jugadoresFavoritos = mutableSetOf<Jugador>()
     val figuritasFaltantes = mutableSetOf<Figurita>()
