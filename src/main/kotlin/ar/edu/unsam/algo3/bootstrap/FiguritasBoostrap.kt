@@ -189,7 +189,7 @@ class FiguritasBoostrap(
       cotizacion = 8000000.0
     ),
     "Zhang" to Jugador(
-      nombre = "Yun",
+      nombre = "Yuning",
       apellido = "Zhang",
       fechaNacimiento = LocalDate.of(1994, 9, 15),
       nroCamiseta = 6,
@@ -201,17 +201,17 @@ class FiguritasBoostrap(
       esLider = false,
       cotizacion = 7000000.0
     ),
-    "Santos" to Jugador(
-      nombre = "Carlos",
-      apellido = "Santos",
-      fechaNacimiento = LocalDate.of(1990, 3, 22),
-      nroCamiseta = 11,
+    "Silva" to Jugador(
+      nombre = "Thiago",
+      apellido = "Silva",
+      fechaNacimiento = LocalDate.of(1984, 9, 22),
+      nroCamiseta = 2,
       seleccionPerteneciente = selecciones["Brasil"]!!,
-      posicion = Delantero,
-      anioDeDebut = 2009,
-      altura = 1.79,
-      peso = 71.0,
-      esLider = true,
+      posicion = Mediocampista,
+      anioDeDebut = 2008,
+      altura = 1.83,
+      peso = 75.0,
+      esLider = false,
       cotizacion = 8500000.0
     ),
     "Lee" to Jugador(
@@ -270,7 +270,7 @@ class FiguritasBoostrap(
     Figurita(numero = 12, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Mbappe"]!!),
     Figurita(numero = 23, onFire = true, cantidadImpresa = impresionAlta, jugador = jugadores["Nakamura"]!!),
     Figurita(numero = 34, onFire = false, cantidadImpresa = impresionMedia, jugador = jugadores["Zhang"]!!),
-    Figurita(numero = 20, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Santos"]!!),
+    Figurita(numero = 20, onFire = false, cantidadImpresa = impresionBaja, jugador = jugadores["Silva"]!!),
     Figurita(numero = 28, onFire = true, cantidadImpresa = impresionBaja, jugador = jugadores["Lee"]!!),
     Figurita(numero = 25, onFire = true, cantidadImpresa = impresionMedia, jugador = jugadores["Fernandez"]!!)
   )

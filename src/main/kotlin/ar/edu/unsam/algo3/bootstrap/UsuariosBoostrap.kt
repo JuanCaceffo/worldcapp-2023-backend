@@ -1,8 +1,8 @@
 package ar.edu.unsam.algo3.bootstrap
 
-import ar.edu.unsam.algo3.domain.Direccion
-import ar.edu.unsam.algo3.domain.Usuario
+import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.core.annotation.Order
@@ -14,7 +14,8 @@ import java.time.LocalDate
 @Service
 class UsuariosBoostrap(
   val usuariosRepositorio: UsuariosRepository,
-  val figuritaRepositorio: FiguritasRepository
+  val figuritaRepositorio: FiguritasRepository,
+  val seleccionesRepositorio: SeleccionesRepository
 ) : InitializingBean {
 
   private val usuarios = mapOf(
@@ -102,15 +103,22 @@ class UsuariosBoostrap(
     seleccionarFigus(7,"Sol", 3)
     seleccionarFigus(6,"Facundito", 7)
     seleccionarFigus(4,"Juan", 10)
-    seleccionarFigus(5,"Pablo", 5)
+    seleccionarFigus(5,"Alejo", 5)
   }
 
   fun seleccionarFigus(cantidad:Int, usuario:String, desde:Int = 0 ) {
     repeat(cantidad) { usuarios[usuario]!!.addFiguritaRepetida(figuritaRepositorio.getById(it + obtenerIdsFiguritasCreadas()[desde]))}
   }
 
+  fun cambiarCondicionParaDar() {
+    usuarios["Juan"]?.modificarComportamientoIntercambio(Nacionalista(usuarios["Juan"]!!))
+    usuarios["Alejo"]?.modificarComportamientoIntercambio(Par(usuarios["Alejo"]!!))
+    usuarios["Juan"]?.addSeleccionFavoritas(seleccionesRepositorio.search("Francia").first())
+  }
+
   override fun afterPropertiesSet() {
     this.crearUsuarios()
     this.agregarFigusEnUsuariosCreados()
+    this.cambiarCondicionParaDar()
   }
 }

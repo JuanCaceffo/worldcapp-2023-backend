@@ -32,7 +32,7 @@ class ConvertirUsuarioEnDesprendido(): AccionesUsuarios() {
 
     override fun ejecutarAccion(usuario: Usuario, figurita: Figurita) {
         if(seCumpleCondicion(usuario)){
-            usuario.modificarComportamientoIntercambio(Desprendido())
+            usuario.modificarComportamientoIntercambio(Desprendido(usuario))
         }
     }
 

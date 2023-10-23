@@ -2,7 +2,6 @@ package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.error.BussinesExpetion
-import jakarta.validation.constraints.Email
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 
@@ -29,11 +28,11 @@ fun Usuario.setInfoProfileDTO(infoProfile: UsuarioInfoProfileDTO){
     this.distanciaMaximaCercania = infoProfile.exchangeProximity
 
     val condicionesMap: Map<String, CondicionesParaDar> = mapOf(
-        "Desprendido"   to Desprendido(),
-        "Par"           to Par(),
+        "Desprendido"   to Desprendido(this),
+        "Par"           to Par(this),
         "Nacionalista"  to Nacionalista(this),
         "Conservador"   to Conservador(this),
-        "Apostador"     to Apostador(),
+        "Apostador"     to Apostador(this),
         "Interesado"    to Interesado(this),
         "Cambiante"     to Cambiante(this),
         "Fanatico"      to Fanatico(this)
