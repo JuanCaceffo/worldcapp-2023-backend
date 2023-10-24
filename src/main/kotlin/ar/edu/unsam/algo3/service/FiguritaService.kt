@@ -29,12 +29,14 @@ class FiguritaService(
       listaFiltrada = listaFiltrada.filter { it.promesa }
     }
 
-    if ((0.0..0.0) != filtro.rangoCotizacion) {
-      listaFiltrada = listaFiltrada.filter { it.valoracion in filtro.rangoCotizacion }
+    if ((0.0..0.0) != filtro.rangoValoracion) {
+      listaFiltrada = listaFiltrada.filter { pedirValoracion(it.id) in filtro.rangoValoracion }
     }
 
     return listaFiltrada
   }
+
+  fun pedirValoracion (id: Int) = figuritaRepository.getById(id).valoracion() 
 
   fun otrosUsuarios(miID: Int) = usuariosRepository.getAll().filter { it.id != miID }
 

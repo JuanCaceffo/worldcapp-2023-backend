@@ -5,7 +5,7 @@ data class FiltroFigurita(
   var palabraClave: String? = "",
   var onFire: Boolean? = null,
   var esPromesa: Boolean? = null,
-  var rangoCotizacion: ClosedRange<Double> = (0.0..0.0),
+  var rangoValoracion: ClosedRange<Double> = (0.0..0.0),
 )
 
 data class FiltroPuntoDeVenta(
