@@ -23,11 +23,19 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
 
     fun searchByID(id: Int): Usuario = usuarioRepo.getById(id)
 
+    fun findGiftableFigurita(figuId: Int, user: Usuario): Figurita {
+         return user.listaFiguritasARegalar().find { it.id == figuId }
+            ?: throw NotFoundException(ERROR_MSG_INVALID_REQUESTED_FIGU)
+    }
+
+    fun getGiftableFigurita (figuId: Int, userID: Int): FiguritaDTO{
+        val user = searchByID(userID)
+        return findGiftableFigurita(figuId,user).toDTO(user.dataFiguritaDTO())
+    }
     fun figuritaRequest(requestData: RequestFiguDTO) {
         val logedUser = searchByID(requestData.userLogedID)
         val userRequested = searchByID(requestData.requestedUserID)
-        val figuRequested = userRequested.listaFiguritasARegalar().find { it.id == requestData.requestedFiguID }
-            ?: throw NotFoundException(ERROR_MSG_INVALID_REQUESTED_FIGU)
+        val figuRequested = findGiftableFigurita(requestData.requestedFiguID,userRequested)
 
         logedUser.pedirFigurita(figuRequested,userRequested)
     }
