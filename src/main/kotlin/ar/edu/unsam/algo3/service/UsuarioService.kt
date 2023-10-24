@@ -38,12 +38,15 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
         return user.toInfoProfileDTO()
     }
 
-    fun getDuplicateFigus(id: Int): List<FiguritaDTO> {
+    fun getFigusList(id: Int, figusList: TipoFiguList): List<FiguritaDTO> {
         val user = usuarioRepo.getById(id)
-        return user.figuritasRepetidas.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
-    }
-    fun getMissinFigus(id: Int): List<FiguritaDTO> {
-        val user = usuarioRepo.getById(id)
-        return user.figuritasFaltantes.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+        when (figusList){
+            TipoFiguList.FALTANTES -> {
+                return user.figuritasFaltantes.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+            }
+            TipoFiguList.REPETIDAS -> {
+                return user.figuritasRepetidas.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+            }
+        }
     }
 }

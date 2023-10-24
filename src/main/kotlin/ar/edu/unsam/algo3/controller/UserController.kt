@@ -36,12 +36,10 @@ class UserController(val userService: UsuarioService) {
     @Operation(summary = "Permite actualizar la informacion del usuario")
     fun editProfileInfo(@RequestBody profileInfo: UsuarioInfoProfileDTO,  @PathVariable id: Int): UsuarioInfoProfileDTO = userService.editProfileInfo(profileInfo, id)
 
-    @GetMapping("/user/{id}/lista-figus-faltantes")
-    @Operation(summary = "permite obtener la lista de figuritas faltantes del usaurio")
-    fun getMissingFigus(@PathVariable id: Int): List<FiguritaDTO> = userService.getMissinFigus(id)
-
-    @GetMapping("/user/{id}/lista-figus-duplicadas")
-    @Operation(summary = "permite obtener la lista de figuritas duplicadas del usaurio")
-    fun getDuplicateFigus(@PathVariable id: Int): List<FiguritaDTO> = userService.getDuplicateFigus(id)
-
+    @GetMapping("/user/{id}/lista-figus/{figusList}")
+    @Operation(summary = "permite obtener la lista de figuritas x del usaurio")
+    fun getMissingFigus(@PathVariable id: Int, @PathVariable figusList: TipoFiguList): List<FiguritaDTO> {
+        return userService.getFigusList(id,figusList)
+    }
+    
 }
