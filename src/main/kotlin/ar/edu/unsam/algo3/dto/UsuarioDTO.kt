@@ -10,6 +10,10 @@ data class UsuarioLogeadoDTO (val userLogedID: Int)
 data class UsuarioFiguDTO (val idUsuario: Int, val duenio: String)
 data class RequestFiguDTO(val userLogedID: Int, val requestedUserID: Int, val requestedFiguID: Int)
 data class UsuarioInfoProfileDTO(var name: String, val lastName: String, val email: String, val birthdate: String, val address: Direccion, val exchangeProximity: Int, val criteria: String)
+enum class TipoFiguList{
+    FALTANTES,
+    REPETIDAS
+}
 
 fun Usuario.loginResponseDTO() = UsuarioLogeadoDTO(this.id)
 fun Usuario.dataFiguritaDTO() = UsuarioFiguDTO(this.id, this.nombreUsuario)
