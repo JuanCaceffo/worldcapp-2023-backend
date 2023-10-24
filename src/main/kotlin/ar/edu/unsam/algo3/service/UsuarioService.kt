@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.service
 
+import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.Usuario
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.NotFoundException
@@ -40,13 +41,15 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
 
     fun getFigusList(id: Int, figusList: TipoFiguList): List<FiguritaDTO> {
         val user = usuarioRepo.getById(id)
+        val list: List<Figurita>
         when (figusList){
             TipoFiguList.FALTANTES -> {
-                return user.figuritasFaltantes.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+                list = user.figuritasFaltantes.toList()
             }
             TipoFiguList.REPETIDAS -> {
-                return user.figuritasRepetidas.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+                list = user.figuritasRepetidas
             }
         }
+        return list.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
     }
 }
