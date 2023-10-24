@@ -38,7 +38,6 @@ abstract class PuntoDeVenta(
 
     fun importeACobrar(usuario: Usuario,cantSobres: Int): Double = (costoMinimoSobre * cantSobres + baseDeEnvio + extraPorKm(usuario)) * modificadorCosto(cantSobres)
 
-
     abstract fun modificadorCosto(cantSobres: Int): Double //pasamos cantSobres a modificadorCosto en pos de mantener el polimorfismo
 
     fun setMaxKmEnvio(cantKm: Double) {

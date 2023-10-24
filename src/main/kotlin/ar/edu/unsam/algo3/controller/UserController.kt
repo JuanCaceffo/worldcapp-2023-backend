@@ -28,9 +28,17 @@ class UserController(val userService: UsuarioService) {
     @Operation(summary = "Obtiene la info del profile del usuario")
     fun getProfileInfo(@PathVariable id: Int): UsuarioInfoProfileDTO = userService.getProfileInfo(id)
 
+
     @GetMapping("/user/{id}/user-info")
     @Operation(summary = "Obtiene la info del usuario")
     fun getUserInfo(@PathVariable id: Int): UsuarioInfoDTO = userService.getUserInfo(id)
+
+    @GetMapping("/user/get-figurita-intercambio/{userID}/{figuritaId}")
+    @Operation(summary = "Devuelve la figurita del usuario de la lita de figuritas a regalar")
+    fun getFiguritaIntercambio(@PathVariable userID: Int, @PathVariable figuritaId: Int): FiguritaDTO{
+        return userService.getGiftableFigurita(figuritaId,userID)
+    }
+
 
     @PatchMapping("/user/request-figurita")
     @Operation(summary = "Permite realizar una solicitud de una figurita a un usuario")
@@ -39,4 +47,11 @@ class UserController(val userService: UsuarioService) {
     @PatchMapping("/user/{id}/info-profile")
     @Operation(summary = "Permite actualizar la informacion del usuario")
     fun editProfileInfo(@RequestBody profileInfo: UsuarioInfoProfileDTO,  @PathVariable id: Int): UsuarioInfoProfileDTO = userService.editProfileInfo(profileInfo, id)
+
+    @GetMapping("/user/{id}/lista-figus/{figusList}")
+    @Operation(summary = "permite obtener la lista de figuritas x del usaurio")
+    fun getMissingFigus(@PathVariable id: Int, @PathVariable figusList: TipoFiguList): List<FiguritaDTO> {
+        return userService.getFigusList(id,figusList)
+    }
+    
 }
