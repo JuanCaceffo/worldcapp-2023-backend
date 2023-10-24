@@ -37,4 +37,13 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
         user.setInfoProfileDTO(infoProfile)
         return user.toInfoProfileDTO()
     }
+
+    fun getDuplicateFigus(id: Int): List<FiguritaDTO> {
+        val user = usuarioRepo.getById(id)
+        return user.figuritasRepetidas.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+    }
+    fun getMissinFigus(id: Int): List<FiguritaDTO> {
+        val user = usuarioRepo.getById(id)
+        return user.figuritasFaltantes.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+    }
 }

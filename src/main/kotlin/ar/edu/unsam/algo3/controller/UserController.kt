@@ -1,10 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Usuario
-import ar.edu.unsam.algo3.dto.RequestFiguDTO
-import ar.edu.unsam.algo3.dto.UsuarioInfoProfileDTO
-import ar.edu.unsam.algo3.dto.UsuarioLogeadoDTO
-import ar.edu.unsam.algo3.dto.UsuarioLoginDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.UsuarioService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -38,4 +35,13 @@ class UserController(val userService: UsuarioService) {
     @PatchMapping("/user/{id}/info-profile")
     @Operation(summary = "Permite actualizar la informacion del usuario")
     fun editProfileInfo(@RequestBody profileInfo: UsuarioInfoProfileDTO,  @PathVariable id: Int): UsuarioInfoProfileDTO = userService.editProfileInfo(profileInfo, id)
+
+    @GetMapping("/user/{id}/lista-figus-faltantes")
+    @Operation(summary = "permite obtener la lista de figuritas faltantes del usaurio")
+    fun getMissingFigus(@PathVariable id: Int): List<FiguritaDTO> = userService.getMissinFigus(id)
+
+    @GetMapping("/user/{id}/lista-figus-faltantes")
+    @Operation(summary = "permite obtener la lista de figuritas duplicadas del usaurio")
+    fun getDuplicateFigus(@PathVariable id: Int): List<FiguritaDTO> = userService.getDuplicateFigus(id)
+
 }
