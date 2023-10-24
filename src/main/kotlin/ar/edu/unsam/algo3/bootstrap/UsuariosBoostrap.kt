@@ -26,7 +26,7 @@ class UsuariosBoostrap(
       contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2001, 2, 15),
       email = "lopezSol@gmail.com",
-      imagenPath = "src/assets/images/user-profile/sol.jpg",
+      imagenPath = "assets/images/user-profile/sol.jpg",
       direccion = Direccion(
         provincia = "Buenos Aires",
         localidad = "Tigre",
@@ -41,7 +41,7 @@ class UsuariosBoostrap(
       contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2000, 2, 1),
       email = "madescoses@gmail.com",
-      imagenPath = "src/assets/images/user-profile/pablito.jpg",
+      imagenPath = "assets/images/user-profile/pablito.jpg",
       direccion = Direccion(
         provincia = "Buenos Aires",
         localidad = "San Martin",
@@ -56,7 +56,7 @@ class UsuariosBoostrap(
       contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2003, 2, 1),
       email = "juanchi@gmail.com",
-      imagenPath = "src/assets/images/user-profile/juanchi.jpg",
+      imagenPath = "assets/images/user-profile/juanchi.jpg",
       direccion = Direccion(
         provincia = "Buenos Aires",
         localidad = "San Martin",
@@ -71,7 +71,7 @@ class UsuariosBoostrap(
       contrasenia = "12345",
       fechaNacimiento = LocalDate.of(1990, 12, 22),
       email = "fh.barneche@gmail.com",
-      imagenPath = "src/assets/images/user-profile/facu.jpg",
+      imagenPath = "assets/images/user-profile/facu.jpg",
       direccion = Direccion(
         provincia = "Buenos Aires",
         localidad = "3 de Febrero",
@@ -86,7 +86,7 @@ class UsuariosBoostrap(
       contrasenia = "12345",
       fechaNacimiento = LocalDate.of(2001, 5, 15),
       email = "alete@gmail.com",
-      imagenPath = "src/assets/images/user-profile/ale.jpg",
+      imagenPath = "assets/images/user-profile/ale.jpg",
       direccion = Direccion(
         provincia = "Buenos Aires",
         localidad = "General Pacheco",
