@@ -1,10 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Usuario
-import ar.edu.unsam.algo3.dto.RequestFiguDTO
-import ar.edu.unsam.algo3.dto.UsuarioInfoProfileDTO
-import ar.edu.unsam.algo3.dto.UsuarioLogeadoDTO
-import ar.edu.unsam.algo3.dto.UsuarioLoginDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.UsuarioService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -30,6 +27,10 @@ class UserController(val userService: UsuarioService) {
     @GetMapping("/user/{id}/info-profile")
     @Operation(summary = "Obtiene la info del profile del usuario")
     fun getProfileInfo(@PathVariable id: Int): UsuarioInfoProfileDTO = userService.getProfileInfo(id)
+
+    @GetMapping("/user/{id}/user-info")
+    @Operation(summary = "Obtiene la info del usuario")
+    fun getUserInfo(@PathVariable id: Int): UsuarioInfoDTO = userService.getUserInfo(id)
 
     @PatchMapping("/user/request-figurita")
     @Operation(summary = "Permite realizar una solicitud de una figurita a un usuario")

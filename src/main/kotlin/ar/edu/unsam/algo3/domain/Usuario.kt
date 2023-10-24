@@ -17,7 +17,8 @@ data class Usuario(
     val contrasenia: String = "",
     var fechaNacimiento: LocalDate,
     var email: String,
-    var direccion: Direccion
+    var direccion: Direccion,
+    val imagenPath: String
 ) : RepositorioProps() {
     //Lista de acciones que el usuario puede activar o desactivar segun sus necesidades de negocio
     val acciones = mutableSetOf<AccionesUsuarios>()

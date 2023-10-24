@@ -45,6 +45,7 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
             contrasenia = "pablitoLoco",
             fechaNacimiento = LocalDate.of(2000, 2, 1),
             email = "madescoses@gmail.com",
+            imagenPath = "/src/assets/images/card-img-10.jpg",
             direccion = Direccion(
                 provincia = "Buenos Aires",
                 localidad = "San Martin",
@@ -60,6 +61,7 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
             contrasenia = "sacaleno",
             fechaNacimiento = LocalDate.of(2003, 2, 1),
             email = "juanchi@gmail.com",
+            imagenPath = "/src/assets/images/card-img-10.jpg",
             direccion = Direccion(
                 provincia = "Buenos Aires",
                 localidad = "San Martin",
