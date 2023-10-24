@@ -40,7 +40,7 @@ class UserController(val userService: UsuarioService) {
     @Operation(summary = "permite obtener la lista de figuritas faltantes del usaurio")
     fun getMissingFigus(@PathVariable id: Int): List<FiguritaDTO> = userService.getMissinFigus(id)
 
-    @GetMapping("/user/{id}/lista-figus-faltantes")
+    @GetMapping("/user/{id}/lista-figus-duplicadas")
     @Operation(summary = "permite obtener la lista de figuritas duplicadas del usaurio")
     fun getDuplicateFigus(@PathVariable id: Int): List<FiguritaDTO> = userService.getDuplicateFigus(id)
 
