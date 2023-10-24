@@ -24,7 +24,7 @@ class FiguritaController (val figuritaService: FiguritaService){
       palabraClave = palabraClave,
       onFire = onFire,
       esPromesa = esPromesa,
-      rangoCotizacion = (cotizacionInicial ?: 0.0)..(cotizacionFinal ?: 0.0)
+      rangoValoracion = (cotizacionInicial ?: 0.0)..(cotizacionFinal ?: 0.0)
     )
 
     return figuritaService.obtenerFiguritasParaIntercambiar(filtro)
