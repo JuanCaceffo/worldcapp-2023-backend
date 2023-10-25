@@ -39,7 +39,6 @@ class UserController(val userService: UsuarioService) {
         return userService.getGiftableFigurita(figuritaId,userID)
     }
 
-
     @PatchMapping("/user/request-figurita")
     @Operation(summary = "Permite realizar una solicitud de una figurita a un usuario")
     fun figuritaRequest(@RequestBody requestData: RequestFiguDTO) = userService.figuritaRequest(requestData)
