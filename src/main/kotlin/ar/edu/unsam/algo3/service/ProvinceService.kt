@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 data class Province(val province: String, val locations: List<String>)
 
 val inputProvinces: List<Province> = listOf(
-    Province("Buenos Aires", listOf("Avellaneda", "Bahía Blanca", "La Plata", "Mar del Plata", "San Isidro", "Tandil", "Vicente López")),
+    Province("Buenos Aires", listOf("Avellaneda", "Bahía Blanca", "General Pacheco", "La Plata", "Mar del Plata", "San Isidro", "San Martin", "Tandil", "Tigre", "Vicente López", "3 de Febrero")),
     Province("CABA", listOf("Balvanera", "Belgrano", "Palermo", "San Nicolás", "San Telmo", "Villa Crespo")),
     Province("Catamarca", listOf("San Fernando del Valle de Catamarca", "Andalgalá", "Belén", "Santa María")),
     Province("Chaco", listOf("Resistencia", "Barranqueras", "Castelli", "Presidencia Roque Sáenz Peña", "Quitilipi", "Villa Ángela")),
