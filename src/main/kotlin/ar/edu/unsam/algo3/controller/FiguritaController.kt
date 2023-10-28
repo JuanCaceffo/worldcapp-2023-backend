@@ -13,20 +13,20 @@ class FiguritaController (val figuritaService: FiguritaService){
   @Operation(summary="Devuelve el listado de figuritas no propias disponibles para intercambio")
   fun paraIntercambiar(
     @PathVariable id: Int,
-    @RequestParam(required = false) palabraClave: String? = null,
-    @RequestParam(required = false) onFire: Boolean = false,
-    @RequestParam(required = false) esPromesa: Boolean = false,
-    @RequestParam(required = false) cotizacionInicial: Double? = null,
-    @RequestParam(required = false) cotizacionFinal: Double? = null
+    @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
+    @RequestParam(name= "onFire", required = false, defaultValue = "false") onFire: Boolean,
+    @RequestParam(name= "esPromesa", required = false, defaultValue = "false") esPromesa: Boolean,
+    @RequestParam(name= "cotizacionInicial", required = false, defaultValue = "0.0") cotizacionInicial: Double,
+    @RequestParam(name= "cotizacionFinal", required = false, defaultValue = "0.0") cotizacionFinal: Double
   ):List<FiguritaDTO> {
     val filtro = FiltroFigurita(
       idUsuario = id,
       palabraClave = palabraClave,
       onFire = onFire,
       esPromesa = esPromesa,
-      rangoValoracion = (cotizacionInicial ?: 0.0)..(cotizacionFinal ?: 0.0)
+      rangoValoracion = (cotizacionInicial)..(cotizacionFinal)
     )
-
+    println("filtro:$filtro")
     return figuritaService.obtenerFiguritasParaIntercambiar(filtro)
   }
 }
