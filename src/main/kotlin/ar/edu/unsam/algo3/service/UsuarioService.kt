@@ -44,11 +44,19 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
     }
 
     fun getProfileInfo(id: Int): UsuarioInfoProfileDTO = searchByID(id).toInfoProfileDTO()
+
     fun getUserInfo(id: Int): UsuarioInfoDTO = searchByID(id).toUserInfoDTO()
+
     fun editProfileInfo(infoProfile: UsuarioInfoProfileDTO, id: Int): UsuarioInfoProfileDTO {
         val user = searchByID(id)
         user.setInfoProfileDTO(infoProfile)
         return user.toInfoProfileDTO()
+    }
+
+    fun editUserUsername(userInfo: UsuarioInfoDTO, id: Int): UsuarioInfoDTO {
+        val user = searchByID(id)
+        user.nombreUsuario = userInfo.username
+        return user.toUserInfoDTO()
     }
 
     fun getFigusList(id: Int, figusList: TipoFiguList): List<FiguritaDTO> {
