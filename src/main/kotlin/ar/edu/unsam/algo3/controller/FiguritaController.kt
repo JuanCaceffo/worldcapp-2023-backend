@@ -26,7 +26,6 @@ class FiguritaController (val figuritaService: FiguritaService){
       esPromesa = esPromesa,
       rangoValoracion = (cotizacionInicial)..(cotizacionFinal)
     )
-    println("filtro:$filtro")
     return figuritaService.obtenerFiguritasParaIntercambiar(filtro)
   }
 }
