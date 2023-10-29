@@ -13,7 +13,7 @@ const val MENSAJE_ERROR_USUARIO_LEJANO = "El usuario al que le intenta solicitar
 data class Usuario(
     var nombre: String,
     var apellido: String,
-    val nombreUsuario: String,
+    var nombreUsuario: String,
     val contrasenia: String = "",
     var fechaNacimiento: LocalDate,
     var email: String,

@@ -50,6 +50,10 @@ class UserController(val userService: UsuarioService) {
     @Operation(summary = "Permite actualizar la informacion del usuario")
     fun editProfileInfo(@RequestBody profileInfo: UsuarioInfoProfileDTO,  @PathVariable id: Int): UsuarioInfoProfileDTO = userService.editProfileInfo(profileInfo, id)
 
+    @PatchMapping("${INTIAL_PATH}/{id}/user-info")
+    @Operation(summary = "Permite actualizar el username del usuario")
+    fun editUserUsername(@RequestBody userInfo: UsuarioInfoDTO,  @PathVariable id: Int): UsuarioInfoDTO = userService.editUserUsername(userInfo, id)
+
     @GetMapping("${INTIAL_PATH}/{id}/lista-figus/{figusList}")
     @Operation(summary = "permite obtener la lista de figuritas x del usaurio")
     fun getMissingFigus(@PathVariable id: Int, @PathVariable figusList: TipoFiguList): List<FiguritaDTO> {
