@@ -18,7 +18,7 @@ class PuntosDeVentaBootstrap(
     val kiosko2 = Kioscos("Señor Kioskero", Direccion("bs as","3 de Febrero", "Urquiza", 31, Point(-34.1111906555678, -58.11111891678)),20, true)
     val kiosko3 = Kioscos("Un Nombre", Direccion("bs as","Nuñez", "Figueroa Alcorta", 1000, Point(-34.433590688678, -58.2891678)),1, true)
     val mercado1 = Supermercados("Chinito", Direccion("bs as","3 de Febrero", "Brasil", 211, Point(-34.433891678, -58.43359068891222)),0, SinDescuento())
-    val mercado2 = Supermercados("Polque", Direccion("bs as","San Martin", "Bolivia", 211, Point(-34.43359458891678, -58.43359068891)),10, SinDescuento())
+    val mercado2 = Supermercados("Polque", Direccion("bs as","San Martin", "Bolivia", 211, Point(-34.431, -58.561)),10, SinDescuento())
     val mercado3 = Supermercados("No hay polque", Direccion("bs as","Liniers", "J. B. Justo", 211, Point(-34.3359068891678, -58.43359064561678)),30, SinDescuento())
     val libreria1 = Librerias("El Principito", Direccion("bs as","3 de Febrero", "Giorello", 211, Point(-34.3459068891678, -58.43385645691678)),30)
     val libreria2 = Librerias("Roberto Carlos", Direccion("bs as","Palermo", "Av. Libertador", 3000, Point(-34.1119068891678, -55.433586891678)),31)

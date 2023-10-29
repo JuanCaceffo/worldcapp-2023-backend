@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
 import  ar.edu.unsam.algo3.domain.Figurita
+import ar.edu.unsam.algo3.domain.Usuario
 
 data class TemplateFiguritaDTO(
   val id: Int,
@@ -9,7 +10,7 @@ data class TemplateFiguritaDTO(
   val nivelImpresion: String,
 )
 
-fun Figurita.toDTO(user: UsuarioFiguDTO) = FiguritaDTO(
+fun Figurita.toDTO(user: Usuario) = FiguritaDTO(
   id = this.id,
   numero = this.numero,
   onFire = this.onFire,
@@ -32,8 +33,8 @@ fun Figurita.toDTO(user: UsuarioFiguDTO) = FiguritaDTO(
   confederacionCopas = this.jugador.seleccionPerteneciente.copasConfederacion,
   esLider = this.jugador.esLider,
   valoracion = this.jugador.valoracionJugador(),
-  duenio = user.duenio,
-  idUsuario = user.idUsuario
+  duenio = user.nombreUsuario,
+  idUsuario = user.id
 )
 
 data class FiguritaDTO(

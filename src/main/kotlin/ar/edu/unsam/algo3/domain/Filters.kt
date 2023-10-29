@@ -10,9 +10,6 @@ data class FiltroFigurita(
 
 data class FiltroPuntoDeVenta(
   var idUsuario: Int,
-  var palabraClave: String? = "",
-  var menorDistancia: Boolean? = null,
-  var masBarato: Boolean? = null,
-  var masSobre: Boolean? = null,
-  var soloMasCercanos: Boolean? = null,
+  var palabraClave: String = "",
+  var opcionElegida: String = "",
 )

@@ -32,7 +32,7 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
 
     fun getGiftableFigurita(figuId: Int, userID: Int): FiguritaDTO {
         val user = searchByID(userID)
-        return findGiftableFigurita(figuId, user).toDTO(user.dataFiguritaDTO())
+        return findGiftableFigurita(figuId, user).toDTO(user)
     }
 
     fun figuritaRequest(requestData: RequestFiguDTO) {
@@ -61,17 +61,17 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
 
     fun getFigusList(id: Int, figusList: TipoFiguList): List<FiguritaDTO> {
         val user = searchByID(id)
-        val list: List<Figurita>
-        when (figusList) {
+
+        val list: List<Figurita> = when (figusList) {
             TipoFiguList.FALTANTES -> {
-                list = user.figuritasFaltantes.toList()
+                user.figuritasFaltantes.toList()
             }
 
             TipoFiguList.REPETIDAS -> {
-                list = user.figuritasRepetidas
+                user.figuritasRepetidas
             }
         }
-        return list.map { figu -> figu.toDTO(user.dataFiguritaDTO()) }
+        return list.map { figu -> figu.toDTO(user) }
     }
 
     fun deleteFigurita(userID: Int, figuID: Int, figusList: TipoFiguList) {

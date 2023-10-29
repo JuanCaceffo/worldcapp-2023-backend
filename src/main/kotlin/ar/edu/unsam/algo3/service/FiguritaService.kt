@@ -2,7 +2,6 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.FiltroFigurita
 import ar.edu.unsam.algo3.dto.FiguritaDTO
-import ar.edu.unsam.algo3.dto.dataFiguritaDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
@@ -15,17 +14,17 @@ class FiguritaService(
 ) {
   fun obtenerFiguritasParaIntercambiar(filtro: FiltroFigurita): List<FiguritaDTO> {
     val otros = this.otrosUsuarios(filtro.idUsuario)
-    var listaFiltrada = otros.flatMap { it.listaFiguritasARegalar().map { figu -> figu.toDTO(it.dataFiguritaDTO()) } }
+    var listaFiltrada = otros.flatMap { it.listaFiguritasARegalar().map { figu -> figu.toDTO(it) } }
 
-    if (filtro.palabraClave != null) {
-      listaFiltrada = filtroPalabraClave(filtro.palabraClave!!, listaFiltrada)
+    if (filtro.palabraClave != "") {
+      listaFiltrada = filtroPalabraClave(filtro.palabraClave, listaFiltrada)
     }
 
-    if (filtro.onFire!!) {
+    if (filtro.onFire) {
       listaFiltrada = listaFiltrada.filter { it.onFire }
     }
 
-    if (filtro.esPromesa!!) {
+    if (filtro.esPromesa) {
       listaFiltrada = listaFiltrada.filter { it.promesa }
     }
 

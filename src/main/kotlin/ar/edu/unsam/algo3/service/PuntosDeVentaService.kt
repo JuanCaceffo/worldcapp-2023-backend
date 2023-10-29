@@ -1,9 +1,7 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.domain.FiltroFigurita
 import ar.edu.unsam.algo3.domain.FiltroPuntoDeVenta
 import ar.edu.unsam.algo3.domain.PuntoDeVenta
-import ar.edu.unsam.algo3.dto.FiguritaDTO
 import ar.edu.unsam.algo3.dto.MarketCardDTO
 import ar.edu.unsam.algo3.dto.toMarketCardDTO
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
@@ -12,44 +10,48 @@ import org.springframework.stereotype.Service
 
 @Service
 class PuntosDeVentaService(
-    val puntosDeVentaRepository: PuntosDeVentaRepository,
-    val usuariosRepository: UsuariosRepository
+  val puntosDeVentaRepository: PuntosDeVentaRepository,
+  val usuariosRepository: UsuariosRepository
 ) {
-    fun getAll(userId: Int): List<MarketCardDTO> =
-        puntosDeVentaRepository.getAll().map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
+  fun getAll(userId: Int): List<MarketCardDTO> =
+    puntosDeVentaRepository.getAll().map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
 
-    fun obtenerPuntosDeVentaFiltrados(userId: Int, filtro: FiltroPuntoDeVenta): List<MarketCardDTO> {
-        var listaOrdenada = getAll(userId)
-
-        if (filtro.palabraClave != null) {
-            listaOrdenada = filtroPalabraClave(filtro.palabraClave!!, listaOrdenada)
-        }
-
-        if (filtro.masBarato!!) {
-            listaOrdenada = mapToDTO(userId, puntosDeVentaRepository.ordenarPorMasBarato(usuariosRepository.getById(userId)))
-        }
-
-        if (filtro.masSobre!!) {
-            listaOrdenada = mapToDTO(userId, puntosDeVentaRepository.ordenarPorMasSobres())
-        }
-
-        if (filtro.menorDistancia!!) {
-            listaOrdenada = mapToDTO(userId, puntosDeVentaRepository.ordenarPorMenorDistancia(usuariosRepository.getById(userId)))
-        }
-
-        if (filtro.soloMasCercanos!!) {
-            listaOrdenada = mapToDTO(userId, puntosDeVentaRepository.ordenarPorSoloMasCercanos(usuariosRepository.getById(userId)))
-        }
-
-        return listaOrdenada
+  fun obtenerPuntosDeVentaFiltrados(filtro: FiltroPuntoDeVenta): List<MarketCardDTO> {
+    var listaOrdenada = getAll(filtro.idUsuario)
+    println(filtro)
+    if (filtro.palabraClave != "") {
+      listaOrdenada = filtroPalabraClave(filtro.palabraClave, listaOrdenada)
     }
 
-    fun mapToDTO(userId: Int, lista: List<PuntoDeVenta>) = lista.map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
+    when (filtro.opcionElegida) {
+      "Menor Distancia" -> listaOrdenada = mapToDTO(
+        filtro.idUsuario,
+        puntosDeVentaRepository.ordenarPorMenorDistancia(usuariosRepository.getById(filtro.idUsuario))
+      )
 
-    fun filtroPalabraClave(palabra: String, lista: List<MarketCardDTO>): List<MarketCardDTO> {
-        val idFiguritas = encontrarFiguritaPorPalabraClave(palabra).map { it.id }
-        return lista.filter { it.id in idFiguritas }
+      "Más Barato" -> listaOrdenada = mapToDTO(
+        filtro.idUsuario,
+        puntosDeVentaRepository.ordenarPorMasBarato(usuariosRepository.getById(filtro.idUsuario))
+      )
+
+      "Más Sobres" -> listaOrdenada = mapToDTO(filtro.idUsuario, puntosDeVentaRepository.ordenarPorMasSobres())
+
+      "Sólo más Cercanos" -> listaOrdenada = mapToDTO(
+        filtro.idUsuario,
+        puntosDeVentaRepository.ordenarPorSoloMasCercanos(usuariosRepository.getById(filtro.idUsuario))
+      )
     }
 
-    fun encontrarFiguritaPorPalabraClave(palabra: String) = puntosDeVentaRepository.search(palabra)
+    return listaOrdenada
+  }
+
+  fun mapToDTO(userId: Int, lista: List<PuntoDeVenta>) =
+    lista.map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
+
+  fun filtroPalabraClave(palabra: String, lista: List<MarketCardDTO>): List<MarketCardDTO> {
+    val idFiguritas = encontrarFiguritaPorPalabraClave(palabra).map { it.id }
+    return lista.filter { it.id in idFiguritas }
+  }
+
+  fun encontrarFiguritaPorPalabraClave(palabra: String) = puntosDeVentaRepository.search(palabra)
 }
