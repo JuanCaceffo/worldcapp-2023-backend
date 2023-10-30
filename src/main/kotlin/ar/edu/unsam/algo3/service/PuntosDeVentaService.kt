@@ -18,10 +18,6 @@ class PuntosDeVentaService(
 
   fun obtenerPuntosDeVentaFiltrados(filtro: FiltroPuntoDeVenta): List<MarketCardDTO> {
     var listaOrdenada = getAll(filtro.idUsuario)
-    println(filtro)
-    if (filtro.palabraClave != "") {
-      listaOrdenada = filtroPalabraClave(filtro.palabraClave, listaOrdenada)
-    }
 
     when (filtro.opcionElegida) {
       "Menor Distancia" -> listaOrdenada = mapToDTO(
@@ -42,6 +38,11 @@ class PuntosDeVentaService(
       )
     }
 
+    if (filtro.palabraClave != "") {
+      listaOrdenada = filtroPalabraClave(filtro.palabraClave, listaOrdenada)
+      println(listaOrdenada)
+    }
+
     return listaOrdenada
   }
 
@@ -49,9 +50,8 @@ class PuntosDeVentaService(
     lista.map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
 
   fun filtroPalabraClave(palabra: String, lista: List<MarketCardDTO>): List<MarketCardDTO> {
-    val idFiguritas = encontrarFiguritaPorPalabraClave(palabra).map { it.id }
-    return lista.filter { it.id in idFiguritas }
+    val idStore = puntosDeVentaRepository.search(palabra).map { it.id }
+    return lista.filter { it.id in idStore }
   }
 
-  fun encontrarFiguritaPorPalabraClave(palabra: String) = puntosDeVentaRepository.search(palabra)
 }

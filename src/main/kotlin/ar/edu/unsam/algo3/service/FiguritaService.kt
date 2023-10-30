@@ -40,9 +40,7 @@ class FiguritaService(
   fun otrosUsuarios(miID: Int) = usuariosRepository.getAll().filter { it.id != miID }
 
   fun filtroPalabraClave(palabra: String, lista: List<FiguritaDTO>): List<FiguritaDTO> {
-    val idFiguritas = encontrarFiguritaPorPalabraClave(palabra).map { it.id }
+    val idFiguritas = figuritaRepository.search(palabra).map { it.id }
     return lista.filter { it.id in idFiguritas }
   }
-
-  fun encontrarFiguritaPorPalabraClave(palabra: String) = figuritaRepository.search(palabra)
 }

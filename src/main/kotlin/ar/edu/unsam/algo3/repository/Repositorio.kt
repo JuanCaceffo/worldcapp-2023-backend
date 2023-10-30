@@ -8,11 +8,7 @@ const val MENSAJE_ERROR_ID_INEXISTENTE = "El ID no corresponde con ningun elemen
 @Repository
 class Repositorio<T : RepositorioProps> {
   var elementos = mutableMapOf<Int, T>()
-
-  companion object {
-    var idCounter = 0
-    fun lastUsedID() = idCounter
-  }
+  var idCounter = 0
 
   fun clear() {
     elementos.clear()
