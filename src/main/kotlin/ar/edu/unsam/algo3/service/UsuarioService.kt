@@ -10,9 +10,9 @@ import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
 
 
-val ERROR_MSG_INVALID_CREDENTIALS = "Las credenciales suministradas son incorrectas"
-val ERROR_MSG_INVALID_REQUESTED_FIGU = "El usuario no posee la figurita solicitada"
-val ERROR_MSG_DONT_REMOVE_FIGURITA = "La figurita no fue eliminada con exito ya que no se encontró en la lista"
+const val ERROR_MSG_INVALID_CREDENTIALS = "Las credenciales suministradas son incorrectas"
+const val ERROR_MSG_INVALID_REQUESTED_FIGU = "El usuario no posee la figurita solicitada"
+const val ERROR_MSG_DONT_REMOVE_FIGURITA = "La figurita no fue eliminada con exito ya que no se encontró en la lista"
 
 @Service
 class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: FiguritasRepository) {

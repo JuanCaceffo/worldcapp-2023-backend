@@ -135,27 +135,27 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
         @Test
         fun `mockeo el request con un determinado usuario al endpoint via get y responde correctamente`() {
             val jsonBody = """
-        {
-            "name": "caceffo",
-            "lastName": "juan",
-            "email": "juanchi@gmail.com",
-            "birthdate": "2003-02-01",
-            "address": {
-                "provincia": "Buenos Aires",
-                "localidad": "San Martin",
-                "calle": "Av. Rodríguez Peña",
-                "altura": 3237,
-                "ubiGeografica": {
-                    "x": -34.58424206690573,
-                    "y": -58.52112943577023
-                }
-            },
-            "exchangeProximity": 5,
-            "criteria": "Desprendido"
-        }
+{
+	"name": "caceffo",
+	"lastName": "juan",
+	"email": "juanchi@gmail.com",
+	"birthdate": "2003-02-01",
+	"address": {
+		"provincia": "Buenos Aires",
+		"localidad": "San Martin",
+		"calle": "Av. Rodríguez Peña",
+		"altura": 3237,
+		"ubiGeografica": {
+			"x": -34.58424206690573,
+			"y": -58.52112943577023
+		}
+	},
+	"exchangeProximity": 5,
+	"criteria": "Nacionalista"
+}
     """
             mockMvc
-                .perform(MockMvcRequestBuilders.get("/user/1/info-profile"))
+                .perform(MockMvcRequestBuilders.get("/user/2/info-profile"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json(jsonBody))
         }
@@ -163,24 +163,24 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
     @Test
     fun `Envio request de edicion de usuario y luego via get responde con los datos que fueron cambiados correctamente`() {
         val jsonBody = """
-        {
-            "name": "Pablo El Loquito Daniel",
-            "lastName": "foglia",
-            "email": "madescoses@gmail.com",
-            "birthdate": "2000-02-01",
-            "address": {
-                "provincia": "Buenos Aires",
-                "localidad": "San Martin",
-                "calle": "matheu",
-                "altura": 3568,
-                "ubiGeografica": {
-                    "x": -34.57461948921918,
-                    "y": -58.5378840940197
-                }
-            },
-            "exchangeProximity": 5,
-            "criteria": "Desprendido"
-        }
+{
+	"name": "Pablo El Loquito Daniel",
+	"lastName": "pablo",
+	"email": "madescoses@gmail.com",
+	"birthdate": "2000-02-01",
+	"address": {
+		"provincia": "Buenos Aires",
+		"localidad": "San Martin",
+		"calle": "matheu",
+		"altura": 3568,
+		"ubiGeografica": {
+			"x": -34.57461948921918,
+			"y": -58.5378840940197
+		}
+	},
+	"exchangeProximity": 5,
+	"criteria": "Desprendido"
+}
     """
         usuario.nombre = "Pablo El Loquito Daniel"
         val infoProfile = usuario.toInfoProfileDTO()
