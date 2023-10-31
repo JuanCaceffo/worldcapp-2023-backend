@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.BussinesExpetion
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
@@ -126,14 +127,14 @@ class UsuarioSpec: DescribeSpec ({
             val figu = Figurita(numero = 9, onFire = false, cantidadImpresa = impresionBaja, jugador = emilianoMartinez)
             it("no se puede reingresar una figurita faltante que ya esta faltantes") {
                 robertito.addFiguritaFaltante(figu)
-                shouldThrow<IllegalArgumentException>{
+                shouldThrow<BussinesExpetion>{
                     robertito.addFiguritaFaltante(figu)
                 }.message shouldBe MENSAJE_ERROR_FIGURITA_ENREPETIDAS
             }
 
             it("no se puede ingresar una figurita faltante que tengo repetida"){
                 robertito.addFiguritaRepetida(figu)
-                shouldThrow<IllegalArgumentException>{
+                shouldThrow<BussinesExpetion>{
                     robertito.addFiguritaFaltante(figu)
                 }.message shouldBe MENSAJE_ERROR_FIGURITA_ENFALTANTES
             }
