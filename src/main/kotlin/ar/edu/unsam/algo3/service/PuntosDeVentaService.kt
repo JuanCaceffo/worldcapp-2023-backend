@@ -16,25 +16,25 @@ class PuntosDeVentaService(
   fun getAll(userId: Int): List<MarketCardDTO> =
     puntosDeVentaRepository.getAll().map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
 
-  fun obtenerPuntosDeVentaFiltrados(filtro: FiltroPuntoDeVenta): List<MarketCardDTO> {
-    var listaOrdenada = getAll(filtro.idUsuario)
+  fun obtenerPuntosDeVentaFiltrados(userLogedID: Int,filtro: FiltroPuntoDeVenta): List<MarketCardDTO> {
+    var listaOrdenada = getAll(userLogedID)
 
     when (filtro.opcionElegida) {
       "Menor Distancia" -> listaOrdenada = mapToDTO(
-        filtro.idUsuario,
-        puntosDeVentaRepository.ordenarPorMenorDistancia(usuariosRepository.getById(filtro.idUsuario))
+        userLogedID,
+        puntosDeVentaRepository.ordenarPorMenorDistancia(usuariosRepository.getById(userLogedID))
       )
 
       "Más Barato" -> listaOrdenada = mapToDTO(
-        filtro.idUsuario,
-        puntosDeVentaRepository.ordenarPorMasBarato(usuariosRepository.getById(filtro.idUsuario))
+        userLogedID,
+        puntosDeVentaRepository.ordenarPorMasBarato(usuariosRepository.getById(userLogedID))
       )
 
-      "Más Sobres" -> listaOrdenada = mapToDTO(filtro.idUsuario, puntosDeVentaRepository.ordenarPorMasSobres())
+      "Más Sobres" -> listaOrdenada = mapToDTO(userLogedID, puntosDeVentaRepository.ordenarPorMasSobres())
 
       "Sólo más Cercanos" -> listaOrdenada = mapToDTO(
-        filtro.idUsuario,
-        puntosDeVentaRepository.ordenarPorSoloMasCercanos(usuariosRepository.getById(filtro.idUsuario))
+        userLogedID,
+        puntosDeVentaRepository.ordenarPorSoloMasCercanos(usuariosRepository.getById(userLogedID))
       )
     }
 

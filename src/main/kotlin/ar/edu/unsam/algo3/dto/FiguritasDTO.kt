@@ -10,7 +10,7 @@ data class TemplateFiguritaDTO(
   val nivelImpresion: String,
 )
 
-fun Figurita.toDTO(user: Usuario) = FiguritaDTO(
+fun Figurita.toDTO(user: Usuario?) = FiguritaDTO(
   id = this.id,
   numero = this.numero,
   onFire = this.onFire,
@@ -33,8 +33,8 @@ fun Figurita.toDTO(user: Usuario) = FiguritaDTO(
   confederacionCopas = this.jugador.seleccionPerteneciente.copasConfederacion,
   esLider = this.jugador.esLider,
   valoracion = this.jugador.valoracionJugador(),
-  duenio = user.nombreUsuario,
-  idUsuario = user.id
+  duenio = (user?.nombreUsuario ?: ""),
+  idUsuario = user?.id ?: -1
 )
 
 data class FiguritaDTO(

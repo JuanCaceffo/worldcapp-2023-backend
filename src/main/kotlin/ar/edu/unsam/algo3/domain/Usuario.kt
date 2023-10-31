@@ -9,6 +9,8 @@ const val MENSAJE_ERROR_INGRESAR_EMAIL = "Debe ingresar un email"
 const val MENSAJE_ERROR_DESACTIVAR_ACCION = "No puede desactivar una accion que nunca fue activada"
 const val MENSAJE_ERROR_FIGURITA_INACCESIBLE = "El usuario no puede otrogar la figurita solicitada"
 const val MENSAJE_ERROR_USUARIO_LEJANO = "El usuario al que le intenta solicitar la figurita esta demasiado lejos"
+const val MENSAJE_ERROR_FIGURITA_ENFALTANTES = "La figurita que intenta agregar a repetidas esta en faltantes"
+const val MENSAJE_ERROR_FIGURITA_ENREPETIDAS = "La figurita que intenta agregar a faltantes esta en repetidas"
 
 data class Usuario(
     var nombre: String,
@@ -117,13 +119,13 @@ data class Usuario(
     //---------------------- VALIDACIONES -------------------------//
     private fun validarRepetidaExistente(figurita: Figurita) {
         if (figuritasRepetidas.contains(figurita)){
-            throw IllegalArgumentException(MENSAJE_ERROR_FIGURITA_ENFALTANTES)
+            throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENFALTANTES)
         }
     }
 
     private fun validarFaltanteExistente(figurita: Figurita) {
         if(figuritasFaltantes.contains(figurita)){
-            throw IllegalArgumentException(MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
+            throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
         }
     }
 

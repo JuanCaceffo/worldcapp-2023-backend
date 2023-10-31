@@ -34,15 +34,17 @@ class FiguritaService(
 
     return listaFiltrada
   }
-  fun obtenerFiguritasParaIntercambiar(filtro: FiltroFigurita): List<FiguritaDTO> {
-    val otros = this.otrosUsuarios(filtro.idUsuario)
+  fun obtenerFiguritasParaIntercambiar(logedUserid:Int,filtro: FiltroFigurita): List<FiguritaDTO> {
+    val otros = this.otrosUsuarios(logedUserid)
     var listaFigus = otros.flatMap { it.listaFiguritasARegalar().map { figu -> figu.toDTO(it) } }
 
     return filtrarFigus(listaFigus,filtro)
   }
 
-  fun obtenerFiguritasAgregables(logedUserID: Int, tipoFigus: TipoFiguList) {
-    val user = usuariosRepository.getById(logedUserID)
+  fun obtenerFiguritasAgregables(filtro: FiltroFigurita): List<FiguritaDTO> {
+    val listaFigusAgregablesDTO = figuritaRepository.getAll().map { figu -> figu.toDTO(null) }
+
+    return filtrarFigus(listaFigusAgregablesDTO, filtro)
   }
 
   fun pedirValoracion (id: Int) = figuritaRepository.getById(id).valoracion() 

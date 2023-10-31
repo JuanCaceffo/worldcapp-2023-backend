@@ -17,11 +17,10 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     @RequestParam(name= "opcionElegida", required = false, defaultValue = "") opcionElegida: String
   ): List<MarketCardDTO> {
     val filtro = FiltroPuntoDeVenta(
-      idUsuario = id,
       palabraClave = palabraClave,
       opcionElegida = opcionElegida,
     )
     println(filtro)
-    return this.puntosDeVentaService.obtenerPuntosDeVentaFiltrados(filtro)
+    return this.puntosDeVentaService.obtenerPuntosDeVentaFiltrados(id,filtro)
   }
 }
