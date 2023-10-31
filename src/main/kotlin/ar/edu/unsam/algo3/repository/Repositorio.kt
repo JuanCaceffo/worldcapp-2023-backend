@@ -3,7 +3,7 @@ package ar.edu.unsam.algo3.repository
 import ar.edu.unsam.algo3.error.NotFoundException
 import org.springframework.stereotype.Repository
 
-const val MENSAJE_ERROR_ID_INEXISTENTE = "El ID no corresponde con ningun elementod del repositorio"
+const val MENSAJE_ERROR_ID_INEXISTENTE = "El ID no corresponde con ningun elemento del repositorio"
 
 @Repository
 class Repositorio<T : RepositorioProps> {
