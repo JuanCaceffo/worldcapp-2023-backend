@@ -66,9 +66,9 @@ class UserController(val userService: UsuarioService) {
         userService.deleteFigurita(userID,figuID,figusList)
     }
 
-    @PatchMapping("${INTIAL_PATH}/{userID}/agregar-figurita/{figusList}/{figuID}")
+    @PatchMapping("${INTIAL_PATH}/agregar-figurita")
     @Operation(summary = "Permite agregar una figurita a determinada lista del usaurio")
-    fun agregarFigurita(@PathVariable userID: Int, @PathVariable figuID: Int, @PathVariable figusList: TipoFiguList){
-        userService.agregarFigurita(userID,figuID,figusList)
+    fun agregarFigurita(@RequestBody figuToAddData: AddFiguDTO){
+        userService.agregarFigurita(figuToAddData)
     }
 }

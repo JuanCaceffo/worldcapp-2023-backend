@@ -93,11 +93,11 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
         }
     }
 
-    fun agregarFigurita(id: Int,figuId: Int ,figusList: TipoFiguList) {
-        val user = searchByID(id)
-        val figu = figurtiasRepo.getById(figuId)
+    fun agregarFigurita(figuToAddData: AddFiguDTO) {
+        val user = searchByID(figuToAddData.userLogedID)
+        val figu = figurtiasRepo.getById(figuToAddData.FiguID)
 
-        when (figusList) {
+        when (figuToAddData.figuList) {
             TipoFiguList.FALTANTES -> {
                 user.addFiguritaFaltante(figu)
             }

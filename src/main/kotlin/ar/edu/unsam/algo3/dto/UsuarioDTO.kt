@@ -14,6 +14,7 @@ data class UsuarioLoginDTO (val userName: String, val password: String)
 data class UsuarioLogeadoDTO (val userLogedID: Int)
 data class UsuarioFiguDTO (val idUsuario: Int, val duenio: String)
 data class RequestFiguDTO(val userLogedID: Int, val requestedUserID: Int, val requestedFiguID: Int)
+data class AddFiguDTO(val userLogedID: Int, val FiguID: Int, val figuList: TipoFiguList)
 data class UsuarioInfoProfileDTO(var name: String, val lastName: String, val email: String, val birthdate: String, val address: Direccion, val exchangeProximity: Int, val criteria: String)
 //TODO: Ver location en UsuarioInfoDTO ya que si el usuario la cambia de info general debe cambiar aca
 data class UsuarioInfoDTO(var username: String, val age: Int, var location: String, val picturePath: String)
