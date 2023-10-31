@@ -5,6 +5,7 @@ import ar.edu.unsam.algo3.domain.Usuario
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
 
@@ -14,7 +15,7 @@ val ERROR_MSG_INVALID_REQUESTED_FIGU = "El usuario no posee la figurita solicita
 val ERROR_MSG_DONT_REMOVE_FIGURITA = "La figurita no fue eliminada con exito ya que no se encontró en la lista"
 
 @Service
-class UsuarioService(val usuarioRepo: UsuariosRepository) {
+class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: FiguritasRepository) {
     fun login(dataUser: UsuarioLoginDTO): UsuarioLogeadoDTO {
         //TODO: hacer el filtrado en repository para no guardar todos los usarios en memoria del sv
         val user = usuarioRepo.getAll()
@@ -90,5 +91,21 @@ class UsuarioService(val usuarioRepo: UsuariosRepository) {
                 validiationRemove(isRemoved)
             }
         }
+    }
+
+    fun agregarFigurita(id: Int,figuId: Int ,figusList: TipoFiguList) {
+        val user = searchByID(id)
+        val figu = figurtiasRepo.getById(figuId)
+
+        when (figusList) {
+            TipoFiguList.FALTANTES -> {
+                user.addFiguritaFaltante(figu)
+            }
+
+            TipoFiguList.REPETIDAS -> {
+                user.addFiguritaRepetida(figu)
+            }
+        }
+        figurtiasRepo.delete(figu)
     }
 }
