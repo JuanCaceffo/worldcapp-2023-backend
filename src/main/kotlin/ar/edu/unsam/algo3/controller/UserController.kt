@@ -1,6 +1,5 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Usuario
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.UsuarioService
 import io.swagger.v3.oas.annotations.Operation
@@ -51,7 +50,7 @@ class UserController(val userService: UsuarioService) {
 
     @GetMapping("${INTIAL_PATH}/{id}/lista-figus/{figusList}")
     @Operation(summary = "permite obtener la lista de figuritas x del usaurio")
-    fun getMissingFigus(@PathVariable id: Int, @PathVariable figusList: TipoFiguList): List<FiguritaDTO> {
+    fun getFigusList(@PathVariable id: Int, @PathVariable figusList: TipoFiguList): List<FiguritaDTO> {
         return userService.getFigusList(id,figusList)
     }
 
