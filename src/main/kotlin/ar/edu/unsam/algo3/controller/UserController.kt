@@ -60,10 +60,16 @@ class UserController(val userService: UsuarioService) {
         return userService.getFigusList(id,figusList)
     }
 
-    @DeleteMapping("${INTIAL_PATH}/{userID}/figurita/{figuID}/lista-figus/{figusList}")
-    @Operation(summary="Permite eliminar una figurita del usuario de deteminada lista")
-    fun deleteFigurita(@PathVariable userID: Int, @PathVariable figuID: Int, @PathVariable figusList: TipoFiguList){
-        userService.deleteFigurita(userID,figuID,figusList)
+    @DeleteMapping("${INTIAL_PATH}/{userID}/eliminar-figu-repe/{figuID}")
+    @Operation(summary="Permite eliminar una figurita repetida del usuario")
+    fun deleteFiguritaRepe(@PathVariable userID: Int, @PathVariable figuID: Int){
+        userService.deleteFiguDuplciate(userID,figuID)
+    }
+
+    @DeleteMapping("${INTIAL_PATH}/{userID}/eliminar-figu-faltante/{figuID}")
+    @Operation(summary="Permite eliminar una figurita faltante del usuario")
+    fun deleteFiguritaFaltante(@PathVariable userID: Int, @PathVariable figuID: Int){
+        userService.deleteFiguFaltante(userID,figuID)
     }
 
     @PatchMapping("${INTIAL_PATH}/agregar-figurita")
