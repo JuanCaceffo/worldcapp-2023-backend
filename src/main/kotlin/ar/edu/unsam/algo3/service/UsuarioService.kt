@@ -94,18 +94,16 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
         deleteFigurita(user.figuritasFaltantes,figuID)
     }
 
-    fun agregarFigurita(figuToAddData: AddFiguDTO) {
+    fun addFiguFaltante(figuToAddData: AddFiguDTO){
         val user = searchByID(figuToAddData.userLogedID)
         val figu = figurtiasRepo.getById(figuToAddData.FiguID)
 
-        when (figuToAddData.figuList) {
-            TipoFiguList.FALTANTES -> {
-                user.addFiguritaFaltante(figu)
-            }
+        user.addFiguritaFaltante(figu)
+    }
+    fun addFiguRepe(figuToAddData: AddFiguDTO){
+        val user = searchByID(figuToAddData.userLogedID)
+        val figu = figurtiasRepo.getById(figuToAddData.FiguID)
 
-            TipoFiguList.REPETIDAS -> {
-                user.addFiguritaRepetida(figu)
-            }
-        }
+        user.addFiguritaRepetida(figu)
     }
 }

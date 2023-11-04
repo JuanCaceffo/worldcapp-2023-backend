@@ -72,9 +72,15 @@ class UserController(val userService: UsuarioService) {
         userService.deleteFiguFaltante(userID,figuID)
     }
 
-    @PatchMapping("${INTIAL_PATH}/agregar-figurita")
-    @Operation(summary = "Permite agregar una figurita a determinada lista del usaurio")
-    fun agregarFigurita(@RequestBody figuToAddData: AddFiguDTO){
-        userService.agregarFigurita(figuToAddData)
+    @PatchMapping("${INTIAL_PATH}/agregar-figurita-faltante")
+    @Operation(summary = "Permite agregar una figurita a la lista de faltantes del usuario")
+    fun agregarFiguritaFaltante(@RequestBody figuToAddData: AddFiguDTO){
+        userService.addFiguFaltante(figuToAddData)
+    }
+
+    @PatchMapping("${INTIAL_PATH}/agregar-figurita-repetida")
+    @Operation(summary = "Permite agregar una figurita a la lista de repetidas del usuario")
+    fun agregarFiguritaRepetida(@RequestBody figuToAddData: AddFiguDTO){
+        userService.addFiguRepe(figuToAddData)
     }
 }
