@@ -11,6 +11,7 @@ const val MENSAJE_ERROR_FIGURITA_INACCESIBLE = "El usuario no puede otrogar la f
 const val MENSAJE_ERROR_USUARIO_LEJANO = "El usuario al que le intenta solicitar la figurita esta demasiado lejos"
 const val MENSAJE_ERROR_FIGURITA_ENFALTANTES = "La figurita que intenta agregar a repetidas esta en faltantes"
 const val MENSAJE_ERROR_FIGURITA_ENREPETIDAS = "La figurita que intenta agregar a faltantes esta en repetidas"
+const val MENSJAE_ERROR_FALTANTE_YA_AGREGADA = "La figurita que intenta agregar a faltantes ya esta agregada"
 
 data class Usuario(
     var nombre: String,
@@ -87,13 +88,13 @@ data class Usuario(
                                                         Comparar.total(value, listOf(nombreUsuario))
 
     fun addFiguritaFaltante(figurita: Figurita) {
-        validarFaltanteExistente(figurita)
+        validarFaltanteExistente(figurita,MENSJAE_ERROR_FALTANTE_YA_AGREGADA)
         validarRepetidaExistente(figurita)
         figuritasFaltantes.add(figurita)
     }
 
     fun addFiguritaRepetida(figurita:Figurita){
-        validarFaltanteExistente(figurita)
+        validarFaltanteExistente(figurita, MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
         figuritasRepetidas.add(figurita)
     }
 
@@ -123,9 +124,9 @@ data class Usuario(
         }
     }
 
-    private fun validarFaltanteExistente(figurita: Figurita) {
+    private fun validarFaltanteExistente(figurita: Figurita, msg: String) {
         if(figuritasFaltantes.contains(figurita)){
-            throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
+            throw BussinesExpetion(msg)
         }
     }
 

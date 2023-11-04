@@ -106,6 +106,5 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
                 user.addFiguritaRepetida(figu)
             }
         }
-        figurtiasRepo.delete(figu)
     }
 }
