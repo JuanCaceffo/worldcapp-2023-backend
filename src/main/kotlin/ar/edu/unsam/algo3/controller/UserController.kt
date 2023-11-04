@@ -23,11 +23,6 @@ class UserController(val userService: UsuarioService) {
     @Operation(summary = "Permite logear un usuario al sistema.",)
     fun loginUser(@RequestBody dataUser: UsuarioLoginDTO): UsuarioLogeadoDTO = userService.login(dataUser)
 
-    @GetMapping("${INTIAL_PATH}/{id}")
-    @Operation(summary = "Permite buscar un usuario por ID")
-    //TODO: Serializar datos necesarios del usuario para el front
-    fun searchUser(@PathVariable id: Int): Usuario = userService.searchByID(id)
-
     @GetMapping("${INTIAL_PATH}/{id}/info-profile")
     @Operation(summary = "Obtiene la info del profile del usuario")
     fun getProfileInfo(@PathVariable id: Int): UsuarioInfoProfileDTO = userService.getProfileInfo(id)
