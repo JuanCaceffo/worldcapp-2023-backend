@@ -2,7 +2,6 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.FiltroFigurita
 import ar.edu.unsam.algo3.dto.FiguritaDTO
-import ar.edu.unsam.algo3.dto.TipoFiguList
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository

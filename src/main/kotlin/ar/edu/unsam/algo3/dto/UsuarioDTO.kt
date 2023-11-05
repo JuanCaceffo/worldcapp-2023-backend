@@ -5,11 +5,6 @@ import ar.edu.unsam.algo3.error.BussinesExpetion
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 
-enum class TipoFiguList{
-    FALTANTES,
-    REPETIDAS
-}
-
 data class UsuarioLoginDTO (val userName: String, val password: String)
 data class UsuarioLogeadoDTO (val userLogedID: Int)
 data class UsuarioFiguDTO (val idUsuario: Int, val duenio: String)
