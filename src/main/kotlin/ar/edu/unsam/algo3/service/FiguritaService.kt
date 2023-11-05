@@ -2,7 +2,6 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.FiltroFigurita
 import ar.edu.unsam.algo3.dto.FiguritaDTO
-import ar.edu.unsam.algo3.dto.TipoFiguList
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
@@ -41,13 +40,20 @@ class FiguritaService(
     return filtrarFigus(listaFigus,filtro)
   }
 
-  fun obtenerFiguritasAgregables(filtro: FiltroFigurita): List<FiguritaDTO> {
+  fun obtenerFigusRepesAgregables(filtro: FiltroFigurita): List<FiguritaDTO> {
     val listaFigusAgregablesDTO = figuritaRepository.getAll().map { figu -> figu.toDTO(null) }
 
     return filtrarFigus(listaFigusAgregablesDTO, filtro)
   }
 
-  fun pedirValoracion (id: Int) = figuritaRepository.getById(id).valoracion() 
+  fun obtenerFigusFaltantesAgregables(userID: Int,filtro: FiltroFigurita): List<FiguritaDTO> {
+    val userFaltentesList = usuariosRepository.getById(userID).figuritasFaltantes.toList()
+    val figusFaltantesAUsuario = figuritaRepository.getAll().filter { figu -> !userFaltentesList.contains(figu)  }
+
+    return filtrarFigus(figusFaltantesAUsuario.map { figu -> figu.toDTO(null) }, filtro)
+  }
+
+  fun pedirValoracion (id: Int) = figuritaRepository.getById(id).valoracion()
 
   fun otrosUsuarios(miID: Int) = usuariosRepository.getAll().filter { it.id != miID }
 

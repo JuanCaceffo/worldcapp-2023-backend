@@ -60,52 +60,45 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
         return user.toUserInfoDTO()
     }
 
-    fun getFigusList(id: Int, figusList: TipoFiguList): List<FiguritaDTO> {
+    fun getFigusFaltantes(id: Int): List<FiguritaDTO> {
         val user = searchByID(id)
-
-        val list: List<Figurita> = when (figusList) {
-            TipoFiguList.FALTANTES -> {
-                user.figuritasFaltantes.toList()
-            }
-
-            TipoFiguList.REPETIDAS -> {
-                user.figuritasRepetidas
-            }
-        }
-        return list.map { figu -> figu.toDTO(user) }
+        return user.figuritasFaltantes.toList().map { figu -> figu.toDTO(user) }
     }
 
-    fun deleteFigurita(userID: Int, figuID: Int, figusList: TipoFiguList) {
-        fun validiationRemove(isRemoved:Boolean){
-            if (!isRemoved) throw BussinesExpetion(ERROR_MSG_DONT_REMOVE_FIGURITA)
-        }
+    fun getFigusRepes(userID:Int): List<FiguritaDTO>{
         val user = searchByID(userID)
-        when (figusList) {
-            TipoFiguList.FALTANTES -> {
-                val isRemoved = user.figuritasFaltantes.removeIf { figu -> figu.id == figuID }
-                validiationRemove(isRemoved)
-            }
-
-            TipoFiguList.REPETIDAS -> {
-                val isRemoved = user.figuritasRepetidas.removeIf { figu -> figu.id == figuID }
-                validiationRemove(isRemoved)
-            }
-        }
+        return user.figuritasRepetidas.map { figu -> figu.toDTO(user) }
     }
 
-    fun agregarFigurita(figuToAddData: AddFiguDTO) {
+    fun validiationRemove(isRemoved:Boolean){
+        if (!isRemoved) throw BussinesExpetion(ERROR_MSG_DONT_REMOVE_FIGURITA)
+    }
+
+    fun deleteFiguDuplciate(userID: Int, figuID: Int) {
+        val userRepesList = searchByID(userID).figuritasRepetidas
+        val index =  userRepesList.indexOfFirst { figu -> figu.id == figuID }
+        validiationRemove(index >= 0)
+        println("indexs "+ userRepesList.size)
+        println(index)
+        userRepesList.removeAt(index)
+    }
+
+    fun deleteFiguFaltante(userID: Int, figuID: Int) {
+        val user = searchByID(userID)
+        val isRemoved = user.figuritasFaltantes.removeIf{figu -> figu.id == figuID}
+        validiationRemove(isRemoved)
+    }
+
+    fun addFiguFaltante(figuToAddData: AddFiguDTO){
         val user = searchByID(figuToAddData.userLogedID)
         val figu = figurtiasRepo.getById(figuToAddData.FiguID)
 
-        when (figuToAddData.figuList) {
-            TipoFiguList.FALTANTES -> {
-                user.addFiguritaFaltante(figu)
-            }
+        user.addFiguritaFaltante(figu)
+    }
+    fun addFiguRepe(figuToAddData: AddFiguDTO){
+        val user = searchByID(figuToAddData.userLogedID)
+        val figu = figurtiasRepo.getById(figuToAddData.FiguID)
 
-            TipoFiguList.REPETIDAS -> {
-                user.addFiguritaRepetida(figu)
-            }
-        }
-        figurtiasRepo.delete(figu)
+        user.addFiguritaRepetida(figu)
     }
 }
