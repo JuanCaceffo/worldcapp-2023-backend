@@ -48,10 +48,16 @@ class UserController(val userService: UsuarioService) {
     @Operation(summary = "Permite actualizar el username del usuario")
     fun editUserUsername(@RequestBody userInfo: UsuarioInfoDTO,  @PathVariable id: Int): UsuarioInfoDTO = userService.editUserUsername(userInfo, id)
 
-    @GetMapping("${INTIAL_PATH}/{id}/lista-figus/{figusList}")
-    @Operation(summary = "permite obtener la lista de figuritas x del usaurio")
-    fun getFigusList(@PathVariable id: Int, @PathVariable figusList: TipoFiguList): List<FiguritaDTO> {
-        return userService.getFigusList(id,figusList)
+    @GetMapping("${INTIAL_PATH}/{id}/lista-figus-repetidas")
+    @Operation(summary = "permite obtener la lista de figuritas repetidas del usaurio")
+    fun getFigusRepes(@PathVariable id: Int): List<FiguritaDTO> {
+        return userService.getFigusRepes(id)
+    }
+
+    @GetMapping("${INTIAL_PATH}/{id}/lista-figus-faltantes")
+    @Operation(summary = "permite obtener la lista de figuritas faltantes del usaurio")
+    fun getFigusFaltantes(@PathVariable id: Int): List<FiguritaDTO> {
+        return userService.getFigusFaltantes(id)
     }
 
     @DeleteMapping("${INTIAL_PATH}/{userID}/eliminar-figu-repe/{figuID}")

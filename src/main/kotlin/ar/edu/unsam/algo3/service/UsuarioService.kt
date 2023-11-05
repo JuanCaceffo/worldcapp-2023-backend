@@ -60,19 +60,14 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
         return user.toUserInfoDTO()
     }
 
-    fun getFigusList(id: Int, figusList: TipoFiguList): List<FiguritaDTO> {
+    fun getFigusFaltantes(id: Int): List<FiguritaDTO> {
         val user = searchByID(id)
+        return user.figuritasFaltantes.toList().map { figu -> figu.toDTO(user) }
+    }
 
-        val list: List<Figurita> = when (figusList) {
-            TipoFiguList.FALTANTES -> {
-                user.figuritasFaltantes.toList()
-            }
-
-            TipoFiguList.REPETIDAS -> {
-                user.figuritasRepetidas
-            }
-        }
-        return list.map { figu -> figu.toDTO(user) }
+    fun getFigusRepes(userID:Int): List<FiguritaDTO>{
+        val user = searchByID(userID)
+        return user.figuritasRepetidas.map { figu -> figu.toDTO(user) }
     }
 
 
