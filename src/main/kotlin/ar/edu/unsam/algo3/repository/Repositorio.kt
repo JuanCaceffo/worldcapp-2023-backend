@@ -12,6 +12,7 @@ class Repositorio<T : RepositorioProps> {
 
   fun clear() {
     elementos.clear()
+    idCounter = 0
   }
 
   fun getAll(): List<T> = elementos.values.toList()

@@ -151,11 +151,11 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
 		}
 	},
 	"exchangeProximity": 5,
-	"criteria": "Nacionalista"
+	"criteria": "Desprendido"
 }
     """
             mockMvc
-                .perform(MockMvcRequestBuilders.get("/user/2/info-profile"))
+                .perform(MockMvcRequestBuilders.get("/user/1/info-profile"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json(jsonBody))
         }
@@ -165,7 +165,7 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
         val jsonBody = """
 {
 	"name": "Pablo El Loquito Daniel",
-	"lastName": "pablo",
+	"lastName": "foglia",
 	"email": "madescoses@gmail.com",
 	"birthdate": "2000-02-01",
 	"address": {
@@ -186,14 +186,14 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
         val infoProfile = usuario.toInfoProfileDTO()
         mockMvc.perform(
             MockMvcRequestBuilders
-                .patch("/user/1/info-profile")
+                .patch("/user/0/info-profile")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(infoProfile)))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json(jsonBody))
         mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/user/1/info-profile"))
+                .get("/user/0/info-profile"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().json(jsonBody))
     }
