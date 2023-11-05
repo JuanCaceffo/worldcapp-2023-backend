@@ -70,23 +70,23 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
         return user.figuritasRepetidas.map { figu -> figu.toDTO(user) }
     }
 
-
-    fun deleteFigurita(figuList:MutableCollection<Figurita>, figuID: Int) {
-        fun validiationRemove(isRemoved:Boolean){
-            if (!isRemoved) throw BussinesExpetion(ERROR_MSG_DONT_REMOVE_FIGURITA)
-        }
-        val isRemoved =  figuList.removeIf { figu -> figu.id == figuID }
-        validiationRemove(isRemoved)
+    fun validiationRemove(isRemoved:Boolean){
+        if (!isRemoved) throw BussinesExpetion(ERROR_MSG_DONT_REMOVE_FIGURITA)
     }
 
     fun deleteFiguDuplciate(userID: Int, figuID: Int) {
-        val user = searchByID(userID)
-        deleteFigurita(user.figuritasRepetidas,figuID)
+        val userRepesList = searchByID(userID).figuritasRepetidas
+        val index =  userRepesList.indexOfFirst { figu -> figu.id == figuID }
+        validiationRemove(index >= 0)
+        println("indexs "+ userRepesList.size)
+        println(index)
+        userRepesList.removeAt(index)
     }
 
     fun deleteFiguFaltante(userID: Int, figuID: Int) {
         val user = searchByID(userID)
-        deleteFigurita(user.figuritasFaltantes,figuID)
+        val isRemoved = user.figuritasFaltantes.removeIf{figu -> figu.id == figuID}
+        validiationRemove(isRemoved)
     }
 
     fun addFiguFaltante(figuToAddData: AddFiguDTO){
