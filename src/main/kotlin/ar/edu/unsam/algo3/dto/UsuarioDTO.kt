@@ -19,32 +19,35 @@ fun Usuario.dataFiguritaDTO() = UsuarioFiguDTO(this.id, this.nombreUsuario)
 fun Usuario.toInfoProfileDTO() = UsuarioInfoProfileDTO(this.nombre, this.apellido, this.email, this.fechaNacimiento.toString(), this.direccion, this.distanciaMaximaCercania, this.condicionParaDar.criterioParaCambio())
 fun Usuario.toUserInfoDTO() = UsuarioInfoDTO(this.nombreUsuario, this.edad(), this.direccion.localidad, this.imagenPath)
 fun Usuario.setInfoProfileDTO(infoProfile: UsuarioInfoProfileDTO){
-    this.nombre = infoProfile.name
-    this.apellido = infoProfile.lastName
-    this.email = infoProfile.email
-    this.fechaNacimiento = LocalDate.parse(infoProfile.birthdate)
-    this.direccion = Direccion(
-        provincia = infoProfile.address.provincia,
-        localidad = infoProfile.address.localidad,
-        calle = infoProfile.address.calle,
-        altura = infoProfile.address.altura,
-        ubiGeografica = Point(infoProfile.address.ubiGeografica.x, infoProfile.address.ubiGeografica.y))
-    this.distanciaMaximaCercania = infoProfile.exchangeProximity
+    try{
+        this.nombre = infoProfile.name.takeIf { it.isNotEmpty() } ?: throw BussinesExpetion("Ingrese un nombre válido")
+        this.apellido = infoProfile.lastName.takeIf { it.isNotEmpty() } ?: throw BussinesExpetion("Ingrese un apellido válido")
+        this.email = infoProfile.email.takeIf { it.isNotEmpty() && it.contains('@') } ?: throw BussinesExpetion("Ingrese un email válido")
+        this.fechaNacimiento = LocalDate.parse(infoProfile.birthdate)
+        this.direccion = Direccion(
+            provincia = infoProfile.address.provincia,
+            localidad = infoProfile.address.localidad,
+            calle = infoProfile.address.calle,
+            altura = infoProfile.address.altura,
+            ubiGeografica = Point(infoProfile.address.ubiGeografica.x, infoProfile.address.ubiGeografica.y))
+        this.distanciaMaximaCercania = infoProfile.exchangeProximity
 
-    val condicionesMap: Map<String, CondicionesParaDar> = mapOf(
-        "Desprendido"   to Desprendido(this),
-        "Par"           to Par(this),
-        "Nacionalista"  to Nacionalista(this),
-        "Conservador"   to Conservador(this),
-        "Apostador"     to Apostador(this),
-        "Interesado"    to Interesado(this),
-        "Cambiante"     to Cambiante(this),
-        "Fanatico"      to Fanatico(this)
-    )
+        val condicionesMap: Map<String, CondicionesParaDar> = mapOf(
+            "Desprendido"   to Desprendido(this),
+            "Par"           to Par(this),
+            "Nacionalista"  to Nacionalista(this),
+            "Conservador"   to Conservador(this),
+            "Apostador"     to Apostador(this),
+            "Interesado"    to Interesado(this),
+            "Cambiante"     to Cambiante(this),
+            "Fanatico"      to Fanatico(this)
+        )
 
-    val criterioIntercambio: CondicionesParaDar = condicionesMap[infoProfile.criteria]
-        ?: throw BussinesExpetion("Criterio de intercambio inexistente")
+        val criterioIntercambio: CondicionesParaDar = condicionesMap[infoProfile.criteria]
+            ?: throw BussinesExpetion("Criterio de intercambio inexistente")
 
-    this.modificarComportamientoIntercambio(criterioIntercambio)
-
+        this.modificarComportamientoIntercambio(criterioIntercambio)
+    }catch(e: BussinesExpetion){
+        throw BussinesExpetion(e.message ?: "Error desconocido")
+    }
 }
