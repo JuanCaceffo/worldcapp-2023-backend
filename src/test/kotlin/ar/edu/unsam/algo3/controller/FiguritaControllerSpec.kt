@@ -51,4 +51,11 @@ class FiguritaControllerSpec(@Autowired val mockMvc: MockMvc){
       .andExpect(MockMvcResultMatchers.status().isOk)
       .andExpect(MockMvcResultMatchers.content().json(figuritaPepe))
   }
+
+  @Test
+  fun `puedo hacer una llamada al endpoint via get con un ID inexistente y obtengo error 404`() {
+    mockMvc
+      .perform(MockMvcRequestBuilders.get("/figuritas/intercambiar/-1"))
+      .andExpect(MockMvcResultMatchers.status().isNotFound)
+  }
 }
