@@ -30,7 +30,7 @@ class PuntosDeVentaService(
         puntosDeVentaRepository.ordenarPorMasBarato(usuariosRepository.getById(userLogedID))
       )
 
-      "Más Sobres" -> listaOrdenada = mapToDTO(userLogedID, puntosDeVentaRepository.ordenarPorMasSobres())
+      "Más Sobres" -> listaOrdenada = mapToDTO(userLogedID, puntosDeVentaRepository.ordenarPorMasSobres()).reversed()
 
       "Sólo más Cercanos" -> listaOrdenada = mapToDTO(
         userLogedID,
