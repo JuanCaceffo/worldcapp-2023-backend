@@ -120,7 +120,7 @@ data class Usuario(
     //---------------------- VALIDACIONES -------------------------//
     private fun validarRepetidaExistente(figurita: Figurita) {
         if (figuritasRepetidas.contains(figurita)){
-            throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENFALTANTES)
+            throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
         }
     }
 
