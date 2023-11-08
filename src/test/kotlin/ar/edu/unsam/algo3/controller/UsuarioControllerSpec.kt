@@ -105,6 +105,7 @@ class UsuarioControllerSpec(@Autowired val mockMvc: MockMvc) {
     }
     @Test
     fun `Al utilizar el endpoint de patch para que el usuario logeado le pida una figu a otro sale bien`(){
+        usuarioLogeado.addFiguritaFaltante(figusRepositorty.getById(0))
         repeat(2){usuario.addFiguritaRepetida(figusRepositorty.getById(0))}
         val ReqeustData = RequestFiguDTO(userLogedID = 1, requestedFiguID = 0, requestedUserID = 0)
         mockMvc
