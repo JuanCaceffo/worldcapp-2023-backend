@@ -95,7 +95,7 @@ data class Usuario(
     }
 
     fun addFiguritaRepetida(figurita:Figurita){
-        validarFaltanteExistente(figurita, MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
+        validarFaltanteExistente(figurita, MENSAJE_ERROR_FIGURITA_ENFALTANTES)
         figuritasRepetidas.add(figurita)
     }
 
