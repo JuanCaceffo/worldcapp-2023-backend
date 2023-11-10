@@ -32,7 +32,7 @@ class ConvertirUsuarioEnDesprendido(): AccionesUsuarios() {
 
     override fun ejecutarAccion(usuario: Usuario, figurita: Figurita) {
         if(seCumpleCondicion(usuario)){
-            usuario.modificarComportamientoIntercambio(Desprendido())
+            usuario.modificarComportamientoIntercambio(Desprendido(usuario))
         }
     }
 
@@ -97,20 +97,20 @@ class IncorporarFiguritaARepetidasReservadas(usuario: Usuario, vararg figuritas:
         if (figusNoRepetidas.isNotEmpty())
             throw IllegalArgumentException("Se pasaron figuritas que el usuario ${usuario.nombreUsuario} no tiene repetidas: $figusNoRepetidas")
         figuritas.forEach { figurita ->
-            usuario.figuritas.remove(figurita)
+            usuario.figuritasRepetidas.remove(figurita)
             figuritasReservadas.add(figurita)
         }
     }
 
-    override fun ejecutarAccion(usuario: Usuario, figuritaSolicitada: Figurita){
-        if (usuario.figuritasRepetidas().isNotEmpty())
+    override fun ejecutarAccion(usuario: Usuario, figurita: Figurita){
+        if (usuario.figuritasRepetidas.isNotEmpty())
             return
         
         val reservadasRegalables = figuritasReservadasRegalablesPor(usuario)
         if (reservadasRegalables.isEmpty())
             return
         
-        val regalablesMenosValiosas = reservadasRegalables.filter { figuritaSolicitada.valoracion() >= it.valoracion() }
+        val regalablesMenosValiosas = reservadasRegalables.filter { figurita.valoracion() >= it.valoracion() }
         if(regalablesMenosValiosas.isEmpty())
             return
         

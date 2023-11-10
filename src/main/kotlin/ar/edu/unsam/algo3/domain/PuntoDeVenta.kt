@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioProps
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlin.math.ceil
@@ -28,6 +29,7 @@ abstract class PuntoDeVenta(
         validadorNumeros.errorNumeroNegativo(stockSobres, MENSAJE_ERROR_PV_STOCK_SOBRES_NEGATIVOS)
         validadorStrings.errorStringVacio(nombre,MENSAJE_ERROR_PV_NOMBRE_VACIO)
     }
+    fun tipoPuntoDeVenta() = this::class.simpleName.toString()
     fun copy(): PuntoDeVenta = this.clone() as PuntoDeVenta
     fun cambiarBaseDeEnvio(nuevaBase:Double) {
         validadorNumeros.errorNumeroNegativo(nuevaBase, MENSAJE_ERROR_PV_BASE_ENVIO_NEGATIVA)
@@ -36,7 +38,6 @@ abstract class PuntoDeVenta(
 
     fun importeACobrar(usuario: Usuario,cantSobres: Int): Double = (costoMinimoSobre * cantSobres + baseDeEnvio + extraPorKm(usuario)) * modificadorCosto(cantSobres)
 
-
     abstract fun modificadorCosto(cantSobres: Int): Double //pasamos cantSobres a modificadorCosto en pos de mantener el polimorfismo
 
     fun setMaxKmEnvio(cantKm: Double) {
@@ -44,9 +45,11 @@ abstract class PuntoDeVenta(
         maxKmEnvio = cantKm
     }
 
+    fun distanciaPuntoVentaUsuario(usuario: Usuario) = direccion.distanciaConPoint(usuario.direccion.ubiGeografica)
+
     private fun extraPorKm(usuario: Usuario): Double {
         val multiExecso = 100.0
-        val distanciaPuntoVentaVsUsuario = direccion.distanciaConPoint(usuario.direccion.ubiGeografica)
+        val distanciaPuntoVentaVsUsuario = this.distanciaPuntoVentaUsuario(usuario)
 
         return (max(0.0,(ceil(distanciaPuntoVentaVsUsuario - maxKmEnvio))) * multiExecso)
     }

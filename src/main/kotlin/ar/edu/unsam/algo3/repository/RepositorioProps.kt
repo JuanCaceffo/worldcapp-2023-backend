@@ -1,4 +1,4 @@
-package ar.edu.unsam.algo3.domain
+package ar.edu.unsam.algo3.repository
 
 abstract class RepositorioProps {
     var id: Int = 0

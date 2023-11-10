@@ -1,5 +1,8 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
+import ar.edu.unsam.algo3.repository.Repositorio
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
@@ -26,13 +29,14 @@ class RepositorioSpec: DescribeSpec({
             repositorioFiguritas.create(figu2Messi)
             repositorioFiguritas.create(figu3Mbappe)
 
-            it("Si se agregan x cant de figuritas a una repositorio vacia, el id de la ultima agregada deberia ser el size de la repositorio menos 1."){
-                figu3Mbappe.id.shouldBe(repositorioFiguritas.elementos.size - 1)
+            it("El id de la última figurita agregada debe coincidir con el último id generdo por el repositorio"){
+                figu3Mbappe.id.shouldBe(repositorioFiguritas.getAll().size-1)
             }
 
             it("Al borrar una figurita esta no debe pertenercer mas a la repositorio"){
                 repositorioFiguritas.delete(figu2Messi)
-                shouldThrow<IllegalArgumentException> {
+
+                shouldThrow<NotFoundException> {
                     repositorioFiguritas.getById(figu2Messi.id)
                 }.message shouldBe MENSAJE_ERROR_ID_INEXISTENTE
             }

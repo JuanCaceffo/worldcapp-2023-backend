@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.BussinesExpetion
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
@@ -7,7 +8,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 
-class AccionUsuarioSpec: DescribeSpec({
+class AccionUsuarioSpec : DescribeSpec({
     isolationMode = IsolationMode.InstancePerTest
 
     describe("Test Acciones de Usuarios") {
@@ -42,14 +43,21 @@ class AccionUsuarioSpec: DescribeSpec({
         describe("Test solicitud de figuritas con accion ConvertirUsuarioEnNacionalista") {
             it("Un usuario se convierte a nacionalista de detemrianda seleccion si solicito de forma seguida N figuritas de la dicha seleccion y no lleno el album") {
                 //arrange
+                val figuritaArgenta = figuritaComun
                 val usuarioSolicitante = usuarioGeneral.apply {
                     addFiguritaFaltante(figuritaBase)
+                    addFiguritaFaltante(figuritaArgenta)
                 }
-                val figuritaArgenta = figuritaComun
+                usuarioCercano.apply {
+                    repeat(3) { addFiguritaRepetida(figuritaChilena) }
+                }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
                 usuarioSolicitante.pedirFigurita(figuritaArgenta, usuarioCercano)
-                repeat(3) { usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano) }
+                repeat(3) {
+                    usuarioSolicitante.addFiguritaFaltante(figuritaChilena)
+                    usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano)
+                }
 
                 //assert
                 usuarioSolicitante.seleccionesFavoritas.contains(seleccionChile).shouldBeTrue()
@@ -60,32 +68,54 @@ class AccionUsuarioSpec: DescribeSpec({
                 val usuarioSolicitante = usuarioGeneral.apply {
                     addFiguritaFaltante(figuritaBase)
                 }
+                usuarioCercano.apply {
+                    repeat(2) { addFiguritaRepetida(figuritaChilena) }
+                }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
-                repeat(2) { usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano) }
+                repeat(2) {
+                    usuarioSolicitante.addFiguritaFaltante(figuritaChilena)
+                    usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano)
+                }
                 //assert
                 (usuarioSolicitante.condicionParaDar is Nacionalista).shouldBeFalse()
             }
             it("Un usuario no se convierte en nacionalista por que ya lleno el album") {
                 //arrange
-                val usuarioSolicitante = usuarioCercano
                 val figuritaArgenta = figuritaComun
+                val usuarioSolicitante = usuarioGeneral.apply { figuritasFaltantes.clear() }
+                usuarioCercano.apply {
+                    addFiguritaRepetida(figuritaArgenta)
+                    repeat(3) {
+                        addFiguritaRepetida(figuritaChilena)
+                    }
+                }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
-                repeat(3) { usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano) }
-                usuarioSolicitante.pedirFigurita(figuritaArgenta, usuarioCercano)
+                repeat(3) {
+                    usuarioSolicitante.addFiguritaFaltante(figuritaChilena)
+                    usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano)
+                }
                 //assert
                 (usuarioSolicitante.condicionParaDar is Nacionalista).shouldBeFalse()
             }
             it("Un usuario no se convierte en nacionalista por que los N pedidos que realizó hay por lo menos una figurita de una distinta seleccion que las demas") {
                 //arrange
-                val usuarioSolicitante = usuarioCercano.apply {
-                    addFiguritaFaltante(figuritaBase)
-                }
                 val figuritaArgenta = figuritaComun
+                val usuarioSolicitante = usuarioGeneral.apply {
+                    addFiguritaFaltante(figuritaArgenta)
+                }
+                usuarioCercano.apply {
+                    repeat(2) { addFiguritaRepetida(figuritaChilena) }
+                    addFiguritaRepetida(figuritaArgenta)
+                }
                 //activate
                 usuarioSolicitante.activarAccion(ConvertirUsuarioEnNacionalista())
-                repeat(2) { usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano) }
+                repeat(2) {
+                    usuarioSolicitante.addFiguritaFaltante(figuritaChilena)
+                    usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano)
+                }
+                usuarioSolicitante.addFiguritaFaltante(figuritaChilena)
                 usuarioSolicitante.pedirFigurita(figuritaArgenta, usuarioCercano)
                 usuarioSolicitante.pedirFigurita(figuritaChilena, usuarioCercano)
                 //assert
@@ -98,8 +128,8 @@ class AccionUsuarioSpec: DescribeSpec({
                 //Cambio la condición para dar del usuario ya que por defecto es Desprendido
                 modificarComportamientoIntercambio(Nacionalista(usuarioGeneral))
                 //Agrego 2 figuritas repetidas al usuario general
-                repeat(2) { recibirFigurita(figuritaBase) }
-                repeat(2) { recibirFigurita(figuritaChilena) }
+                addFiguritaRepetida(figuritaBase)
+                addFiguritaRepetida(figuritaChilena)
             }
             it("Usuario con album lleno pero con menos de un determinado número de figuritas a regalar, NO se convierte en Desprendido") {
                 //Verificamos sus figuritas repetidas
@@ -110,11 +140,11 @@ class AccionUsuarioSpec: DescribeSpec({
 
             it("Usuario solicitante con más de un determinado número de figuritas a regalar y al pedir la figurita faltante para llenar el album se convierte en Desprendido") {
                 //arrange
-                repeat(2) { usuarioCercano.recibirFigurita(figuritaComun) }
+                usuarioCercano.addFiguritaRepetida(figuritaComun)
 
                 usuarioGeneral.apply {
                     addFiguritaFaltante(figuritaComun)
-                    repeat(2) { recibirFigurita(figuritaDevaluada) }
+                    addFiguritaRepetida(figuritaDevaluada)
                 }
 
                 //active
@@ -128,11 +158,11 @@ class AccionUsuarioSpec: DescribeSpec({
 
             it("Usuario al pedir figurita con las condiciones requeridas para convertir usuario en desprendido con la acción desactivada, no se convierte en Desprendido") {
                 //arrange
-                repeat(2) { usuarioCercano.recibirFigurita(figuritaComun) }
+                usuarioCercano.addFiguritaRepetida(figuritaComun)
 
                 usuarioGeneral.apply {
                     addFiguritaFaltante(figuritaComun)
-                    repeat(2) { recibirFigurita(figuritaDevaluada) }
+                    addFiguritaRepetida(figuritaDevaluada)
                 }
 
                 //active
@@ -153,8 +183,8 @@ class AccionUsuarioSpec: DescribeSpec({
                 addFiguritaFaltante(figuritaBase)
                 activarAccion(UsuarioTriplicaKM())
             }
-            repeat(2) { usuarioCercano.recibirFigurita(figuritaComun) }
-            repeat(2) { usuarioCercano.recibirFigurita(figuritaBase) }
+            usuarioCercano.addFiguritaRepetida(figuritaComun)
+            usuarioCercano.addFiguritaRepetida(figuritaBase)
 
             it("Usuario con menos de TOPE_FIGURITAS_PARA_TRIPLICAR se multiplica su cercania con el otro usuario, y asi buscar figuritas") {
                 //Active
@@ -191,8 +221,8 @@ class AccionUsuarioSpec: DescribeSpec({
                     addFiguritaFaltante(figuritaComun)
                 }
                 val usuarioCercanoConFiguRep = usuarioCercano.apply {
-                    condicionParaDar = Desprendido()
-                    repeat(2) { recibirFigurita(figuritaComun) }
+                    condicionParaDar = Desprendido(this)
+                    addFiguritaRepetida(figuritaComun)
                 }
                 //active
                 usuarioAlbumFull.activarAccion(FelicitarUsuario(stubMailSender))
@@ -207,8 +237,8 @@ class AccionUsuarioSpec: DescribeSpec({
                     addFiguritaFaltante(figuritaBase)
                 }
                 val usuarioCercanoConFiguRep = usuarioCercano.apply {
-                    condicionParaDar = Desprendido()
-                    repeat(2) { recibirFigurita(figuritaComun) }
+                    condicionParaDar = Desprendido(this)
+                    addFiguritaRepetida(figuritaComun)
                 }
                 //active
                 usuarioAlbumFull.activarAccion(FelicitarUsuario(stubMailSender))
@@ -218,34 +248,21 @@ class AccionUsuarioSpec: DescribeSpec({
             }
         }
         describe("Test solicitud de figuritas con accion IncorporarFiguritaReservada") {
-            it("Si usuario Solicitante si posee figurita repetida, se registra como repetida en lista RepetidaReservada"){
+            it("Si usuario Solicitante si posee figurita repetida, se registra como repetida en lista RepetidaReservada") {
                 val usuarioConFiguritaRepetida = usuarioGeneral.apply {
-                        repeat(2){recibirFigurita(figuritaComun)}
+                    addFiguritaRepetida(figuritaComun)
+                    addFiguritaFaltante(figuritaBase)
                 }
+                usuarioCercano.apply { addFiguritaRepetida(figuritaBase) }
+                val incorporarFiguritaARepetidasReservadas =
+                    IncorporarFiguritaARepetidasReservadas(usuarioConFiguritaRepetida, figuritaComun)
 
-                val IncorporarFiguritaARepetidasReservadas = IncorporarFiguritaARepetidasReservadas(usuarioConFiguritaRepetida, figuritaComun)
+                usuarioConFiguritaRepetida.activarAccion(incorporarFiguritaARepetidasReservadas)
+                usuarioConFiguritaRepetida.pedirFigurita(figuritaBase, usuarioCercano)
 
-                usuarioConFiguritaRepetida.activarAccion(IncorporarFiguritaARepetidasReservadas)
-                usuarioConFiguritaRepetida.pedirFigurita(figuritaBase,usuarioCercano)
-
-                IncorporarFiguritaARepetidasReservadas.figuritasReservadas.isEmpty().shouldBeFalse()
+                incorporarFiguritaARepetidasReservadas.figuritasReservadas.isEmpty().shouldBeFalse()
 
             }
-            /*it("Si usuario Solicitante ademas de no poseer ninguna figurita repetida, la figurita solicitada es de mayor o igual valoracion que alguna de las repetidas reservadas se agrega a la lista"){
-
-                val usuarioConFiguritaReservada = usuarioGeneral.apply {
-                    IncorporarFiguritaARepetidasReservadas.agregarFiguritaReservada(figuritaDevaluada)
-                    repeat(2){usuarioGeneral.recibirFigurita(figuritaComun)}
-                    repeat(2){usuarioGeneral.recibirFigurita(figuritaValorMaximo)}
-                }
-
-                usuarioConFiguritaReservada.activarAccion(IncorporarFiguritaARepetidasReservadas)
-                usuarioConFiguritaReservada.pedirFigurita(figuritaBase,usuarioCercano)
-
-                IncorporarFiguritaARepetidasReservadas.figuritasRepetidasReservadas.contains(figuritaComun).shouldBeTrue()
-
-            }
-            */
         }
     }
 })

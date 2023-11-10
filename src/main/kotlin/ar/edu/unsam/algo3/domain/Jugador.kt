@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioProps
 import java.time.LocalDate
 
 const val MENSAJE_ERROR_NUM_CAMISETA = "No se puede ingresar un numero de camiseta menor a 1 o mayor a 99"

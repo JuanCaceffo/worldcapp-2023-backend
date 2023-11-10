@@ -1,5 +1,7 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.repository.RepositorioProps
+
 class Seleccion(
     val pais: String,
     val confederacion: Confederacion,
@@ -9,7 +11,7 @@ class Seleccion(
     companion object {
         fun crear(dataExterna: SeleccionDataExterna): Seleccion {
             //Si el nombre de la confederacion recibida por el servicio externo es igual lo setea si no, excepción
-            val confederacion = listaConfederaciones.find { it.nombre == dataExterna.confederacion }?: throw IllegalArgumentException(MENSAJE_ERROR_NOMBRE_CONFEDERACION)
+            val confederacion = Confederacion.values().find { it.nombre == dataExterna.confederacion }?: throw IllegalArgumentException(MENSAJE_ERROR_NOMBRE_CONFEDERACION)
             val seleccion = Seleccion(dataExterna.pais, confederacion, dataExterna.copasDelMundo, dataExterna.copasConfederacion)
             seleccion.id(dataExterna.id)
             return seleccion
