@@ -136,7 +136,7 @@ class UsuarioSpec: DescribeSpec ({
                 robertito.addFiguritaRepetida(figu)
                 shouldThrow<BussinesExpetion>{
                     robertito.addFiguritaFaltante(figu)
-                }.message shouldBe MENSAJE_ERROR_FIGURITA_ENFALTANTES
+                }.message shouldBe MENSAJE_ERROR_FIGURITA_ENREPETIDAS
             }
 
             it ( "cuando se agrega una figurita no debe aparecer en figuritas faltantes") {
