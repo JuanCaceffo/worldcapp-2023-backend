@@ -29,27 +29,9 @@ class FiguritaController (val figuritaService: FiguritaService){
     )
     return figuritaService.obtenerFiguritasParaIntercambiar(id,filtro)
   }
-  @GetMapping("/figuritas/figus-repetidas-agregables")
-  @Operation(summary = "Devuelve una lista de figuritas repetidas sin usuario asignado")
-  fun figuritasAgregables(
-    @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
-    @RequestParam(name= "onFire", required = false, defaultValue = "false") onFire: Boolean,
-    @RequestParam(name= "esPromesa", required = false, defaultValue = "false") esPromesa: Boolean,
-    @RequestParam(name= "cotizacionInicial", required = false, defaultValue = "0.0") cotizacionInicial: Double,
-    @RequestParam(name= "cotizacionFinal", required = false, defaultValue = "0.0") cotizacionFinal: Double
-  ):List<FiguritaDTO> {
-    val filtro = FiltroFigurita(
-      palabraClave = palabraClave,
-      onFire = onFire,
-      esPromesa = esPromesa,
-      rangoValoracion = (cotizacionInicial)..(cotizacionFinal)
-    )
-
-    return figuritaService.obtenerFigusRepesAgregables(filtro)
-  }
-  @GetMapping("/figuritas/figus-faltantes-agregables/user/{userID}")
-  @Operation(summary = "Devuelve una lista de las figuritas que le faltan al usuario sin usuario asignado")
-  fun figuritasAgregables(
+  @GetMapping("/figuritas/figus-agregables/user/{userID}")
+  @Operation(summary = "Devuelve una lista de las figuritas sin usuario asignado que el usuario puede agregar ")
+  fun figuritasFaltantesAgregables(
     @PathVariable userID: Int,
     @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
     @RequestParam(name= "onFire", required = false, defaultValue = "false") onFire: Boolean,

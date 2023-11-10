@@ -12,7 +12,7 @@ const val MENSAJE_ERROR_USUARIO_LEJANO = "El usuario al que le intenta solicitar
 const val MENSAJE_ERROR_FIGURITA_ENFALTANTES = "La figurita que intenta agregar a repetidas esta en faltantes"
 const val MENSAJE_ERROR_FIGURITA_ENREPETIDAS = "La figurita que intenta agregar a faltantes esta en repetidas"
 const val MENSJAE_ERROR_FALTANTE_YA_AGREGADA = "La figurita que intenta agregar a faltantes ya esta agregada"
-
+const val MENSAJE_ERROR_FIGU_NO_FALTANTE = "La figurita que esta solicitando no se encuentra dentro de la lista de faltantes"
 data class Usuario(
     var nombre: String,
     var apellido: String,
@@ -58,6 +58,7 @@ data class Usuario(
 
     // Proceso habitual de solicitud de una figurita a otro usuario
     fun pedirFigurita(figurita: Figurita, usuario: Usuario) {
+        validarFiguritaSeaFaltante(figurita)
         validarDistanciaPedidoDeFigu(usuario)
         usuario.darFigurita(figurita, this)
         //Ejecuta la acción ConvertirUsuarioEnDesprendido
@@ -82,11 +83,11 @@ data class Usuario(
     fun modificarComportamientoIntercambio(comportamiento: CondicionesParaDar) {
         condicionParaDar = comportamiento
     }
+
     fun topCincoFiguritasRepetidas() = figuritasRepetidas.sortedBy { it.valoracion() }.takeLast(5).toSet()
     fun estaRepetida(figurita: Figurita) = figuritasRepetidas.contains(figurita)
     override fun validSearchCondition(value: String) =  Comparar.parcial(value, listOf(nombre, apellido)) ||
                                                         Comparar.total(value, listOf(nombreUsuario))
-
     fun addFiguritaFaltante(figurita: Figurita) {
         validarFaltanteExistente(figurita,MENSJAE_ERROR_FALTANTE_YA_AGREGADA)
         validarRepetidaExistente(figurita)
@@ -105,6 +106,7 @@ data class Usuario(
     fun estaCerca(otroUsuario:Usuario):Boolean {
         return direccion.distanciaConPoint(point = otroUsuario.direccion.ubiGeografica) <= distanciaMaximaCercania
     }
+
     private fun removeFiguritaFaltante(figurita: Figurita) {
         if (buscadorFaltanteExistente(figurita)) {
             figuritasFaltantes.remove(figurita)
@@ -113,14 +115,13 @@ data class Usuario(
     private fun removeFiguritaRepetida(figurita: Figurita) {
         figuritasRepetidas.remove(figurita)
     }
-
     private fun buscadorFaltanteExistente(figurita: Figurita): Boolean =
         figuritasFaltantes.map { it.numero }.contains(figurita.numero)
 
     //---------------------- VALIDACIONES -------------------------//
     private fun validarRepetidaExistente(figurita: Figurita) {
         if (figuritasRepetidas.contains(figurita)){
-            throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENFALTANTES)
+            throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
         }
     }
 
@@ -133,6 +134,12 @@ data class Usuario(
     private fun validarDesactivarAccion(accion: AccionesUsuarios) {
         if (acciones.none { it.CODIGO_ACCION == accion.CODIGO_ACCION }) {
             throw BussinesExpetion(MENSAJE_ERROR_DESACTIVAR_ACCION)
+        }
+    }
+
+    private fun validarFiguritaSeaFaltante(figurita: Figurita) {
+        if(!figuritasFaltantes.contains(figurita)){
+            throw BussinesExpetion(MENSAJE_ERROR_FIGU_NO_FALTANTE)
         }
     }
 
