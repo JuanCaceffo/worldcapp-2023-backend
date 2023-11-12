@@ -9,12 +9,14 @@ import java.util.Objects
 
 
 class DashboardService(val puntosDeVentaRepository: PuntosDeVentaRepository) {
-    fun getDashboardStatics(): dashboardStatics {
-        val figuritasOfrecidas = dashboardFiguritasOfrecidas(10, "Figuritas Ofrecidas")
-        val figuritasFaltantes = dashboardFiguritasFaltantes(5, "Figuritas Faltantes")
-        val puntosDeVentas = dashboardPuntosDeVentas(puntosDeVentaRepository.getAll().size, "Puntos de Ventas")
-        val usuariosActivos = dashboardUsuariosActivos(15, "Usuarios activos")
+    //TODO: Devolver la info correcta
+    fun getDashboardStatics(): List<dashboardStatics> {
+        val figuritasOfrecidas = dashboardStatics(10, "Figuritas Ofrecidas")
+        val figuritasFaltantes = dashboardStatics(5, "Figuritas Faltantes")
+        val puntosDeVentas = dashboardStatics(puntosDeVentaRepository.getAll().size, "Puntos de Ventas")
+        val usuariosActivos = dashboardStatics(15, "Usuarios Activos")
+        val seleccionesActivas = dashboardStatics(32, "Selecciones Activas")
 
-        return dashboardStatics(figuritasOfrecidas, figuritasFaltantes, puntosDeVentas, usuariosActivos)
+        return listOf(figuritasOfrecidas, figuritasFaltantes, puntosDeVentas, usuariosActivos, seleccionesActivas)
     }
 }

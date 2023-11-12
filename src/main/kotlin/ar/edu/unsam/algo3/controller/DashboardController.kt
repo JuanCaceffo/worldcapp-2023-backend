@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class DashboardController(val dashboardService: DashboardService) {
     @GetMapping("/dashboard")
     @Operation(summary = "Devuelve una lista con las figus ofrecidas, faltantes, puntos de ventas y usuarios activos")
-    fun getDashboardStatics(): dashboardStatics { //:List<DashboardDTO>
+    fun getDashboardStatics(): List<dashboardStatics> {
         return dashboardService.getDashboardStatics()
     }
 }
