@@ -103,6 +103,20 @@ class UsuariosBoostrap(
 
   fun obtenerIdsFiguritasCreadas() = figuritaRepositorio.getAll().map { it.id }
 
+  fun agregarFiguritasFaltantes() {
+    usuarios["Pablo"]!!.addFiguritaFaltante(figuritaRepositorio.getById(10))
+    usuarios["Pablo"]!!.addFiguritaFaltante(figuritaRepositorio.getById(12))
+    usuarios["Sol"]!!.addFiguritaFaltante(figuritaRepositorio.getById(1))
+    usuarios["Facundito"]!!.addFiguritaFaltante(figuritaRepositorio.getById(3))
+    usuarios["Facundito"]!!.addFiguritaFaltante(figuritaRepositorio.getById(4))
+    usuarios["Facundito"]!!.addFiguritaFaltante(figuritaRepositorio.getById(2))
+    usuarios["Juan"]!!.addFiguritaFaltante(figuritaRepositorio.getById(5))
+    usuarios["Juan"]!!.addFiguritaFaltante(figuritaRepositorio.getById(6))
+    usuarios["Juan"]!!.addFiguritaFaltante(figuritaRepositorio.getById(8))
+    usuarios["Alejo"]!!.addFiguritaFaltante(figuritaRepositorio.getById(13))
+    usuarios["Alejo"]!!.addFiguritaFaltante(figuritaRepositorio.getById(14))
+  }
+
   fun agregarFigusEnUsuariosCreados() {
     seleccionarFigus(8,"Pablo")
     seleccionarFigus(7,"Sol", 3)
@@ -123,6 +137,7 @@ class UsuariosBoostrap(
 
   override fun afterPropertiesSet() {
     this.crearUsuarios()
+    this.agregarFiguritasFaltantes()
     this.agregarFigusEnUsuariosCreados()
     this.cambiarCondicionParaDar()
   }
