@@ -16,15 +16,12 @@ class DashboardService(
     val seleccionesRepository: SeleccionesRepository
 ) {
 
-    private fun getTotalEntities(entity: Repositorio<*>) = entity.getAll().size
-
     fun getDashboardStatics(): List<dashboardStatics> {
-        val activeUsers = usuariosRepository.getAll()
-        val figuritasOfrecidas = dashboardStatics(activeUsers.sumOf { it.figuritasRepetidas.size }, "Figuritas Ofrecidas")
-        val figuritasFaltantes = dashboardStatics(activeUsers.sumOf { it.figuritasFaltantes.size }, "Figuritas Faltantes")
-        val puntosDeVentas = dashboardStatics(getTotalEntities(puntosDeVentaRepository), "Puntos de Ventas")
-        val usuariosActivos = dashboardStatics(getTotalEntities(usuariosRepository), "Usuarios Activos")
-        val seleccionesActivas = dashboardStatics(getTotalEntities(seleccionesRepository), "Selecciones Activas")
+        val figuritasOfrecidas = dashboardStatics(usuariosRepository.getAllFiguritasRepetidas(), "Figuritas Ofrecidas")
+        val figuritasFaltantes = dashboardStatics(usuariosRepository.getAllFiguritasFaltantes(), "Figuritas Faltantes")
+        val puntosDeVentas = dashboardStatics(puntosDeVentaRepository.getTotalEntities(), "Puntos de Ventas")
+        val usuariosActivos = dashboardStatics(usuariosRepository.getTotalEntities(), "Usuarios Activos")
+        val seleccionesActivas = dashboardStatics(seleccionesRepository.getTotalEntities(), "Selecciones Activas")
 
         return listOf(figuritasOfrecidas, figuritasFaltantes, puntosDeVentas, usuariosActivos, seleccionesActivas)
     }
