@@ -16,6 +16,9 @@ class Repositorio<T : RepositorioProps> {
   }
 
   fun getAll(): List<T> = elementos.values.toList()
+
+  fun getTotalEntities(): Int = this.getAll().size
+
   fun create(elemento: T): T {
     elemento.id(idCounter)
     elementos[elemento.id] = elemento
