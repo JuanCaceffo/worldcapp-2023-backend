@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
 import  ar.edu.unsam.algo3.domain.Figurita
+import ar.edu.unsam.algo3.domain.NivelImpresion
 import ar.edu.unsam.algo3.domain.Usuario
 
 data class TemplateFiguritaDTO(
@@ -64,4 +65,25 @@ data class FiguritaDTO(
   //duenio
   val duenio: String,
   val idUsuario: Int
+)
+
+data class FiguritaIndexDTO(
+  val id: Int,
+  val numero: Int,
+  val onFire: Boolean,
+  val nivelImpresion: NivelImpresion,
+  //jugador
+  val nombre: String,
+  val apellido: String,
+  val valoracion: Double,
+)
+
+fun Figurita.toIndexDTO() = FiguritaIndexDTO(
+  id = this.id,
+  numero = this.numero,
+  onFire = this.onFire,
+  nivelImpresion = this.cantidadImpresa,
+  nombre = this.jugador.nombre,
+  apellido = this.jugador.apellido,
+  valoracion = this.jugador.valoracionJugador(),
 )

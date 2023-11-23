@@ -1,7 +1,10 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.FiltroFigurita
 import ar.edu.unsam.algo3.dto.FiguritaDTO
+import ar.edu.unsam.algo3.dto.FiguritaIndexDTO
+import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.service.FiguritaService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.*
@@ -47,6 +50,12 @@ class FiguritaController (val figuritaService: FiguritaService){
     )
 
     return figuritaService.obtenerFigusFaltantesAgregables(userID,filtro)
+  }
+
+  @GetMapping("/figuritas/index")
+  @Operation(summary = "Devuelve una lista con todas las figuritas")
+  fun getAllFiguritasIndex():List<FiguritaIndexDTO> {
+    return figuritaService.getAllFiguritasIndex()
   }
 }
 

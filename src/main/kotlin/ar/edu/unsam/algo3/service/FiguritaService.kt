@@ -1,8 +1,11 @@
 package ar.edu.unsam.algo3.service
 
+import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.FiltroFigurita
 import ar.edu.unsam.algo3.dto.FiguritaDTO
+import ar.edu.unsam.algo3.dto.FiguritaIndexDTO
 import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.toIndexDTO
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
@@ -54,6 +57,8 @@ class FiguritaService(
   }
 
   fun otrosUsuarios(miID: Int) = usuariosRepository.getAll().filter { it.id != miID }
+
+  fun getAllFiguritasIndex():List<FiguritaIndexDTO> = figuritaRepository.getAll().map { figu -> figu.toIndexDTO() }
 }
 
 
