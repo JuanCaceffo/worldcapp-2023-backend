@@ -1,8 +1,7 @@
 package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.FiltroFigurita
-import ar.edu.unsam.algo3.dto.FiguritaDTO
-import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
@@ -14,6 +13,10 @@ class FiguritaService(
   val figuritaRepository: FiguritasRepository,
   val usuariosRepository: UsuariosRepository
 ) {
+  fun getAll(/*filtro: FiltroFigurita*/): List<FiguritaAdminDTO>{
+    return figuritaRepository.getAll().map { it.toAdminDTO() }
+  }
+
   fun filtrarFigus(figus: List<FiguritaDTO>, filtro: FiltroFigurita): List<FiguritaDTO>{
     var listaFiltrada = figus
     val filtros = mutableListOf<FiguritaFilter>(

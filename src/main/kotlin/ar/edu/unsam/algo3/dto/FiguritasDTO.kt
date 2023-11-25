@@ -1,13 +1,23 @@
 package ar.edu.unsam.algo3.dto
 
 import  ar.edu.unsam.algo3.domain.Figurita
+import ar.edu.unsam.algo3.domain.Jugador
 import ar.edu.unsam.algo3.domain.Usuario
 
-data class TemplateFiguritaDTO(
+data class FiguritaAdminDTO(
   val id: Int,
   val numero: Int,
   val onFire: Boolean,
   val nivelImpresion: String,
+  val jugador: Jugador
+)
+
+fun Figurita.toAdminDTO() = FiguritaAdminDTO(
+  id = this.id,
+  numero = this.numero,
+  onFire = this.onFire,
+  nivelImpresion = this.cantidadImpresa.nombre,
+  jugador = this.jugador,
 )
 
 fun Figurita.toDTO(user: Usuario?) = FiguritaDTO(
