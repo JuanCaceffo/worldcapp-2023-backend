@@ -1,11 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Figurita
-import ar.edu.unsam.algo3.domain.FiltroFigurita
-import ar.edu.unsam.algo3.dto.FiguritaDTO
-import ar.edu.unsam.algo3.dto.FiguritaIndexDTO
-import ar.edu.unsam.algo3.dto.JugadorCreateDTO
-import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.FiguritaService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.*
@@ -60,9 +56,11 @@ class FiguritaController (val figuritaService: FiguritaService){
   }
 
   @GetMapping("/figuritas/obtener-jugadores")
-  @Operation(summary = "Devuelve una lista con todos los jugadores y valoraciones para crear las figuritas")
-  fun getAllPlayers():List<JugadorCreateDTO> {
-    return figuritaService.getAllPlayers()
+  @Operation(summary = "Devuelve una lista con todos los jugadores y valoraciones para crear las figuritas, ademas de los niveles de impresiones")
+  fun getAllPlayers():DataCreateFigurita {
+    val players: List<JugadorCreateDTO> = figuritaService.getAllPlayers()
+    val levelPrints: List<NivelImpresion> = listOf(impresionBaja, impresionMedia, impresionAlta)
+    return DataCreateFigurita(players, levelPrints)
   }
 }
 
