@@ -3,7 +3,9 @@ package ar.edu.unsam.algo3.service
 import ar.edu.unsam.algo3.domain.FiltroPuntoDeVenta
 import ar.edu.unsam.algo3.domain.PuntoDeVenta
 import ar.edu.unsam.algo3.dto.MarketCardDTO
+import ar.edu.unsam.algo3.dto.SalesPointCardDTO
 import ar.edu.unsam.algo3.dto.toMarketCardDTO
+import ar.edu.unsam.algo3.dto.toSalesPointCardDTO
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -15,6 +17,8 @@ class PuntosDeVentaService(
 ) {
   fun getAll(userId: Int): List<MarketCardDTO> =
     puntosDeVentaRepository.getAll().map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
+
+  fun getAllSalesPoint(): List<SalesPointCardDTO> = puntosDeVentaRepository.getAll().map { it.toSalesPointCardDTO() }
 
   fun obtenerPuntosDeVentaFiltrados(userLogedID: Int,filtro: FiltroPuntoDeVenta): List<MarketCardDTO> {
     var listaOrdenada = getAll(userLogedID)

@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.FiltroPuntoDeVenta
 import ar.edu.unsam.algo3.dto.MarketCardDTO
+import ar.edu.unsam.algo3.dto.SalesPointCardDTO
 import ar.edu.unsam.algo3.service.PuntosDeVentaService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.*
@@ -22,5 +23,11 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     )
     println(filtro)
     return this.puntosDeVentaService.obtenerPuntosDeVentaFiltrados(id,filtro)
+  }
+
+  @GetMapping("/puntosDeVenta/index")
+  @Operation(summary = "Obtiene toda la info necesaria para mostrar todos los puntos de venta en su respectivo dashboard")
+  fun getAllSalesPoint(): List<SalesPointCardDTO>{
+    return this.puntosDeVentaService.getAllSalesPoint()
   }
 }
