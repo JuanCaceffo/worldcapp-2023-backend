@@ -59,8 +59,8 @@ class FiguritaController (val figuritaService: FiguritaService){
   @Operation(summary = "Devuelve una lista con todos los jugadores y valoraciones para crear las figuritas, ademas de los niveles de impresiones")
   fun getAllPlayers():DataCreateFigurita {
     val players: List<JugadorCreateDTO> = figuritaService.getAllPlayers()
-    val levelPrints: List<NivelImpresion> = listOf(impresionBaja, impresionMedia, impresionAlta)
-    return DataCreateFigurita(players, levelPrints)
+    val printsLevel: List<NivelImpresion> = listOf(impresionBaja, impresionMedia, impresionAlta)
+    return DataCreateFigurita(players, printsLevel)
   }
 }
 
