@@ -4,6 +4,7 @@ import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.FiltroFigurita
 import ar.edu.unsam.algo3.dto.FiguritaDTO
 import ar.edu.unsam.algo3.dto.FiguritaIndexDTO
+import ar.edu.unsam.algo3.dto.JugadorCreateDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.service.FiguritaService
 import io.swagger.v3.oas.annotations.Operation
@@ -56,6 +57,12 @@ class FiguritaController (val figuritaService: FiguritaService){
   @Operation(summary = "Devuelve una lista con todas las figuritas")
   fun getAllFiguritasIndex():List<FiguritaIndexDTO> {
     return figuritaService.getAllFiguritasIndex()
+  }
+
+  @GetMapping("/figuritas/obtener-jugadores")
+  @Operation(summary = "Devuelve una lista con todos los jugadores y valoraciones para crear las figuritas")
+  fun getAllPlayers():List<JugadorCreateDTO> {
+    return figuritaService.getAllPlayers()
   }
 }
 
