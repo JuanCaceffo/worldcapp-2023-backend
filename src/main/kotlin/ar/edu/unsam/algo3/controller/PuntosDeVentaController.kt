@@ -1,7 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.FiltroPuntoDeVenta
-import ar.edu.unsam.algo3.dto.MarketCardDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.PuntosDeVentaService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.*
@@ -16,7 +15,7 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
     @RequestParam(name= "opcionElegida", required = false, defaultValue = "") opcionElegida: String
   ): List<MarketCardDTO> {
-    val filtro = FiltroPuntoDeVenta(
+    val filtro = FiltroPuntoDeVentaDTO(
       palabraClave = palabraClave,
       opcionElegida = opcionElegida,
     )

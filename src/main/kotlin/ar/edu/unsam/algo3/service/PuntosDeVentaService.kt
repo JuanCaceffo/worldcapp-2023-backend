@@ -1,8 +1,7 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.domain.FiltroPuntoDeVenta
 import ar.edu.unsam.algo3.domain.PuntoDeVenta
-import ar.edu.unsam.algo3.dto.MarketCardDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.dto.toMarketCardDTO
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
@@ -16,7 +15,7 @@ class PuntosDeVentaService(
   fun getAll(userId: Int): List<MarketCardDTO> =
     puntosDeVentaRepository.getAll().map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
 
-  fun obtenerPuntosDeVentaFiltrados(userLogedID: Int,filtro: FiltroPuntoDeVenta): List<MarketCardDTO> {
+  fun obtenerPuntosDeVentaFiltrados(userLogedID: Int,filtro: FiltroPuntoDeVentaDTO): List<MarketCardDTO> {
     var listaOrdenada = getAll(userLogedID)
 
     when (filtro.opcionElegida) {

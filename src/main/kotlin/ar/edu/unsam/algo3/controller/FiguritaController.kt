@@ -1,8 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.FiltroFigurita
-import ar.edu.unsam.algo3.dto.FiguritaAdminDTO
-import ar.edu.unsam.algo3.dto.FiguritaDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.FiguritaService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.web.bind.annotation.*
@@ -16,12 +14,12 @@ class FiguritaController (val figuritaService: FiguritaService){
   @GetMapping("/figuritas")
   @Operation(summary="Devuelve todas las figuritas existentes en el sistema")
   fun getAll(
-//    @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
-  ):List<FiguritaAdminDTO> {
-//    val filtro = FiltroFigurita(
-//      palabraClave = palabraClave,
-//    )
-    return figuritaService.getAll()
+  @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
+  ):List<FiguritaBaseDTO> {
+    val filtro = FiltroFiguritaDTO(
+      palabraClave = palabraClave
+    )
+    return figuritaService.getAll(filtro = filtro)
   }
 
   @GetMapping("/figuritas/intercambiar/{id}")
@@ -33,8 +31,8 @@ class FiguritaController (val figuritaService: FiguritaService){
     @RequestParam(name= "esPromesa", required = false, defaultValue = "false") esPromesa: Boolean,
     @RequestParam(name= "cotizacionInicial", required = false, defaultValue = "0.0") cotizacionInicial: Double,
     @RequestParam(name= "cotizacionFinal", required = false, defaultValue = "0.0") cotizacionFinal: Double
-  ):List<FiguritaDTO> {
-    val filtro = FiltroFigurita(
+  ):List<FiguritaFullDTO> {
+    val filtro = FiltroFiguritaDTO(
       palabraClave = palabraClave,
       onFire = onFire,
       esPromesa = esPromesa,
@@ -51,8 +49,8 @@ class FiguritaController (val figuritaService: FiguritaService){
     @RequestParam(name= "esPromesa", required = false, defaultValue = "false") esPromesa: Boolean,
     @RequestParam(name= "cotizacionInicial", required = false, defaultValue = "0.0") cotizacionInicial: Double,
     @RequestParam(name= "cotizacionFinal", required = false, defaultValue = "0.0") cotizacionFinal: Double
-  ):List<FiguritaDTO> {
-    val filtro = FiltroFigurita(
+  ):List<FiguritaFullDTO> {
+    val filtro = FiltroFiguritaDTO(
       palabraClave = palabraClave,
       onFire = onFire,
       esPromesa = esPromesa,

@@ -1,11 +1,5 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.domain.FiltroPuntoDeVenta
-import ar.edu.unsam.algo3.domain.PuntoDeVenta
-import ar.edu.unsam.algo3.dto.MarketCardDTO
-import ar.edu.unsam.algo3.dto.toMarketCardDTO
-import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
-import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
 
 data class Province(val province: String, val locations: List<String>)

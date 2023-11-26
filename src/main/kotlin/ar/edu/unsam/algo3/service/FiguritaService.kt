@@ -1,6 +1,6 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.domain.FiltroFigurita
+import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
@@ -13,96 +13,33 @@ class FiguritaService(
   val figuritaRepository: FiguritasRepository,
   val usuariosRepository: UsuariosRepository
 ) {
-  fun getAll(/*filtro: FiltroFigurita*/): List<FiguritaAdminDTO>{
-    return figuritaRepository.getAll().map { it.toAdminDTO() }
+  fun getAll(filtro: FiltroFiguritaDTO): List<FiguritaBaseDTO>{
+    val figuritas = figuritaRepository.getAll()
+    return filtrarFigus(figuritas, filtro).map { it.toBaseDTO() }
   }
 
-  fun filtrarFigus(figus: List<FiguritaDTO>, filtro: FiltroFigurita): List<FiguritaDTO>{
-    var listaFiltrada = figus
-    val filtros = mutableListOf<FiguritaFilter>(
-      PalabraClaveFilter(filtro.palabraClave, figuritaRepository),
-      OnFireFilter(filtro.onFire),
-      EsPromesaFilter(filtro.esPromesa),
-      RangoValoracionFilter(filtro.rangoValoracion, figuritaRepository),
-    )
-
-    filtros.forEach{ listaFiltrada = it.filter(listaFiltrada)}
-
-    return listaFiltrada
-  }
-
-  fun obtenerFiguritasParaIntercambiar(logedUserid:Int,filtro: FiltroFigurita): List<FiguritaDTO> {
+  fun obtenerFiguritasParaIntercambiar(logedUserid:Int, filtro: FiltroFiguritaDTO): List<FiguritaFullDTO> {
     try {
       usuariosRepository.getById(logedUserid)
     } catch (ex: Exception) {
       throw NotFoundException(MENSAJE_ERROR_ID_INEXISTENTE)
     }
     val otros = this.otrosUsuarios(logedUserid)
-    val listaFigus = otros.flatMap { it.listaFiguritasARegalar().map { figu -> figu.toDTO(it) } }
-
-    return filtrarFigus(listaFigus,filtro)
+    return otros.flatMap { filtrarFigus(it.listaFiguritasARegalar(), filtro).map{ figu -> figu.toDTO(it)} }
   }
 
-  fun obtenerFigusRepesAgregables(filtro: FiltroFigurita): List<FiguritaDTO> {
-    val listaFigusAgregablesDTO = figuritaRepository.getAll().map { figu -> figu.toDTO(null) }
-
-    return filtrarFigus(listaFigusAgregablesDTO, filtro)
-  }
-
-  fun obtenerFigusFaltantesAgregables(userID: Int,filtro: FiltroFigurita): List<FiguritaDTO> {
+  fun obtenerFigusFaltantesAgregables(userID: Int,filtro: FiltroFiguritaDTO): List<FiguritaFullDTO> {
     val userFaltentesList = usuariosRepository.getById(userID).figuritasFaltantes.toList()
     val figusFaltantesAUsuario = figuritaRepository.getAll().filter { figu -> !userFaltentesList.contains(figu)  }
 
-    return filtrarFigus(figusFaltantesAUsuario.map { figu -> figu.toDTO(null) }, filtro)
+    return filtrarFigus(figusFaltantesAUsuario, filtro).map{ it.toDTO(null)}
   }
 
   fun otrosUsuarios(miID: Int) = usuariosRepository.getAll().filter { it.id != miID }
-}
 
-
-interface FiguritaFilter {
-  fun filter(figus: List<FiguritaDTO>): List<FiguritaDTO>
-}
-
-class PalabraClaveFilter(private val palabraClave: String, private val figuritaRepository: FiguritasRepository) : FiguritaFilter {
-  override fun filter(figus: List<FiguritaDTO>): List<FiguritaDTO> {
-    return if (palabraClave != "") {
-      val idFiguritas = figuritaRepository.search(palabraClave).map { it.id}
-      figus.filter { it.id in idFiguritas }
-    } else {
-      figus
-    }
+  fun filtrarFigus(figus: List<Figurita>, filtro: FiltroFiguritaDTO): List<Figurita>{
+    val filtros = listOf(FiltroPalabraClave, FiltroEspromesa, FiltroOnfire, FiltroValoracion)
+    FiltroPalabraClave.repository = figuritaRepository
+    return figus.filter { figu -> filtros.all{ it.filtro(figu, filtro) } }
   }
-}
-
-class OnFireFilter(private val onFire: Boolean) : FiguritaFilter {
-  override fun filter(figus: List<FiguritaDTO>): List<FiguritaDTO> {
-    return if (onFire) {
-      figus.filter { it.onFire }
-    } else {
-      figus
-    }
-  }
-}
-
-class EsPromesaFilter(private val promesa: Boolean) : FiguritaFilter {
-  override fun filter(figus: List<FiguritaDTO>): List<FiguritaDTO> {
-    return if (promesa) {
-      figus.filter { it.promesa }
-    } else {
-      figus
-    }
-  }
-}
-
-class RangoValoracionFilter(private val rangoValoracion: ClosedRange<Double>, private val figuritaRepository: FiguritasRepository) : FiguritaFilter {
-  override fun filter(figus: List<FiguritaDTO>): List<FiguritaDTO> {
-    return if (rangoValoracion !=(0.0..0.0)) {
-      figus.filter { pedirValoracion(it.id) in rangoValoracion }
-    } else {
-      figus
-    }
-  }
-
-  private fun pedirValoracion (id: Int) = figuritaRepository.getById(id).valoracion()
 }
