@@ -1,10 +1,11 @@
 package ar.edu.unsam.algo3.service
 
+import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.FiltroFigurita
-import ar.edu.unsam.algo3.dto.FiguritaDTO
-import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service
 @Service
 class FiguritaService(
   val figuritaRepository: FiguritasRepository,
-  val usuariosRepository: UsuariosRepository
+  val usuariosRepository: UsuariosRepository,
+  val jugadorRepository: JugadorRepository
 ) {
   fun filtrarFigus(figus: List<FiguritaDTO>, filtro: FiltroFigurita): List<FiguritaDTO>{
     var listaFiltrada = figus
@@ -54,6 +56,10 @@ class FiguritaService(
   }
 
   fun otrosUsuarios(miID: Int) = usuariosRepository.getAll().filter { it.id != miID }
+
+  fun getAllFiguritasIndex():List<FiguritaIndexDTO> = figuritaRepository.getAll().map { figu -> figu.toIndexDTO() }
+
+  fun getAllPlayers():List<JugadorCreateDTO> = jugadorRepository.getAll().map {jugador -> jugador.toJugadorCreateDTO()}
 }
 
 
