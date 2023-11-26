@@ -55,7 +55,7 @@ class FiguritaController (val figuritaService: FiguritaService){
     return figuritaService.getAllFiguritasIndex()
   }
 
-  @GetMapping("/figuritas/obtener-jugadores")
+  @GetMapping("/figuritas/data-create-figurita")
   @Operation(summary = "Devuelve una lista con todos los jugadores y valoraciones para crear las figuritas, ademas de los niveles de impresiones")
   fun getAllPlayers():DataCreateFigurita {
     val players: List<JugadorCreateDTO> = figuritaService.getAllPlayers()
