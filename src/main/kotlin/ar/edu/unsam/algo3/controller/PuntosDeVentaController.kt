@@ -21,4 +21,10 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     )
     return this.puntosDeVentaService.obtenerPuntosDeVentaFiltrados(id,filtro)
   }
+
+  @GetMapping("/puntosDeVenta/index")
+  @Operation(summary = "Obtiene toda la info necesaria para mostrar todos los puntos de venta en su respectivo dashboard")
+  fun getAllSalesPoint(): List<SalesPointCardDTO>{
+    return this.puntosDeVentaService.getAllSalesPoint()
+  }
 }

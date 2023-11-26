@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
-import ar.edu.unsam.algo3.domain.Figurita
+import  ar.edu.unsam.algo3.domain.Figurita
+import ar.edu.unsam.algo3.domain.NivelImpresion
 import ar.edu.unsam.algo3.domain.Usuario
 import ar.edu.unsam.algo3.domain.impresionBaja
 
@@ -22,7 +23,6 @@ open class FiguritaBaseDTO(
   val nivelImpresion: String = impresionBaja.nombre,
   val valoracion: Double = 0.0
 )
-
 class FiguritaFullDTO(
   id:Int,
   numero:Int,
@@ -87,4 +87,14 @@ fun Figurita.toDTO(user: Usuario?) = FiguritaFullDTO(
   valoracion = this.jugador.valoracionJugador(),
   duenio = (user?.nombreUsuario ?: ""),
   idUsuario = user?.id ?: -1
+)
+
+fun Figurita.toFiguritaBaseDTO() = FiguritaBaseDTO(
+  id = this.id,
+  numero = this.numero,
+  onFire = this.onFire,
+  nombre = this.jugador.nombre,
+  apellido = this.jugador.apellido,
+  nivelImpresion = this.cantidadImpresa.nombre,
+  valoracion = this.jugador.valoracionJugador()
 )

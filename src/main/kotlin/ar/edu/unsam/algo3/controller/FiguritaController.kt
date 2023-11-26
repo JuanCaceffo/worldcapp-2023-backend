@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.FiguritaService
 import io.swagger.v3.oas.annotations.Operation
@@ -47,5 +48,12 @@ class FiguritaController(val figuritaService: FiguritaService) {
   ): List<FiguritaFullDTO> {
     return figuritaService.obtenerFigusFaltantesAgregables(userID, params)
   }
-}
 
+  @GetMapping("/figuritas/data-create-figurita")
+  @Operation(summary = "Devuelve una lista con todos los jugadores y valoraciones para crear las figuritas, ademas de los niveles de impresiones")
+  fun getAllPlayers():DataCreateFigurita {
+    val players: List<JugadorCreateDTO> = figuritaService.getAllPlayers()
+    val printsLevel: List<NivelImpresion> = listOf(impresionBaja, impresionMedia, impresionAlta)
+    return DataCreateFigurita(players, printsLevel)
+  }
+}

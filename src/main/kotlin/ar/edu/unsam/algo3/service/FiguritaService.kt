@@ -2,12 +2,10 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.controller.FiguritaParams
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.FiguritaBaseDTO
-import ar.edu.unsam.algo3.dto.FiguritaFullDTO
-import ar.edu.unsam.algo3.dto.toBaseDTO
-import ar.edu.unsam.algo3.dto.toDTO
+import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -15,7 +13,8 @@ import org.springframework.stereotype.Service
 @Service
 class FiguritaService(
   val figuritaRepository: FiguritasRepository,
-  val usuariosRepository: UsuariosRepository
+  val usuariosRepository: UsuariosRepository,
+  val jugadorRepository: JugadorRepository
 ) {
   fun getAll(params: FiguritaParams): List<FiguritaBaseDTO>{
     val figuritas = figuritaRepository.getAll()
@@ -39,6 +38,8 @@ class FiguritaService(
   }
 
   fun otrosUsuarios(miID: Int) = usuariosRepository.getAll().filter { it.id != miID }
+
+  fun getAllPlayers():List<JugadorCreateDTO> = jugadorRepository.getAll().map {jugador -> jugador.toJugadorCreateDTO()}
 
   fun crearFiltroFigurita(params: FiguritaParams):Filtro{
     val rango = (params.cotizacionInicial)..(params.cotizacionFinal)
