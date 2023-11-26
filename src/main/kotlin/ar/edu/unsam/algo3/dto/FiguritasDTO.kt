@@ -3,15 +3,66 @@ package ar.edu.unsam.algo3.dto
 import  ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.NivelImpresion
 import ar.edu.unsam.algo3.domain.Usuario
+import ar.edu.unsam.algo3.domain.impresionBaja
 
-data class TemplateFiguritaDTO(
-  val id: Int,
-  val numero: Int,
-  val onFire: Boolean,
-  val nivelImpresion: String,
+abstract class FiltroBaseDTO(
+  val palabraClave:String = ""
 )
 
-fun Figurita.toDTO(user: Usuario?) = FiguritaDTO(
+class FiltroPuntoDeVentaDTO(
+  palabraClave: String,
+  var opcionElegida: String = "",
+): FiltroBaseDTO(palabraClave)
+
+open class FiguritaBaseDTO(
+  val id: Int = 0,
+  val numero: Int = 0,
+  val onFire: Boolean = false,
+  val nombre: String = "",
+  val apellido: String = "",
+  val nivelImpresion: String = impresionBaja.nombre,
+  val valoracion: Double = 0.0
+)
+class FiguritaFullDTO(
+  id:Int,
+  numero:Int,
+  onFire: Boolean,
+  nivelImpresion: String,
+  //jugador
+  nombre: String,
+  apellido: String,
+  val peso: Double,
+  val promesa: Boolean,
+  val altura: Double,
+  val nroCamiseta: Int,
+  val fechaNac: String,
+  val edad: Int,
+  val seleccion: String,
+  val valorBase: Double,
+  val posicion: String,
+  val cotizacion: Double,
+  val anioDebut: Int,
+  val copasDelMundo: Int,
+  val confederacion: String,
+  val confederacionCopas: Int,
+  val esLider: Boolean,
+  valoracion:Double,
+  //duenio
+  val duenio: String,
+  val idUsuario: Int
+): FiguritaBaseDTO(id, numero, onFire, nombre, apellido, nivelImpresion, valoracion)
+
+fun Figurita.toBaseDTO() = FiguritaBaseDTO(
+  id = this.id,
+  numero = this.numero,
+  onFire = this.onFire,
+  nombre = this.jugador.nombre,
+  apellido = this.jugador.apellido,
+  nivelImpresion = this.cantidadImpresa.nombre,
+  valoracion = this.valoracion()
+)
+
+fun Figurita.toDTO(user: Usuario?) = FiguritaFullDTO(
   id = this.id,
   numero = this.numero,
   onFire = this.onFire,
@@ -38,52 +89,12 @@ fun Figurita.toDTO(user: Usuario?) = FiguritaDTO(
   idUsuario = user?.id ?: -1
 )
 
-data class FiguritaDTO(
-  val id: Int,
-  val numero: Int,
-  val onFire: Boolean,
-  val nivelImpresion: String,
-  //jugador
-  val nombre: String,
-  val apellido: String,
-  val peso: Double,
-  val promesa: Boolean,
-  val altura: Double,
-  val nroCamiseta: Int,
-  val fechaNac: String,
-  val edad: Int,
-  val seleccion: String,
-  val valorBase: Double,
-  val posicion: String,
-  val cotizacion: Double,
-  val anioDebut: Int,
-  val copasDelMundo: Int,
-  val confederacion: String,
-  val confederacionCopas: Int,
-  val esLider: Boolean,
-  val valoracion: Double,
-  //duenio
-  val duenio: String,
-  val idUsuario: Int
-)
-
-data class FiguritaIndexDTO(
-  val id: Int,
-  val numero: Int,
-  val onFire: Boolean,
-  val nivelImpresion: NivelImpresion,
-  //jugador
-  val nombre: String,
-  val apellido: String,
-  val valoracion: Double,
-)
-
-fun Figurita.toIndexDTO() = FiguritaIndexDTO(
+fun Figurita.toFiguritaBaseDTO() = FiguritaBaseDTO(
   id = this.id,
   numero = this.numero,
   onFire = this.onFire,
-  nivelImpresion = this.cantidadImpresa,
   nombre = this.jugador.nombre,
   apellido = this.jugador.apellido,
-  valoracion = this.jugador.valoracionJugador(),
+  nivelImpresion = this.cantidadImpresa.nombre,
+  valoracion = this.jugador.valoracionJugador()
 )

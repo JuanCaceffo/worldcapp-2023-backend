@@ -31,7 +31,7 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
             ?: throw NotFoundException(ERROR_MSG_INVALID_REQUESTED_FIGU)
     }
 
-    fun getGiftableFigurita(figuId: Int, userID: Int): FiguritaDTO {
+    fun getGiftableFigurita(figuId: Int, userID: Int): FiguritaFullDTO {
         val user = searchByID(userID)
         return findGiftableFigurita(figuId, user).toDTO(user)
     }
@@ -60,12 +60,12 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
         return user.toUserInfoDTO()
     }
 
-    fun getFigusFaltantes(id: Int): List<FiguritaDTO> {
+    fun getFigusFaltantes(id: Int): List<FiguritaFullDTO> {
         val user = searchByID(id)
         return user.figuritasFaltantes.toList().map { figu -> figu.toDTO(user) }
     }
 
-    fun getFigusRepes(userID:Int): List<FiguritaDTO>{
+    fun getFigusRepes(userID:Int): List<FiguritaFullDTO>{
         val user = searchByID(userID)
         return user.figuritasRepetidas.map { figu -> figu.toDTO(user) }
     }
