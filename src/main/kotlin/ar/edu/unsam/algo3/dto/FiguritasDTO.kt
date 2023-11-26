@@ -7,12 +7,6 @@ import ar.edu.unsam.algo3.domain.impresionBaja
 abstract class FiltroBaseDTO(
   val palabraClave:String = ""
 )
-class FiltroFiguritaDTO(
-  palabraClave: String,
-  var onFire: Boolean = false,
-  var esPromesa: Boolean = false,
-  var rangoValoracion: ClosedRange<Double> = (0.0..0.0),
-): FiltroBaseDTO(palabraClave)
 
 class FiltroPuntoDeVentaDTO(
   palabraClave: String,
@@ -56,7 +50,7 @@ class FiguritaFullDTO(
   //duenio
   val duenio: String,
   val idUsuario: Int
-): FiguritaBaseDTO(id, numero, onFire, nivelImpresion, nombre, apellido, valoracion)
+): FiguritaBaseDTO(id, numero, onFire, nombre, apellido, nivelImpresion, valoracion)
 
 fun Figurita.toBaseDTO() = FiguritaBaseDTO(
   id = this.id,

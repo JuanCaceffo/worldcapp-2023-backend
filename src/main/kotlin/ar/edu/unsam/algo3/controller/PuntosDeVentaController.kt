@@ -19,7 +19,6 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
       palabraClave = palabraClave,
       opcionElegida = opcionElegida,
     )
-    println(filtro)
     return this.puntosDeVentaService.obtenerPuntosDeVentaFiltrados(id,filtro)
   }
 }

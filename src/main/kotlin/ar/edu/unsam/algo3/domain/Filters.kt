@@ -1,28 +1,34 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.dto.FiltroFiguritaDTO
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 
-interface FiltroFigurita{
-  fun filtro(figurita: Figurita, filtro:FiltroFiguritaDTO): Boolean
+
+class Filtro{
+  private val condiciones = mutableListOf<CondicionesFiltrado>()
+
+  fun addCondiconFiltrado(condicion:CondicionesFiltrado){
+    condiciones.add(condicion)
+  }
+  fun cumpleCondiciones(figurita: Figurita) = condiciones.all{ it.filtro(figurita)}
 }
 
+interface CondicionesFiltrado{
+  fun filtro(figurita: Figurita): Boolean
+}
 
-object FiltroPalabraClave : FiltroFigurita{
-  lateinit var repository: FiguritasRepository
-  override fun filtro(figurita: Figurita, filtro: FiltroFiguritaDTO): Boolean {
-    println(repository.getAll())
-    return if (filtro.palabraClave != "") {
-      return figurita in repository.search(filtro.palabraClave)
+class FiltroPalabraClave(private val palabraClave: String, val repository: FiguritasRepository) : CondicionesFiltrado{
+  override fun filtro(figurita: Figurita): Boolean {
+    return if (palabraClave != "") {
+      return figurita in repository.search(palabraClave)
     } else {
       true
     }
   }
 }
 
-object FiltroOnfire : FiltroFigurita {
-  override fun filtro(figurita: Figurita, filtro: FiltroFiguritaDTO): Boolean {
-    return if(filtro.onFire){
+class FiltroOnfire(private val condicion:Boolean) : CondicionesFiltrado {
+  override fun filtro(figurita: Figurita): Boolean {
+    return if(condicion){
       figurita.estaOnfire()
     } else {
       true
@@ -30,9 +36,9 @@ object FiltroOnfire : FiltroFigurita {
   }
 }
 
-object FiltroEspromesa : FiltroFigurita {
-  override fun filtro(figurita: Figurita, filtro: FiltroFiguritaDTO): Boolean {
-    return if(filtro.esPromesa){
+class FiltroEspromesa(private val condicion: Boolean) : CondicionesFiltrado {
+  override fun filtro(figurita: Figurita): Boolean {
+    return if(condicion){
       figurita.jugador.promesaDelFutbol()
     } else {
       true
@@ -40,10 +46,10 @@ object FiltroEspromesa : FiltroFigurita {
   }
 }
 
-object FiltroValoracion : FiltroFigurita {
-  override fun filtro(figurita: Figurita, filtro:FiltroFiguritaDTO): Boolean {
-    return if (filtro.rangoValoracion != (0.0..0.0)) {
-      return figurita.valoracion() in filtro.rangoValoracion
+class FiltroValoracion(private val rango:ClosedRange<Double>) : CondicionesFiltrado {
+  override fun filtro(figurita: Figurita): Boolean {
+    return if (rango != (0.0..0.0)) {
+      return figurita.valoracion() in rango
     } else {
       true
     }

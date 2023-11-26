@@ -32,6 +32,6 @@ val inputProvinces: List<Province> = listOf(
 )
 
 @Service
-class ProvinceService() {
+class ProvinceService {
     fun getAll(): List<Province> = inputProvinces
 }

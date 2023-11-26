@@ -3,61 +3,49 @@ package ar.edu.unsam.algo3.controller
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.FiguritaService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.web.bind.annotation.*
+
+open class FiguritaBaseParams(
+  @Parameter(description = "Palabra clave a buscar", required = false) @RequestParam val palabraClave: String,
+)
+
+class FiguritaParams(
+  palabraClave: String,
+  @RequestParam(name = "onFire", required = false) val onFire: Boolean = false,
+  @RequestParam(name = "esPromesa", required = false) val esPromesa: Boolean = false,
+  @RequestParam(name = "cotizacionInicial", required = false) val cotizacionInicial: Double = 0.0,
+  @RequestParam(name = "cotizacionFinal", required = false) val cotizacionFinal: Double = 0.0
+) : FiguritaBaseParams(palabraClave)
 
 @RestController
 @CrossOrigin("*")
-class FiguritaController (val figuritaService: FiguritaService){
-
-  //TODO: Ver como mitigar la duplicaicon de codgio en los dos endpoints sin perder la descriptibilidad de los mismos
+class FiguritaController(val figuritaService: FiguritaService) {
 
   @GetMapping("/figuritas")
-  @Operation(summary="Devuelve todas las figuritas existentes en el sistema")
+  @Operation(summary = "Devuelve todas las figuritas existentes en el sistema")
   fun getAll(
-  @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
-  ):List<FiguritaBaseDTO> {
-    val filtro = FiltroFiguritaDTO(
-      palabraClave = palabraClave
-    )
-    return figuritaService.getAll(filtro = filtro)
+    params: FiguritaBaseParams
+  ): List<FiguritaBaseDTO> {
+    return figuritaService.getAll(FiguritaParams(params.palabraClave))
   }
 
   @GetMapping("/figuritas/intercambiar/{id}")
-  @Operation(summary="Devuelve el listado de figuritas no propias disponibles para intercambio")
+  @Operation(summary = "Devuelve el listado de figuritas no propias disponibles para intercambio")
   fun paraIntercambiar(
     @PathVariable id: Int,
-    @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
-    @RequestParam(name= "onFire", required = false, defaultValue = "false") onFire: Boolean,
-    @RequestParam(name= "esPromesa", required = false, defaultValue = "false") esPromesa: Boolean,
-    @RequestParam(name= "cotizacionInicial", required = false, defaultValue = "0.0") cotizacionInicial: Double,
-    @RequestParam(name= "cotizacionFinal", required = false, defaultValue = "0.0") cotizacionFinal: Double
-  ):List<FiguritaFullDTO> {
-    val filtro = FiltroFiguritaDTO(
-      palabraClave = palabraClave,
-      onFire = onFire,
-      esPromesa = esPromesa,
-      rangoValoracion = (cotizacionInicial)..(cotizacionFinal)
-    )
-    return figuritaService.obtenerFiguritasParaIntercambiar(id,filtro)
+    params: FiguritaParams
+  ): List<FiguritaFullDTO> {
+
+    return figuritaService.paraIntercambiar(id, params)
   }
+
   @GetMapping("/figuritas/figus-agregables/user/{userID}")
   @Operation(summary = "Devuelve una lista de las figuritas sin usuario asignado que el usuario puede agregar ")
   fun figuritasFaltantesAgregables(
-    @PathVariable userID: Int,
-    @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
-    @RequestParam(name= "onFire", required = false, defaultValue = "false") onFire: Boolean,
-    @RequestParam(name= "esPromesa", required = false, defaultValue = "false") esPromesa: Boolean,
-    @RequestParam(name= "cotizacionInicial", required = false, defaultValue = "0.0") cotizacionInicial: Double,
-    @RequestParam(name= "cotizacionFinal", required = false, defaultValue = "0.0") cotizacionFinal: Double
-  ):List<FiguritaFullDTO> {
-    val filtro = FiltroFiguritaDTO(
-      palabraClave = palabraClave,
-      onFire = onFire,
-      esPromesa = esPromesa,
-      rangoValoracion = (cotizacionInicial)..(cotizacionFinal)
-    )
-
-    return figuritaService.obtenerFigusFaltantesAgregables(userID,filtro)
+    @PathVariable userID: Int, params: FiguritaParams
+  ): List<FiguritaFullDTO> {
+    return figuritaService.obtenerFigusFaltantesAgregables(userID, params)
   }
 }
 

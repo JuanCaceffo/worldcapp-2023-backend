@@ -1,7 +1,8 @@
 package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.PuntoDeVenta
-import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.dto.FiltroPuntoDeVentaDTO
+import ar.edu.unsam.algo3.dto.MarketCardDTO
 import ar.edu.unsam.algo3.dto.toMarketCardDTO
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
@@ -52,5 +53,4 @@ class PuntosDeVentaService(
     val idStore = puntosDeVentaRepository.search(palabra).map { it.id }
     return lista.filter { it.id in idStore }
   }
-
 }
