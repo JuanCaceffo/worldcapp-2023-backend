@@ -36,6 +36,8 @@ abstract class PuntoDeVenta(
         baseDeEnvio=nuevaBase
     }
 
+    fun cantidadPedidosPendientes() = pedidosPendientes.sumOf { pedido -> pedido.cantSobres }
+
     fun importeACobrar(usuario: Usuario,cantSobres: Int): Double = (costoMinimoSobre * cantSobres + baseDeEnvio + extraPorKm(usuario)) * modificadorCosto(cantSobres)
 
     abstract fun modificadorCosto(cantSobres: Int): Double //pasamos cantSobres a modificadorCosto en pos de mantener el polimorfismo
@@ -70,7 +72,7 @@ abstract class PuntoDeVenta(
     override fun validSearchCondition(value: String) =  Comparar.total(value, listOf(nombre))
 
     //------------------------------------------------- validaciones ------------------------------------------
-    fun errorFechaEntregaAnteriorFechaActual(pedido: Pedido){
+    private fun errorFechaEntregaAnteriorFechaActual(pedido: Pedido){
         if (pedido.fechaEntrega.isBefore(LocalDate.now())){
             throw IllegalArgumentException(MENSAJE_ERROR_PV_FECHA_PEDIDO_ANTERIOR_FECHA_ACUTAL)
         }
@@ -79,16 +81,15 @@ abstract class PuntoDeVenta(
 
 class Kioscos(nombre: String, direccion: Direccion, stockSobres: Int, var hayEmpleados: Boolean) : PuntoDeVenta(nombre, direccion, stockSobres){
 
-    var porcentajeEmpelados = 1.25 //25% extra
-    var porcentajeDuenios = 1.1 //%10 extra
+    private var porcentajeEmpelados = 1.25 //25% extra
+    private var porcentajeDuenios = 1.1 //%10 extra
     override fun modificadorCosto(cantSobres: Int): Double = if (hayEmpleados) porcentajeEmpelados else porcentajeDuenios
-
 }
 
 class Librerias(nombre: String, direccion: Direccion, stockSobres: Int) : PuntoDeVenta(nombre, direccion, stockSobres){
-    var adicionalSuperaUmbral = 1.1 //10% extra
-    var adicionalEstandar = 1.05 //5% extra
-    var umbralDias = 10
+    private var adicionalSuperaUmbral = 1.1 //10% extra
+    private var adicionalEstandar = 1.05 //5% extra
+    private var umbralDias = 10
     override fun modificadorCosto(cantSobres: Int): Double = if (pedidosFabricaSuperanUmbral()) adicionalSuperaUmbral else adicionalEstandar
     private fun pedidosFabricaSuperanUmbral():Boolean = pedidosPendientes.any{ChronoUnit.DAYS.between(LocalDate.now(),it.fechaEntrega) >= umbralDias}
 }

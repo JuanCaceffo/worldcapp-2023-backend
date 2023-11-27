@@ -8,23 +8,20 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @CrossOrigin("*")
 class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
-  @GetMapping("/puntosDeVenta/{id}")
+  @GetMapping("/puntos-de-venta")
   @Operation(summary = "Obtiene todos los puntos de venta")
-  fun getAll(
-    @PathVariable id: Int,
-    @RequestParam(name= "palabraClave", required = false, defaultValue = "") palabraClave: String,
-    @RequestParam(name= "opcionElegida", required = false, defaultValue = "") opcionElegida: String
-  ): List<MarketCardDTO> {
-    val filtro = FiltroPuntoDeVentaDTO(
-      palabraClave = palabraClave,
-      opcionElegida = opcionElegida,
-    )
-    return this.puntosDeVentaService.obtenerPuntosDeVentaFiltrados(id,filtro)
+  fun getAllSalesPoint(
+    params:BaseFilterParams
+  ): List<MarketDTO> {
+    return this.puntosDeVentaService.getAll(MarketFilterParams(params.palabraClave))
   }
 
-  @GetMapping("/puntosDeVenta/index")
-  @Operation(summary = "Obtiene toda la info necesaria para mostrar todos los puntos de venta en su respectivo dashboard")
-  fun getAllSalesPoint(): List<SalesPointCardDTO>{
-    return this.puntosDeVentaService.getAllSalesPoint()
+  @GetMapping("/puntos-de-venta/{id}")
+  @Operation(summary = "Obtiene todos los puntos de venta con referencia al usuario logueado")
+  fun getAll(
+    @PathVariable id: Int,
+    params: MarketFilterParams
+  ): List<MarketCardDTO> {
+    return this.puntosDeVentaService.puntosDeVentaOrdenados(id, params)
   }
 }
