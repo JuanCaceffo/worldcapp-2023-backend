@@ -1,9 +1,7 @@
 package ar.edu.unsam.algo3.dto
 
-import  ar.edu.unsam.algo3.domain.Figurita
-import ar.edu.unsam.algo3.domain.NivelImpresion
+import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.domain.Usuario
-import ar.edu.unsam.algo3.domain.impresionBaja
 
 abstract class FiltroBaseDTO(
   val palabraClave:String = ""
@@ -15,13 +13,13 @@ class FiltroPuntoDeVentaDTO(
 ): FiltroBaseDTO(palabraClave)
 
 open class FiguritaBaseDTO(
-  val id: Int = 0,
-  val numero: Int = 0,
-  val onFire: Boolean = false,
-  val nombre: String = "",
-  val apellido: String = "",
-  val nivelImpresion: String = impresionBaja.nombre,
-  val valoracion: Double = 0.0
+  val id: Int,
+  val numero: Int,
+  val onFire: Boolean,
+  val nombre: String,
+  val apellido: String,
+  val nivelImpresion: String,
+  val valoracion: Double
 )
 class FiguritaFullDTO(
   id:Int,
@@ -59,7 +57,7 @@ fun Figurita.toBaseDTO() = FiguritaBaseDTO(
   nombre = this.jugador.nombre,
   apellido = this.jugador.apellido,
   nivelImpresion = this.cantidadImpresa.nombre,
-  valoracion = this.valoracion()
+  valoracion = this.jugador.valoracionJugador(),
 )
 
 fun Figurita.toDTO(user: Usuario?) = FiguritaFullDTO(
@@ -87,14 +85,4 @@ fun Figurita.toDTO(user: Usuario?) = FiguritaFullDTO(
   valoracion = this.jugador.valoracionJugador(),
   duenio = (user?.nombreUsuario ?: ""),
   idUsuario = user?.id ?: -1
-)
-
-fun Figurita.toFiguritaBaseDTO() = FiguritaBaseDTO(
-  id = this.id,
-  numero = this.numero,
-  onFire = this.onFire,
-  nombre = this.jugador.nombre,
-  apellido = this.jugador.apellido,
-  nivelImpresion = this.cantidadImpresa.nombre,
-  valoracion = this.jugador.valoracionJugador()
 )

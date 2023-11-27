@@ -1,7 +1,13 @@
 package ar.edu.unsam.algo3.service
 
+import ar.edu.unsam.algo3.controller.MarketFilterParams
+import ar.edu.unsam.algo3.domain.Filtro
+import ar.edu.unsam.algo3.domain.FiltroPalabraClavePuntoDeVenta
 import ar.edu.unsam.algo3.domain.PuntoDeVenta
-import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.dto.MarketCardDTO
+import ar.edu.unsam.algo3.dto.MarketDTO
+import ar.edu.unsam.algo3.dto.toMarketCardDTO
+import ar.edu.unsam.algo3.dto.toMarketDTO
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -11,46 +17,37 @@ class PuntosDeVentaService(
   val puntosDeVentaRepository: PuntosDeVentaRepository,
   val usuariosRepository: UsuariosRepository
 ) {
-  fun getAll(userId: Int): List<MarketCardDTO> =
-    puntosDeVentaRepository.getAll().map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
-
-  fun getAllSalesPoint(): List<SalesPointCardDTO> = puntosDeVentaRepository.getAll().map { it.toSalesPointCardDTO() }
-
-  fun obtenerPuntosDeVentaFiltrados(userLogedID: Int,filtro: FiltroPuntoDeVentaDTO): List<MarketCardDTO> {
-    var listaOrdenada = getAll(userLogedID)
-
-    when (filtro.opcionElegida) {
-      "Menor Distancia" -> listaOrdenada = mapToDTO(
-        userLogedID,
-        puntosDeVentaRepository.ordenarPorMenorDistancia(usuariosRepository.getById(userLogedID))
-      )
-
-      "Más Barato" -> listaOrdenada = mapToDTO(
-        userLogedID,
-        puntosDeVentaRepository.ordenarPorMasBarato(usuariosRepository.getById(userLogedID))
-      )
-
-      "Más Sobres" -> listaOrdenada = mapToDTO(userLogedID, puntosDeVentaRepository.ordenarPorMasSobres()).reversed()
-
-      "Sólo más Cercanos" -> listaOrdenada = mapToDTO(
-        userLogedID,
-        puntosDeVentaRepository.ordenarPorSoloMasCercanos(usuariosRepository.getById(userLogedID))
-      )
+  fun getAll(params: MarketFilterParams): List<MarketDTO> {
+    val puntosDeVenta = puntosDeVentaRepository.getAll()
+    return filtrar(puntosDeVenta, params).map {
+      it.toMarketDTO()
     }
-
-    if (filtro.palabraClave != "") {
-      listaOrdenada = filtroPalabraClave(filtro.palabraClave, listaOrdenada)
-      println(listaOrdenada)
-    }
-
-    return listaOrdenada
   }
 
-  fun mapToDTO(userId: Int, lista: List<PuntoDeVenta>) =
-    lista.map { it.toMarketCardDTO(usuariosRepository.getById(userId)) }
+  fun puntosDeVentaOrdenados(userId: Int, params: MarketFilterParams): List<MarketCardDTO> {
+    var listaOrdenada: List<PuntoDeVenta> = mutableListOf()
 
-  fun filtroPalabraClave(palabra: String, lista: List<MarketCardDTO>): List<MarketCardDTO> {
-    val idStore = puntosDeVentaRepository.search(palabra).map { it.id }
-    return lista.filter { it.id in idStore }
+    when (params.opcionElegida) {
+      "Menor Distancia" -> listaOrdenada = puntosDeVentaRepository.ordenarPorMenorDistancia(usuariosRepository.getById(userId))
+      "Más Barato" -> listaOrdenada = puntosDeVentaRepository.ordenarPorMasBarato(usuariosRepository.getById(userId))
+      "Más Sobres" -> listaOrdenada = puntosDeVentaRepository.ordenarPorMasSobres().reversed()
+      "Sólo más Cercanos" -> listaOrdenada =
+        puntosDeVentaRepository.ordenarPorSoloMasCercanos(usuariosRepository.getById(userId))
+    }
+
+    return filtrar(listaOrdenada, params).map {
+      it.toMarketCardDTO(usuariosRepository.getById(userId))
+    }
+  }
+
+  fun crearFiltroMarket(params: MarketFilterParams): Filtro<PuntoDeVenta> {
+    return Filtro<PuntoDeVenta>().apply {
+      addCondiconFiltrado(FiltroPalabraClavePuntoDeVenta(params.palabraClave, puntosDeVentaRepository))
+    }
+  }
+
+  fun filtrar(markets: List<PuntoDeVenta>, params: MarketFilterParams): List<PuntoDeVenta> {
+    val filtro = crearFiltroMarket(params)
+    return markets.filter { market -> filtro.cumpleCondiciones(market) }
   }
 }
