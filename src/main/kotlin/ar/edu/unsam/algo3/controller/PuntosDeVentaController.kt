@@ -16,12 +16,20 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     return this.puntosDeVentaService.getAll(MarketFilterParams(params.palabraClave))
   }
 
-  @GetMapping("/puntos-de-venta/{id}")
+  @GetMapping("/punto-de-venta/{id}")
+  @Operation(summary = "Obtiene un punto de venta")
+  fun getById(
+    @PathVariable id: Int
+  ): MarketDTO {
+    return this.puntosDeVentaService.getById(id)
+  }
+
+  @GetMapping("/puntos-de-venta/usuario/{idUsuario}")
   @Operation(summary = "Obtiene todos los puntos de venta con referencia al usuario logueado")
   fun getAll(
-    @PathVariable id: Int,
+    @PathVariable idUsuario: Int,
     params: MarketFilterParams
   ): List<MarketCardDTO> {
-    return this.puntosDeVentaService.puntosDeVentaOrdenados(id, params)
+    return this.puntosDeVentaService.puntosDeVentaOrdenados(idUsuario, params)
   }
 }
