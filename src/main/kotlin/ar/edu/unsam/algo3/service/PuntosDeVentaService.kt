@@ -8,6 +8,8 @@ import ar.edu.unsam.algo3.dto.MarketCardDTO
 import ar.edu.unsam.algo3.dto.MarketDTO
 import ar.edu.unsam.algo3.dto.toMarketCardDTO
 import ar.edu.unsam.algo3.dto.toMarketDTO
+import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -17,6 +19,14 @@ class PuntosDeVentaService(
   val puntosDeVentaRepository: PuntosDeVentaRepository,
   val usuariosRepository: UsuariosRepository
 ) {
+  fun getById(id:Int):MarketDTO{
+     try {
+      return puntosDeVentaRepository.getById(id).toMarketDTO()
+    } catch (ex: Exception) {
+      throw NotFoundException(MENSAJE_ERROR_ID_INEXISTENTE)
+    }
+  }
+
   fun getAll(params: MarketFilterParams): List<MarketDTO> {
     val puntosDeVenta = puntosDeVentaRepository.getAll()
     return filtrar(puntosDeVenta, params).map {
