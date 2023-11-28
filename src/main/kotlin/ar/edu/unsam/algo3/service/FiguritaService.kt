@@ -62,4 +62,8 @@ class FiguritaService(
       throw NotFoundException(MENSAJE_ERROR_ID_INEXISTENTE)
     }
   }
+  fun delete(id: Int) {
+    val figurita = figuritaRepository.getById(id)
+    figuritaRepository.delete(figurita)
+  }
   }

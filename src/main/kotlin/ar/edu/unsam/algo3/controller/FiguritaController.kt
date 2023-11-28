@@ -49,4 +49,9 @@ class FiguritaController(val figuritaService: FiguritaService) {
   ): FiguritaBaseDTO {
     return this.figuritaService.getById(id)
   }
+  @DeleteMapping("/figurita/eliminar/{id}")
+  @Operation(summary="Elimina una figurita segun su id")
+  fun delete(@PathVariable id: Int){
+    figuritaService.delete(id)
+  }
 }
