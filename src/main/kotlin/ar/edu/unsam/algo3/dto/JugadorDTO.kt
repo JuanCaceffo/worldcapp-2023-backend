@@ -12,6 +12,7 @@ data class infoJugadorDTO(
     val seleccion: String,
     val debut: String,
     val posicion: String,
+    val Posiciones: List<String>?,
     val esLider: Boolean,
     val cotizacion: Double
 )
