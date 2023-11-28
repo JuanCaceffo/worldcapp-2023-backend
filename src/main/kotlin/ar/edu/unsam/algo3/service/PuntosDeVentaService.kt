@@ -50,13 +50,18 @@ class PuntosDeVentaService(
     }
   }
 
-  fun crearFiltroMarket(params: MarketFilterParams): Filtro<PuntoDeVenta> {
+  fun delete(id: Int) {
+    val puntoDeVenta = puntosDeVentaRepository.getById(id)
+    puntosDeVentaRepository.delete(puntoDeVenta)
+  }
+
+  private fun crearFiltroMarket(params: MarketFilterParams): Filtro<PuntoDeVenta> {
     return Filtro<PuntoDeVenta>().apply {
       addCondiconFiltrado(FiltroPalabraClavePuntoDeVenta(params.palabraClave, puntosDeVentaRepository))
     }
   }
 
-  fun filtrar(markets: List<PuntoDeVenta>, params: MarketFilterParams): List<PuntoDeVenta> {
+  private fun filtrar(markets: List<PuntoDeVenta>, params: MarketFilterParams): List<PuntoDeVenta> {
     val filtro = crearFiltroMarket(params)
     return markets.filter { market -> filtro.cumpleCondiciones(market) }
   }
