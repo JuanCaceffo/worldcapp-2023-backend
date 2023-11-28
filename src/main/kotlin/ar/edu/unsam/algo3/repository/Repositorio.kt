@@ -1,9 +1,8 @@
 package ar.edu.unsam.algo3.repository
 
+import ar.edu.unsam.algo3.error.ErrorMessages
 import ar.edu.unsam.algo3.error.NotFoundException
 import org.springframework.stereotype.Repository
-
-const val MENSAJE_ERROR_ID_INEXISTENTE = "El ID no corresponde con ningun elemento del repositorio"
 
 @Repository
 class Repositorio<T : RepositorioProps> {
@@ -39,7 +38,7 @@ class Repositorio<T : RepositorioProps> {
   }
 
   fun getById(id: Int): T {
-    return elementos[id] ?: throw NotFoundException(MENSAJE_ERROR_ID_INEXISTENTE)
+    return elementos[id] ?: throw NotFoundException(ErrorMessages.ID_INEXISTENTE)
   }
 
   fun search(value: String) = elementos.values.filter { it.validSearchCondition(value) }
