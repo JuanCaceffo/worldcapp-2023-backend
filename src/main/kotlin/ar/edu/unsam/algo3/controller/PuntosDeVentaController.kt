@@ -34,8 +34,8 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
   }
 
   @DeleteMapping("/punto-de-venta/eliminar/{id}")
-  @Operation(summary="Permite eliminar una figurita repetida del usuario")
-  fun deleteFiguritaRepe(@PathVariable id: Int){
+  @Operation(summary="Permite eliminar un punto de venta")
+  fun delete(@PathVariable id: Int){
     puntosDeVentaService.delete(id)
   }
 }
