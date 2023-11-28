@@ -42,4 +42,11 @@ class FiguritaController(val figuritaService: FiguritaService) {
     val printsLevel: List<NivelImpresion> = listOf(impresionBaja, impresionMedia, impresionAlta)
     return DataCreateFigurita(players, printsLevel)
   }
+  @GetMapping("/figurita/{id}")
+  @Operation(summary = "Obtiene una figurita")
+  fun getById(
+    @PathVariable id: Int
+  ): FiguritaBaseDTO {
+    return this.figuritaService.getById(id)
+  }
 }
