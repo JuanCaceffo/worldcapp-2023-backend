@@ -38,4 +38,8 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
   fun delete(@PathVariable id: Int){
     puntosDeVentaService.delete(id)
   }
+
+  @PostMapping("/punto-de-venta/nuevo")
+  @Operation(summary = "Permite crear un nuevo punto de venta")
+  fun create(@RequestBody dataMarket: MarketCardDTO) = puntosDeVentaService.createMarket(dataMarket)
 }

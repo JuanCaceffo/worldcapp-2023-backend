@@ -1,7 +1,7 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.ErrorMessages
 import ar.edu.unsam.algo3.error.NotFoundException
-import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.Repositorio
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
@@ -38,7 +38,7 @@ class RepositorioSpec: DescribeSpec({
 
                 shouldThrow<NotFoundException> {
                     repositorioFiguritas.getById(figu2Messi.id)
-                }.message shouldBe MENSAJE_ERROR_ID_INEXISTENTE
+                }.message shouldBe ErrorMessages.ID_INEXISTENTE
             }
 
             describe("Dada una busqueda parcial"){
