@@ -10,6 +10,8 @@ import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
 
+const val ERROR_MSG_FIND_JUGADOR = "El jugador a buscar es inexitente"
+
 @Service
 class FiguritaService(
   val figuritaRepository: FiguritasRepository,
@@ -65,5 +67,32 @@ class FiguritaService(
   fun delete(id: Int) {
     val figurita = figuritaRepository.getById(id)
     figuritaRepository.delete(figurita)
+  }
+  fun crearFigurita(infoFigurita : FiguritaCreateDTO) {
+    val nuevaFigurita = Figurita (
+      numero = infoFigurita.numero,
+      onFire = infoFigurita.onFire,
+      cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion),
+      jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+    )
+    figuritaRepository.create(nuevaFigurita)
+  }
+  fun buscarJugadorPorNombre ( jugadorNombre: String ) : Jugador{
+    val nombreApellido = jugadorNombre.split(" ")
+    val nombre = nombreApellido[0]
+
+    return jugadorRepository.getAll().find { jugador ->
+      jugador.nombre == nombre}
+      ?: throw NotFoundException(ERROR_MSG_FIND_JUGADOR)
+  }
+  fun obtenerNivelImpresionDesdeString(nivelImpresionString: String): NivelImpresion {
+    val mapNivelesImpresion = mapOf(
+      "baja" to impresionBaja,
+      "media" to impresionMedia,
+      "alta" to impresionAlta
+    )
+
+    return mapNivelesImpresion[nivelImpresionString.toLowerCase()]
+      ?: throw IllegalArgumentException("Nivel de impresión no válido: $nivelImpresionString")
   }
   }

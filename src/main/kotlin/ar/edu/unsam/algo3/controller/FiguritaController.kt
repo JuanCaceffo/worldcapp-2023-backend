@@ -54,4 +54,9 @@ class FiguritaController(val figuritaService: FiguritaService) {
   fun delete(@PathVariable id: Int){
     figuritaService.delete(id)
   }
+  @PostMapping("/figurita/crear")
+  @Operation(summary = "Permite crear una figurita")
+  fun crearJugador(@RequestBody infoFigurita: FiguritaCreateDTO ){
+    figuritaService.crearFigurita(infoFigurita)
+  }
 }
