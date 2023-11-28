@@ -32,4 +32,10 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
   ): List<MarketCardDTO> {
     return this.puntosDeVentaService.puntosDeVentaOrdenados(idUsuario, params)
   }
+
+  @DeleteMapping("/punto-de-venta/eliminar/{id}")
+  @Operation(summary="Permite eliminar un punto de venta")
+  fun delete(@PathVariable id: Int){
+    puntosDeVentaService.delete(id)
+  }
 }
