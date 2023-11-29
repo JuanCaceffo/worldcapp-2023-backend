@@ -34,7 +34,7 @@ class JugadoresController(
         ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MESNAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
         ApiResponse(responseCode = "501", description = "Error al parsear la fecha"),
     ])
-    @PatchMapping("/{id}/modficar")
+    @PatchMapping("/{id}/modificar")
     @Operation(summary = "Permite modificar un jugador existente")
     fun modificarJugador(@RequestBody infoJugador: infoJugadorDTO, @PathVariable id: Int ) {
         jugadoresService.modificarJugador(infoJugador, id)
