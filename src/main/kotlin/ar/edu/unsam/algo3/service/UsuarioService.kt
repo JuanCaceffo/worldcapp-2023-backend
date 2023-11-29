@@ -78,8 +78,6 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
         val userRepesList = searchByID(userID).figuritasRepetidas
         val index =  userRepesList.indexOfFirst { figu -> figu.id == figuID }
         validiationRemove(index >= 0)
-        println("indexs "+ userRepesList.size)
-        println(index)
         userRepesList.removeAt(index)
     }
 
@@ -92,13 +90,11 @@ class UsuarioService(val usuarioRepo: UsuariosRepository, val figurtiasRepo: Fig
     fun addFiguFaltante(figuToAddData: AddFiguDTO){
         val user = searchByID(figuToAddData.userLogedID)
         val figu = figurtiasRepo.getById(figuToAddData.FiguID)
-
         user.addFiguritaFaltante(figu)
     }
     fun addFiguRepe(figuToAddData: AddFiguDTO){
         val user = searchByID(figuToAddData.userLogedID)
         val figu = figurtiasRepo.getById(figuToAddData.FiguID)
-
         user.addFiguritaRepetida(figu)
     }
 }

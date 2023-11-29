@@ -16,8 +16,8 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
     @Test
     fun `puedo mockear una llamada al endpoint via get y me responde correctamente`() {
         val jsonBody = """    [
-                                  {
-                                    "id": 1,
+                                 {
+                                    "id": 2,
                                     "nombre": "Señor Kioskero",
                                     "tipoPuntoDeVenta": "Kioscos",
                                     "direccion": {
@@ -25,15 +25,18 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
                                       "altura": 31,
                                       "ubiGeografica": "x: -34.11119065556780327597152790986001491546630859375, y: -58.1111189167800006316610961221158504486083984375"
                                     },
+                                    "direccionPlana": "Urquiza 31",
+                                    "geoX": -34.1111906555678,
+                                    "geoY": -58.11111891678,
                                     "stockSobres": 20,
-                                    "pedidosPendientes": 2,
+                                    "pedidosPendientes": 0,
                                     "distancia": 111.49728538392884,
                                     "precioSobres": 14212.5
                                   }
                               ]
                       """
         mockMvc
-            .perform(MockMvcRequestBuilders.get("/puntos-de-venta/3")
+            .perform(MockMvcRequestBuilders.get("/puntos-de-venta/usuario/3")
                 .param("palabraClave", "Señor Kioskero")
                 .param("opcionElegida", "Menor Distancia"))
             .andExpect(MockMvcResultMatchers.status().isOk)

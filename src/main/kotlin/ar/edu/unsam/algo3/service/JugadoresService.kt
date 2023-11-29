@@ -1,7 +1,7 @@
 package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.infoJugadorDTO
+import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.NotImplementedError
 import ar.edu.unsam.algo3.repository.JugadorRepository
@@ -48,14 +48,14 @@ class JugadoresService(
         }
     }
 
-    fun validarDataJugador(infoJugador: infoJugadorDTO){
+    fun validarDataJugador(infoJugador: InfoCrearJugadorDTO){
         with(infoJugador){
             if(nombre.isEmpty() || apellido.isEmpty() || nacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
                 throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
             }
         }
     }
-    fun crearJugador(infoJugador: infoJugadorDTO) {
+    fun crearJugador(infoJugador: InfoCrearJugadorDTO) {
         validarDataJugador(infoJugador)
 
         val nuevoJugador = Jugador(
@@ -74,7 +74,7 @@ class JugadoresService(
         jugadoresRepo.create(nuevoJugador)
     }
 
-    fun modificarJugador(infoJugador: infoJugadorDTO, idJugador: Int) {
+    fun modificarJugador(infoJugador: InfoCrearJugadorDTO, idJugador: Int) {
         validarDataJugador(infoJugador)
 
         val jugador = jugadoresRepo.getById(idJugador)
