@@ -20,7 +20,7 @@ import java.time.LocalDate
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("Dado un controller de usuario")
+@DisplayName("Dado un controller de jugador")
 class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
 
     @Autowired
