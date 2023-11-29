@@ -29,12 +29,9 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
   "seleccion": "Argentina",
   "debut": "2022-01-02",
   "posicion": "Delantero",
-  "Posiciones": [],
   "esLider": true,
   "cotizacion": 1000000,
-  "posiciones": [
-    "string"
-  ]
+  "posiciones": []
 }                
 """
         mockMvc
@@ -45,5 +42,33 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
                     .content(jsonBodyInfoJugador)
             )
             .andExpect(MockMvcResultMatchers.status().isOk)
+    }
+    @Test
+    fun `El llamado al metodo post para crear un jugador falla por que la fecha no tiene el formato correcto`() {
+        val jsonBodyInfoJugador =
+            """
+{
+  "nombre": "Juanchito",
+  "apellido": "Caceffo",
+  "nacimiento": "01-02-2003",
+  "altura": 1.70,
+  "peso": 67,
+  "camiseta": 10,
+  "seleccion": "Argentina",
+  "debut": "2022-01-02",
+  "posicion": "Delantero",
+  "esLider": true,
+  "cotizacion": 1000000,
+  "Posiciones": []
+}                
+"""
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .post("/jugadores/crear")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonBodyInfoJugador)
+            )
+            .andExpect(MockMvcResultMatchers.status().is5xxServerError)
     }
 }

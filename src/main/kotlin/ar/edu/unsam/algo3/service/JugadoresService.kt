@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3.service
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.infoJugadorDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
+import ar.edu.unsam.algo3.error.NotImplementedError
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import org.springframework.stereotype.Service
@@ -58,7 +59,7 @@ class JugadoresService(
             anioDeDebut = anioDebut,
             cotizacion = infoJugador.cotizacion,
             esLider = infoJugador.esLider,
-            posicion = stringAPosicion(infoJugador.posicion,infoJugador.Posiciones),
+            posicion = stringAPosicion(infoJugador.posicion,infoJugador.posiciones),
             seleccionPerteneciente = stirngASeleccion(infoJugador.seleccion)
         )
         jugadoresRepo.create(nuevoJugador)
