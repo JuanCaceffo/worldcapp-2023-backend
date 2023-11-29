@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 
-val MENSAJE_ERROR_POSICION_INEXISTENTE = "La posicion que a seleccionado no existe"
-val MESNAJE_ERROR_SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
+const val MENSAJE_ERROR_POSICION_INEXISTENTE = "La posicion que a seleccionado no existe"
+const val MESNAJE_ERROR_SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
 
 @Service
 class JugadoresService(
