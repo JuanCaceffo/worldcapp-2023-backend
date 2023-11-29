@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
+import ar.edu.unsam.algo3.dto.JugadorDTO
 import ar.edu.unsam.algo3.service.JugadoresService
 import ar.edu.unsam.algo3.service.MENSAJE_ERROR_DATA_INCOMPLETA
 import ar.edu.unsam.algo3.service.MENSAJE_ERROR_POSICION_INEXISTENTE
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/jugador")
 class JugadoresController(
     val jugadoresService: JugadoresService
 ) {
@@ -22,7 +22,7 @@ class JugadoresController(
         ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MESNAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
         ApiResponse(responseCode = "501", description = "Error al parsear la fecha"),
     ])
-    @PostMapping("/crear")
+    @PostMapping("jugador/crear")
     @Operation(summary = "Permite crear un jugador")
     fun crearJugador(@RequestBody infoJugador: InfoCrearJugadorDTO) {
         jugadoresService.crearJugador(infoJugador)
@@ -33,9 +33,17 @@ class JugadoresController(
         ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MESNAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
         ApiResponse(responseCode = "501", description = "Error al parsear la fecha"),
     ])
-    @PatchMapping("/{id}/modificar")
+    @PatchMapping("jugador/{id}/modificar")
     @Operation(summary = "Permite modificar un jugador existente")
     fun modificarJugador(@RequestBody infoJugador: InfoCrearJugadorDTO, @PathVariable id: Int ) {
         jugadoresService.modificarJugador(infoJugador, id)
+    }
+
+    @GetMapping("/jugadores")
+    @Operation(summary = "Devuelve todos los jugadores existentes en el sistema")
+    fun getAll(
+        params: BaseFilterParams
+    ): List<JugadorDTO> {
+        return jugadoresService.getAll(BaseFilterParams(params.palabraClave))
     }
 }

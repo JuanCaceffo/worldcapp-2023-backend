@@ -1,7 +1,10 @@
 package ar.edu.unsam.algo3.service
 
+import ar.edu.unsam.algo3.controller.BaseFilterParams
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
+import ar.edu.unsam.algo3.dto.JugadorDTO
+import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.NotImplementedError
 import ar.edu.unsam.algo3.repository.JugadorRepository
@@ -94,4 +97,19 @@ class JugadoresService(
         }
     }
 
+    fun getAll(params: BaseFilterParams): List<JugadorDTO> {
+        val jugadores = jugadoresRepo.getAll()
+        return filtrar(jugadores, params).map { it.toDTO() }
+    }
+
+    fun crearFiltroJugador(params: BaseFilterParams):Filtro<Jugador>{
+        return Filtro<Jugador>().apply {
+            addCondiconFiltrado(FiltroPalabraClaveJugador(params.palabraClave, jugadoresRepo))
+        }
+    }
+
+    fun filtrar(figus: List<Jugador>, params: BaseFilterParams): List<Jugador>{
+        val filtro = crearFiltroJugador(params)
+        return figus.filter { figu -> filtro.cumpleCondiciones(figu) }
+    }
 }

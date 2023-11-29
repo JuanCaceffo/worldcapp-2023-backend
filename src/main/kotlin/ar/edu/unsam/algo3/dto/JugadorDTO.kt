@@ -25,10 +25,8 @@ data class JugadorDTO(
     val peso: Double,
     val nroCamiseta: Int,
     val seleccion: String,
-    val anioDebut: String,
     val posicion: String,
-    val esLider: Boolean,
-    val cotizacion: Double,
+    val cotizacion: Double
 )
 
 fun Jugador.toDTO() = JugadorDTO(
@@ -40,9 +38,7 @@ fun Jugador.toDTO() = JugadorDTO(
     peso = this.peso,
     nroCamiseta = this.nroCamiseta,
     seleccion = this.seleccionPerteneciente.pais,
-    anioDebut = this.anioDeDebut.toString(),
     posicion = this.posicion.nombre,
-    esLider = this.esLider,
     cotizacion = this.cotizacion
 )
 
