@@ -6,11 +6,11 @@ import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.core.annotation.Order
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.time.LocalDate
 
-@Order(1)
-@Service
+@Component
+@Order(0)
 class FiguritasBoostrap(
   val figuritasRepository: FiguritasRepository,
   val jugadorRepository: JugadorRepository,
@@ -276,20 +276,27 @@ class FiguritasBoostrap(
   )
 
   fun crearFiguritas() {
+    println("INICIO EL PROCESO DE CREACIÓN DE FIGURITAS")
     figuritas.forEach { figurita -> figuritasRepository.apply { create(figurita) } }
   }
 
   fun crearJugador() {
+    println("INICIO EL PROCESO DE CREACIÓN DE JUGADORES")
     jugadores.values.forEach { jugador -> jugadorRepository.apply { create(jugador) } }
   }
 
   fun crearSelecciones() {
+    println("INICIO EL PROCESO DE CREACIÓN DE SELECCIONES")
     selecciones.values.forEach { seleccion -> seleccionesRepository.apply { create(seleccion) } }
   }
 
   override fun afterPropertiesSet() {
+    println("INICIO EL PROCESO DE CREACION DE SELECCIONES")
     this.crearSelecciones()
+    println("INICIO EL PROCESO DE CREACION DE JUGADORES")
     this.crearJugador()
+    println("INICIO EL PROCESO DE CREACION DE FIGURITAS")
     this.crearFiguritas()
+    println("FIN DE CREACION DE FIGURITAS")
   }
 }
