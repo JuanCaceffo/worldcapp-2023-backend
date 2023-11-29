@@ -12,7 +12,7 @@ import java.time.format.DateTimeParseException
 
 const val MENSAJE_ERROR_POSICION_INEXISTENTE = "La posicion que a seleccionado no existe"
 const val MESNAJE_ERROR_SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
-
+const val MENSAJE_ERROR_DATA_INCOMPLETA = "Necesita ingresar mas campos"
 @Service
 class JugadoresService(
     val jugadoresRepo: JugadorRepository,
@@ -39,30 +39,59 @@ class JugadoresService(
     fun stirngASeleccion(strSeleccion:String): Seleccion {
         return seleccionesRepo.getAll().find { seleccion -> seleccion.pais == strSeleccion} ?: throw BussinesExpetion(MESNAJE_ERROR_SELECCION_INEXISTENTE)
     }
-    fun crearJugador(infoJugador: infoJugadorDTO) {
-        var anioDebut = 0
-        var fechaNacimiento: LocalDate
 
+    fun fechaParser(anio: String): LocalDate{
         try {
-            anioDebut = LocalDate.parse(infoJugador.debut).year
-            fechaNacimiento = LocalDate.parse(infoJugador.nacimiento)
+            return LocalDate.parse(anio)
         }catch (e: DateTimeParseException){
             throw NotImplementedError("Error al parsear la fecha: " + e.message)
         }
+    }
+
+    fun validarDataJugador(infoJugador: infoJugadorDTO){
+        with(infoJugador){
+            if(nombre.isEmpty() || apellido.isEmpty() || nacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
+                throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
+            }
+        }
+    }
+    fun crearJugador(infoJugador: infoJugadorDTO) {
+        validarDataJugador(infoJugador)
+
         val nuevoJugador = Jugador(
             nombre = infoJugador.nombre,
             apellido = infoJugador.apellido,
             altura = infoJugador.altura,
             peso = infoJugador.peso,
             nroCamiseta = infoJugador.camiseta,
-            fechaNacimiento = fechaNacimiento,
-            anioDeDebut = anioDebut,
+            fechaNacimiento = fechaParser(infoJugador.nacimiento),
+            anioDeDebut = fechaParser(infoJugador.debut).year,
             cotizacion = infoJugador.cotizacion,
             esLider = infoJugador.esLider,
             posicion = stringAPosicion(infoJugador.posicion,infoJugador.posiciones),
             seleccionPerteneciente = stirngASeleccion(infoJugador.seleccion)
         )
         jugadoresRepo.create(nuevoJugador)
+    }
+
+    fun modificarJugador(infoJugador: infoJugadorDTO, idJugador: Int) {
+        validarDataJugador(infoJugador)
+
+        val jugador = jugadoresRepo.getById(idJugador)
+
+        with(jugador) {
+            fechaNacimiento = fechaParser(infoJugador.nacimiento)
+            altura = infoJugador.altura
+            apellido = infoJugador.apellido
+            nombre = infoJugador.nombre
+            anioDeDebut = fechaParser(infoJugador.debut).year
+            cotizacion = infoJugador.cotizacion
+            esLider = infoJugador.esLider
+            peso = infoJugador.peso
+            nroCamiseta = infoJugador.camiseta
+            posicion = stringAPosicion(infoJugador.posicion, infoJugador.posiciones)
+            seleccionPerteneciente = stirngASeleccion(infoJugador.seleccion)
+        }
     }
 
 }
