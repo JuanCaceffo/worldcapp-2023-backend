@@ -63,8 +63,8 @@ class JugadoresService(
             apellido = infoJugador.apellido,
             altura = infoJugador.altura,
             peso = infoJugador.peso,
-            nroCamiseta = infoJugador.camiseta,
-            fechaNacimiento = fechaParser(infoJugador.nacimiento),
+            nroCamiseta = infoJugador.nroCamiseta,
+            fechaNacimiento = fechaParser(infoJugador.fechaNacimiento),
             anioDeDebut = fechaParser(infoJugador.debut).year,
             cotizacion = infoJugador.cotizacion,
             esLider = infoJugador.esLider,
@@ -80,7 +80,7 @@ class JugadoresService(
         val jugador = jugadoresRepo.getById(idJugador)
 
         with(jugador) {
-            fechaNacimiento = fechaParser(infoJugador.nacimiento)
+            fechaNacimiento = fechaParser(infoJugador.fechaNacimiento)
             altura = infoJugador.altura
             apellido = infoJugador.apellido
             nombre = infoJugador.nombre
@@ -88,7 +88,7 @@ class JugadoresService(
             cotizacion = infoJugador.cotizacion
             esLider = infoJugador.esLider
             peso = infoJugador.peso
-            nroCamiseta = infoJugador.camiseta
+            nroCamiseta = infoJugador.nroCamiseta
             posicion = stringAPosicion(infoJugador.posicion, infoJugador.posiciones)
             seleccionPerteneciente = stirngASeleccion(infoJugador.seleccion)
         }
@@ -125,7 +125,7 @@ class JugadoresService(
 
     fun validarDataJugador(infoJugador: InfoCrearJugadorDTO){
         with(infoJugador){
-            if(nombre.isEmpty() || apellido.isEmpty() || nacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
+            if(nombre.isEmpty() || apellido.isEmpty() || fechaNacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
                 throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
             }
         }
