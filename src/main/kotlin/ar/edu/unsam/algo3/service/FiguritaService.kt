@@ -60,11 +60,7 @@ class FiguritaService(
     return figus.filter { figu -> filtro.cumpleCondiciones(figu) }
   }
   fun getById(id:Int): FiguritaBaseDTO {
-    try {
       return figuritaRepository.getById(id).toBaseDTO()
-    } catch (ex: Exception) {
-      throw NotFoundException(MENSAJE_ERROR_ID_INEXISTENTE)
-    }
   }
   fun delete(id: Int) {
     val figurita = figuritaRepository.getById(id)
