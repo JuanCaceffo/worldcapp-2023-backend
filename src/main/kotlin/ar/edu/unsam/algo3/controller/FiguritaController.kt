@@ -56,7 +56,12 @@ class FiguritaController(val figuritaService: FiguritaService) {
   }
   @PostMapping("/figurita/crear")
   @Operation(summary = "Permite crear una figurita")
-  fun crearJugador(@RequestBody infoFigurita: FiguritaCreateDTO ){
+  fun crearFigurita(@RequestBody infoFigurita: FiguritaCreateModifyDTO ){
     figuritaService.crearFigurita(infoFigurita)
+  }
+  @PatchMapping("/figurita/modificar/{id}")
+  @Operation(summary = "Permite modificar una figurita existente")
+  fun modificarFigurita(@RequestBody infoFigurita: FiguritaCreateModifyDTO, @PathVariable id: Int ) {
+    figuritaService.modificarFigurita(infoFigurita, id)
   }
 }

@@ -9,8 +9,10 @@ import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
+import ar.edu.unsam.algo3.error.BussinesExpetion
 
 const val ERROR_MSG_FIND_JUGADOR = "El jugador a buscar es inexitente"
+const val ERROR_MSG_DATA_INCOMPLETA = "Los campos se encuentran incompletos"
 
 @Service
 class FiguritaService(
@@ -68,7 +70,7 @@ class FiguritaService(
     val figurita = figuritaRepository.getById(id)
     figuritaRepository.delete(figurita)
   }
-  fun crearFigurita(infoFigurita : FiguritaCreateDTO) {
+  fun crearFigurita(infoFigurita : FiguritaCreateModifyDTO) {
     val nuevaFigurita = Figurita (
       numero = infoFigurita.numero,
       onFire = infoFigurita.onFire,
@@ -76,6 +78,18 @@ class FiguritaService(
       jugador = buscarJugadorPorNombre(infoFigurita.nombre)
     )
     figuritaRepository.create(nuevaFigurita)
+  }
+  fun modificarFigurita(infoFigurita: FiguritaCreateModifyDTO, idFigurita: Int){
+    validarDataFigurita(infoFigurita)
+
+    val figurita = figuritaRepository.getById(idFigurita)
+
+    with(figurita) {
+      numero = infoFigurita.numero
+      onFire = infoFigurita.onFire
+      cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion)
+      jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+    }
   }
   fun buscarJugadorPorNombre ( jugadorNombre: String ) : Jugador{
     val nombreApellido = jugadorNombre.split(" ")
@@ -94,5 +108,12 @@ class FiguritaService(
 
     return mapNivelesImpresion[nivelImpresionString.toLowerCase()]
       ?: throw IllegalArgumentException("Nivel de impresión no válido: $nivelImpresionString")
+  }
+  fun validarDataFigurita(infoFigurita: FiguritaCreateModifyDTO){
+    with(infoFigurita){
+      if(numero.toString().isEmpty() || onFire.toString().isEmpty() || nivelImpresion.isEmpty() || nombre.isEmpty()) {
+        throw BussinesExpetion(ERROR_MSG_DATA_INCOMPLETA)
+      }
+    }
   }
   }
