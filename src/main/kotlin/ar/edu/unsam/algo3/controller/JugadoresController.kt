@@ -16,7 +16,7 @@ class JugadoresController(
 
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
-        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MESNAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
+        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MENSAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
         ApiResponse(responseCode = "501", description = "Error al parsear la fecha"),
     ])
     @PostMapping("jugador/crear")
@@ -27,7 +27,7 @@ class JugadoresController(
 
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
-        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MESNAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
+        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MENSAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
         ApiResponse(responseCode = "501", description = "Error al parsear la fecha"),
     ])
     @PatchMapping("jugador/{id}/modificar")

@@ -15,7 +15,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeParseException
 
 const val MENSAJE_ERROR_POSICION_INEXISTENTE = "La posicion que a seleccionado no existe"
-const val MESNAJE_ERROR_SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
+const val MENSAJE_ERROR_SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
 const val MENSAJE_ERROR_DATA_INCOMPLETA = "Necesita ingresar mas campos"
 const val MENSAJE_ERROR_JUGADOR_UTILIZADO = "El jugador se encuentra utilizado actualmente"
 
@@ -44,7 +44,7 @@ class JugadoresService(
     }
 
     fun stirngASeleccion(strSeleccion:String): Seleccion {
-        return seleccionesRepo.getAll().find { seleccion -> seleccion.pais == strSeleccion} ?: throw BussinesExpetion(MESNAJE_ERROR_SELECCION_INEXISTENTE)
+        return seleccionesRepo.getAll().find { seleccion -> seleccion.pais == strSeleccion} ?: throw BussinesExpetion(MENSAJE_ERROR_SELECCION_INEXISTENTE)
     }
 
     fun fechaParser(anio: String): LocalDate{
