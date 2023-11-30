@@ -1,11 +1,12 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Confederacion
-import ar.edu.unsam.algo3.domain.Jugador
-import ar.edu.unsam.algo3.domain.Mediocampista
-import ar.edu.unsam.algo3.domain.Seleccion
+import ar.edu.unsam.algo3.bootstrap.FiguritasBoostrap
+import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
+import ar.edu.unsam.algo3.service.MENSAJE_ERROR_JUGADOR_UTILIZADO
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -24,35 +25,40 @@ import java.time.LocalDate
 class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
 
     @Autowired
+    lateinit var figusBoostrap: FiguritasBoostrap
+    @Autowired
     lateinit var jugadoresRepository: JugadorRepository
-
     @Autowired
     lateinit var seleccionesRepository : SeleccionesRepository
+    @Autowired
+    lateinit var figuritasRepository: FiguritasRepository
 
-
+    val argentina = Seleccion(pais = "Argentina", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 3)
+    val jugador = Jugador(
+        nombre = "Gonzalo",
+        apellido = "Martinez",
+        fechaNacimiento = LocalDate.of(1993, 6, 13),
+        nroCamiseta = 10,
+        seleccionPerteneciente = argentina,
+        posicion = Mediocampista,
+        anioDeDebut = 2008,
+        altura = 1.72,
+        peso = 70.0,
+        esLider = true,
+        cotizacion = 9000000.0
+    )
     @BeforeEach
     fun init(){
         jugadoresRepository.clear()
         seleccionesRepository.clear()
-
-        val argentina = Seleccion(pais = "Argentina", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 3)
+        figuritasRepository.clear()
 
         seleccionesRepository.create(argentina)
-        jugadoresRepository.create(
-            Jugador(
-                nombre = "Gonzalo",
-                apellido = "Martinez",
-                fechaNacimiento = LocalDate.of(1993, 6, 13),
-                nroCamiseta = 10,
-                seleccionPerteneciente = argentina,
-                posicion = Mediocampista,
-                anioDeDebut = 2008,
-                altura = 1.72,
-                peso = 70.0,
-                esLider = true,
-                cotizacion = 9000000.0
-            )
-        )
+        jugadoresRepository.create(jugador)
+    }
+    @AfterEach
+    fun end(){
+        figusBoostrap.afterPropertiesSet()
     }
 
     @Test
@@ -140,4 +146,26 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
 
+    @Test
+    fun `El llamado al metodo delete para eliminar un jugador funciona correctamente`() {
+
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .delete("/jugador/0/eliminar")
+            )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+    }
+
+    @Test
+    fun `El llamado al metodo delete para eliminar un jugador que esta siendo utilizado en una figurita falla`() {
+        figuritasRepository.create(Figurita(numero = 1, onFire = false, cantidadImpresa = impresionBaja, jugador = jugador))
+
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .delete("/jugador/0/eliminar")
+            )
+            .andExpect(MockMvcResultMatchers.status().is4xxClientError)
+    }
 }
