@@ -1,7 +1,10 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
+import ar.edu.unsam.algo3.domain.nombresPosiciones
+import ar.edu.unsam.algo3.domain.nombresPosicionesBasicas
+import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
 import ar.edu.unsam.algo3.dto.JugadorDTO
+import ar.edu.unsam.algo3.dto.PosicionesJugador
 import ar.edu.unsam.algo3.service.*
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -21,7 +24,7 @@ class JugadoresController(
     ])
     @PostMapping("jugador/crear")
     @Operation(summary = "Permite crear un jugador")
-    fun crearJugador(@RequestBody infoJugador: InfoCrearJugadorDTO) {
+    fun crearJugador(@RequestBody infoJugador: InfoCrearModificarJugadorDTO) {
         jugadoresService.crearJugador(infoJugador)
     }
 
@@ -32,7 +35,7 @@ class JugadoresController(
     ])
     @PatchMapping("jugador/{id}/modificar")
     @Operation(summary = "Permite modificar un jugador existente")
-    fun modificarJugador(@RequestBody infoJugador: InfoCrearJugadorDTO, @PathVariable id: Int ) {
+    fun modificarJugador(@RequestBody infoJugador: InfoCrearModificarJugadorDTO, @PathVariable id: Int ) {
         jugadoresService.modificarJugador(infoJugador, id)
     }
 
@@ -52,5 +55,17 @@ class JugadoresController(
     ])
     fun eliminarJugador(@PathVariable id: Int){
         jugadoresService.eliminarJugador(id)
+    }
+
+    @GetMapping("jugador/posiciones")
+    @Operation(summary = "Permite obtener dos listas de nombres de las posiciones que puede llegar a tener un jugador una con posiciones genericas y otra con la cantidad completa")
+    fun posiciones(): PosicionesJugador{
+        return PosicionesJugador(posicionesGenericas = nombresPosicionesBasicas, posiciones = nombresPosiciones)
+    }
+
+    @GetMapping("jugador/{id}")
+    @Operation(summary = "Permite obtener la data de un jugador en especifico")
+    fun obtenerJugador(@PathVariable id: Int): InfoCrearModificarJugadorDTO {
+        return jugadoresService.obtenerJugador(id)
     }
 }

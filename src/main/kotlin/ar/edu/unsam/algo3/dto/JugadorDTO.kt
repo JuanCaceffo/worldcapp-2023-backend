@@ -2,6 +2,12 @@ package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.domain.*
 
+data class PosicionesJugador(
+    val posicionesGenericas: List<String>,
+    val posiciones: List<String>
+)
+
+
 open class JugadorBaseDTO(
     val nombre: String,
     val apellido: String,
@@ -12,9 +18,9 @@ open class JugadorBaseDTO(
     val seleccion: String,
     val posicion: String,
     val cotizacion: Double
-    )
+)
 
-class InfoCrearJugadorDTO(
+class InfoCrearModificarJugadorDTO(
     nombre: String,
     apellido: String,
     fechaNacimiento: String,
@@ -27,7 +33,8 @@ class InfoCrearJugadorDTO(
     val posiciones: List<String>?,
     val esLider: Boolean,
     cotizacion: Double
-) : JugadorBaseDTO(nombre,apellido, fechaNacimiento, altura, peso, nroCamiseta, seleccion, posicion, cotizacion)
+) : JugadorBaseDTO(nombre, apellido, fechaNacimiento, altura, peso, nroCamiseta, seleccion, posicion, cotizacion)
+
 class JugadorDTO(
     val id: Int,
     nombre: String,
@@ -39,8 +46,22 @@ class JugadorDTO(
     seleccion: String,
     posicion: String,
     cotizacion: Double
-) : JugadorBaseDTO(nombre,apellido, fechaNacimiento, altura, peso, nroCamiseta, seleccion, posicion, cotizacion)
+) : JugadorBaseDTO(nombre, apellido, fechaNacimiento, altura, peso, nroCamiseta, seleccion, posicion, cotizacion)
 
+fun Jugador.infoCrearModificarJugadorToDTO() = InfoCrearModificarJugadorDTO(
+    nombre = this.nombre,
+    apellido = this.apellido,
+    fechaNacimiento = this.fechaNacimiento.toString(),
+    altura = this.altura,
+    peso = this.peso,
+    nroCamiseta = this.nroCamiseta,
+    seleccion = this.seleccionPerteneciente.pais,
+    posicion = this.posicion.nombre,
+    cotizacion = this.cotizacion,
+    esLider = this.esLider,
+    debut = this.anioDeDebut.toString(),
+    posiciones = this.posicion.listaPosiciones()
+)
 
 fun Jugador.toDTO() = JugadorDTO(
     id = this.id,
