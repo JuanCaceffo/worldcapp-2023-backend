@@ -3,10 +3,10 @@ package ar.edu.unsam.algo3.service
 import ar.edu.unsam.algo3.controller.FiguritaFilterParams
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.error.ErrorMessages
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
-import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
 
@@ -25,7 +25,7 @@ class FiguritaService(
     try {
       usuariosRepository.getById(logedUserid)
     } catch (ex: Exception) {
-      throw NotFoundException(MENSAJE_ERROR_ID_INEXISTENTE)
+      throw NotFoundException(ErrorMessages.ID_INEXISTENTE)
     }
     val otros = this.otrosUsuarios(logedUserid)
     return otros.flatMap { filtrar(it.listaFiguritasARegalar(), params).map{ figu -> figu.toDTO(it)} }

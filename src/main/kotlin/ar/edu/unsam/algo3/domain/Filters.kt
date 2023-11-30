@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.domain
 
 import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 
 
@@ -29,6 +30,16 @@ class FiltroPalabraClaveFigurita(private val palabraClave: String, val repositor
 
 class FiltroPalabraClavePuntoDeVenta(private val palabraClave: String, val repository: PuntosDeVentaRepository) : CondicionesFiltrado<PuntoDeVenta>{
   override fun filtro(elemento: PuntoDeVenta): Boolean {
+    return if (palabraClave != "") {
+      return elemento in repository.search(palabraClave)
+    } else {
+      true
+    }
+  }
+}
+
+class FiltroPalabraClaveJugador(private val palabraClave: String, val repository: JugadorRepository) : CondicionesFiltrado<Jugador>{
+  override fun filtro(elemento: Jugador): Boolean {
     return if (palabraClave != "") {
       return elemento in repository.search(palabraClave)
     } else {
