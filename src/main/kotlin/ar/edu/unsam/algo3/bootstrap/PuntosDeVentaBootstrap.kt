@@ -4,11 +4,15 @@ import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.beans.factory.InitializingBean
-import org.springframework.stereotype.Service
+import org.springframework.context.annotation.DependsOn
+import org.springframework.core.annotation.Order
+import org.springframework.stereotype.Component
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 
-@Service
+@Component
+@Order(2)
+@DependsOn("usuariosBoostrap")
 class PuntosDeVentaBootstrap(
   val puntosDeVentaRepository: PuntosDeVentaRepository,
   val usuariosRepositorio: UsuariosRepository
@@ -115,6 +119,8 @@ class PuntosDeVentaBootstrap(
   }
 
   override fun afterPropertiesSet() {
+    println("INICIO EL PROCESO DE CREACIÓN DE PUNTOS DE VENTA.")
     this.createPuntosDeVentas()
+    println("FIN DE PUNTOS DE VENTA.")
   }
 }
