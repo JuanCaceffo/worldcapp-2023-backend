@@ -2,10 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
 import ar.edu.unsam.algo3.dto.JugadorDTO
-import ar.edu.unsam.algo3.service.JugadoresService
-import ar.edu.unsam.algo3.service.MENSAJE_ERROR_DATA_INCOMPLETA
-import ar.edu.unsam.algo3.service.MENSAJE_ERROR_POSICION_INEXISTENTE
-import ar.edu.unsam.algo3.service.MESNAJE_ERROR_SELECCION_INEXISTENTE
+import ar.edu.unsam.algo3.service.*
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -45,5 +42,15 @@ class JugadoresController(
         params: BaseFilterParams
     ): List<JugadorDTO> {
         return jugadoresService.getAll(BaseFilterParams(params.palabraClave))
+    }
+
+    @DeleteMapping("/jugador/{id}/eliminar")
+    @Operation(summary = "Permite eliminar un jugador de la base de datos si no esta en ninguna figurtia")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "Ok"),
+        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_JUGADOR_UTILIZADO)
+    ])
+    fun eliminarJugador(@PathVariable id: Int){
+        jugadoresService.eliminarJugador(id)
     }
 }

@@ -7,6 +7,7 @@ import ar.edu.unsam.algo3.dto.JugadorDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.NotImplementedError
+import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import org.springframework.stereotype.Service
@@ -16,10 +17,13 @@ import java.time.format.DateTimeParseException
 const val MENSAJE_ERROR_POSICION_INEXISTENTE = "La posicion que a seleccionado no existe"
 const val MESNAJE_ERROR_SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
 const val MENSAJE_ERROR_DATA_INCOMPLETA = "Necesita ingresar mas campos"
+const val MENSAJE_ERROR_JUGADOR_UTILIZADO = "El jugador se encuentra utilizado actualmente"
+
 @Service
 class JugadoresService(
     val jugadoresRepo: JugadorRepository,
-    val seleccionesRepo: SeleccionesRepository
+    val seleccionesRepo: SeleccionesRepository,
+    val figuritasRepository: FiguritasRepository
 ) {
 
     fun stringAPosicion(keyPosicion: String, keysPosiciones: List<String>? = null): Posicion {
@@ -51,13 +55,6 @@ class JugadoresService(
         }
     }
 
-    fun validarDataJugador(infoJugador: InfoCrearJugadorDTO){
-        with(infoJugador){
-            if(nombre.isEmpty() || apellido.isEmpty() || nacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
-                throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
-            }
-        }
-    }
     fun crearJugador(infoJugador: InfoCrearJugadorDTO) {
         validarDataJugador(infoJugador)
 
@@ -111,5 +108,26 @@ class JugadoresService(
     fun filtrar(figus: List<Jugador>, params: BaseFilterParams): List<Jugador>{
         val filtro = crearFiltroJugador(params)
         return figus.filter { figu -> filtro.cumpleCondiciones(figu) }
+    }
+
+    fun eliminarJugador(id: Int) {
+        validarJugadorInutilizado(id)
+        val jugador = jugadoresRepo.getById(id)
+        jugadoresRepo.delete(jugador)
+    }
+
+    //VALIDACIONES
+    fun validarJugadorInutilizado(id: Int){
+        if (figuritasRepository.getAll().any { figu -> figu.jugador.id == id }){
+            throw BussinesExpetion(MENSAJE_ERROR_JUGADOR_UTILIZADO)
+        }
+    }
+
+    fun validarDataJugador(infoJugador: InfoCrearJugadorDTO){
+        with(infoJugador){
+            if(nombre.isEmpty() || apellido.isEmpty() || nacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
+                throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
+            }
+        }
     }
 }
