@@ -76,4 +76,9 @@ class PuntosDeVentaService(
     val puntoDeVenta = Kioscos(dataMarket.nombre, direccion,dataMarket.stockSobres, false)
     puntosDeVentaRepository.create(puntoDeVenta)
   }
+
+  fun updateMarket(dataMarket: MarketDTO){
+    val puntoDeVenta = puntosDeVentaRepository.getById(dataMarket.id)
+    puntosDeVentaRepository.update(puntoDeVenta)
+  }
 }

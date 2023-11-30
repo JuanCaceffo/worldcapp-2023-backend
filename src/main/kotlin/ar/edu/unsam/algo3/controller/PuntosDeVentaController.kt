@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3.controller
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.service.PuntosDeVentaService
 import io.swagger.v3.oas.annotations.Operation
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -33,7 +34,7 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     return this.puntosDeVentaService.puntosDeVentaOrdenados(idUsuario, params)
   }
 
-  @DeleteMapping("/punto-de-venta/eliminar/{id}")
+  @DeleteMapping("/punto-de-venta/{id}/eliminar")
   @Operation(summary="Permite eliminar un punto de venta")
   fun delete(@PathVariable id: Int){
     puntosDeVentaService.delete(id)
@@ -41,5 +42,15 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
 
   @PostMapping("/punto-de-venta/nuevo")
   @Operation(summary = "Permite crear un nuevo punto de venta")
-  fun create(@RequestBody dataMarket: MarketCardDTO) = puntosDeVentaService.createMarket(dataMarket)
+  fun createMarket(@RequestBody marketDTO: MarketDTO): ResponseEntity<String> {
+    puntosDeVentaService.createMarket(marketDTO)
+    return ResponseEntity.ok("Market created successfully")
+  }
+
+  @PutMapping("/punto-de-venta/editar")
+  @Operation(summary = "Permite editar un puntos de venta")
+  fun updateMarket(@RequestBody marketDTO: MarketDTO): ResponseEntity<String> {
+    puntosDeVentaService.updateMarket(marketDTO)
+    return ResponseEntity.ok("Market created successfully")
+  }
 }
