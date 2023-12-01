@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.dto.FiguritaCreateModifyDTO
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -57,5 +58,19 @@ class FiguritaControllerSpec(@Autowired val mockMvc: MockMvc){
     mockMvc
       .perform(MockMvcRequestBuilders.get("/figuritas/intercambiar/-1"))
       .andExpect(MockMvcResultMatchers.status().is4xxClientError)
+  }
+  @Test
+  fun `puedo obtener una figurita por su ID`() {
+    mockMvc
+      .perform(MockMvcRequestBuilders.get("/figurita/1"))
+      .andExpect(MockMvcResultMatchers.status().isOk)
+  }
+
+  @Test
+  fun `puedo eliminar una figurita por su ID`() {
+    mockMvc
+      .perform(MockMvcRequestBuilders.delete("/figurita/eliminar/1"))
+      .andExpect(MockMvcResultMatchers.status().isOk)
+
   }
 }
