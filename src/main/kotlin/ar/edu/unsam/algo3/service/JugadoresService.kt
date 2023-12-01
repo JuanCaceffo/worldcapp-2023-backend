@@ -2,8 +2,9 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.controller.BaseFilterParams
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
+import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
 import ar.edu.unsam.algo3.dto.JugadorDTO
+import ar.edu.unsam.algo3.dto.infoCrearModificarJugadorToDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.NotImplementedError
@@ -55,7 +56,7 @@ class JugadoresService(
         }
     }
 
-    fun crearJugador(infoJugador: InfoCrearJugadorDTO) {
+    fun crearJugador(infoJugador: InfoCrearModificarJugadorDTO) {
         validarDataJugador(infoJugador)
 
         val nuevoJugador = Jugador(
@@ -65,7 +66,7 @@ class JugadoresService(
             peso = infoJugador.peso,
             nroCamiseta = infoJugador.nroCamiseta,
             fechaNacimiento = fechaParser(infoJugador.fechaNacimiento),
-            anioDeDebut = fechaParser(infoJugador.debut).year,
+            anioDeDebut = infoJugador.debut,
             cotizacion = infoJugador.cotizacion,
             esLider = infoJugador.esLider,
             posicion = stringAPosicion(infoJugador.posicion,infoJugador.posiciones),
@@ -74,7 +75,7 @@ class JugadoresService(
         jugadoresRepo.create(nuevoJugador)
     }
 
-    fun modificarJugador(infoJugador: InfoCrearJugadorDTO, idJugador: Int) {
+    fun modificarJugador(infoJugador: InfoCrearModificarJugadorDTO, idJugador: Int) {
         validarDataJugador(infoJugador)
 
         val jugador = jugadoresRepo.getById(idJugador)
@@ -84,7 +85,7 @@ class JugadoresService(
             altura = infoJugador.altura
             apellido = infoJugador.apellido
             nombre = infoJugador.nombre
-            anioDeDebut = fechaParser(infoJugador.debut).year
+            anioDeDebut = infoJugador.debut
             cotizacion = infoJugador.cotizacion
             esLider = infoJugador.esLider
             peso = infoJugador.peso
@@ -123,11 +124,16 @@ class JugadoresService(
         }
     }
 
-    fun validarDataJugador(infoJugador: InfoCrearJugadorDTO){
+    fun validarDataJugador(infoJugador: InfoCrearModificarJugadorDTO){
         with(infoJugador){
-            if(nombre.isEmpty() || apellido.isEmpty() || fechaNacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
+            if(nombre.isEmpty() || apellido.isEmpty() || fechaNacimiento.isEmpty() || seleccion.isEmpty()  || posicion.isEmpty()) {
                 throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
             }
         }
+    }
+
+    fun obtenerJugador(id: Int): InfoCrearModificarJugadorDTO {
+        return jugadoresRepo.getById(id).infoCrearModificarJugadorToDTO()
+
     }
 }

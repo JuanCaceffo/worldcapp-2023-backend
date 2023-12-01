@@ -1,12 +1,15 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.BussinesExpetion
+
 abstract class Posicion(val nombre: String) {
+
     open val valoracionBase: Double = 0.0
 
     abstract fun valor(jugador: Jugador): Double
     open fun plus(jugador: Jugador): Double = 0.0
 
-
+    open fun listaPosiciones(): List<String> = listOf()
 }
 
 object Arquero : Posicion("Arquero") {
@@ -51,9 +54,13 @@ class Polivalente(posiciones: List<Posicion>) : Posicion("Polivalente") {
     }
 
     companion object {
-        private val posicionesBasicas = listOf(Delantero, Mediocampista, Defensor, Arquero)
+        public val posicionesBasicas = listOf(Delantero, Mediocampista, Defensor, Arquero)
+        public val nombrePosicion = "Polivalente"
     }
 
+    override fun listaPosiciones(): List<String> {
+        return posicionesEnLasQueJuega.map { posicion -> posicion.nombre }.toList()
+    }
     fun agregarPosicion(posicion: Posicion) {
         validarPosicionesEnLasQueJuega(posicion)
         posicionesEnLasQueJuega.add(posicion)
@@ -65,7 +72,7 @@ class Polivalente(posiciones: List<Posicion>) : Posicion("Polivalente") {
 
     fun validarPosicionesEnLasQueJuega(posicion: Posicion) {
         if (!posicionesBasicas.contains(element = posicion)) {
-            throw IllegalArgumentException("No se puede agregar esta posicion")
+            throw BussinesExpetion("No se puede agregar esta posicion")
         }
     }
 
@@ -79,4 +86,5 @@ class Polivalente(posiciones: List<Posicion>) : Posicion("Polivalente") {
         if (jugador.esLeyenda() || jugador.promesaDelFutbol()) plus(jugador) else promedioValoracionBase()
 }
 
-
+val nombresPosicionesBasicas = Polivalente.posicionesBasicas.map { posicion -> posicion.nombre }
+val nombresPosiciones = nombresPosicionesBasicas+(Polivalente.nombrePosicion)
