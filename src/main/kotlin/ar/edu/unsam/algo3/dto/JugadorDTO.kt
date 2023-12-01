@@ -28,7 +28,7 @@ class InfoCrearModificarJugadorDTO(
     peso: Double,
     nroCamiseta: Int,
     seleccion: String,
-    val debut: String,
+    val debut: Int,
     posicion: String,
     val posiciones: List<String>?,
     val esLider: Boolean,
@@ -59,7 +59,7 @@ fun Jugador.infoCrearModificarJugadorToDTO() = InfoCrearModificarJugadorDTO(
     posicion = this.posicion.nombre,
     cotizacion = this.cotizacion,
     esLider = this.esLider,
-    debut = this.anioDeDebut.toString(),
+    debut = this.anioDeDebut,
     posiciones = this.posicion.listaPosiciones()
 )
 

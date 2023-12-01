@@ -66,7 +66,7 @@ class JugadoresService(
             peso = infoJugador.peso,
             nroCamiseta = infoJugador.nroCamiseta,
             fechaNacimiento = fechaParser(infoJugador.fechaNacimiento),
-            anioDeDebut = fechaParser(infoJugador.debut).year,
+            anioDeDebut = infoJugador.debut,
             cotizacion = infoJugador.cotizacion,
             esLider = infoJugador.esLider,
             posicion = stringAPosicion(infoJugador.posicion,infoJugador.posiciones),
@@ -85,7 +85,7 @@ class JugadoresService(
             altura = infoJugador.altura
             apellido = infoJugador.apellido
             nombre = infoJugador.nombre
-            anioDeDebut = fechaParser(infoJugador.debut).year
+            anioDeDebut = infoJugador.debut
             cotizacion = infoJugador.cotizacion
             esLider = infoJugador.esLider
             peso = infoJugador.peso
@@ -126,7 +126,7 @@ class JugadoresService(
 
     fun validarDataJugador(infoJugador: InfoCrearModificarJugadorDTO){
         with(infoJugador){
-            if(nombre.isEmpty() || apellido.isEmpty() || fechaNacimiento.isEmpty() || seleccion.isEmpty() || debut.isEmpty() || posicion.isEmpty()) {
+            if(nombre.isEmpty() || apellido.isEmpty() || fechaNacimiento.isEmpty() || seleccion.isEmpty()  || posicion.isEmpty()) {
                 throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
             }
         }

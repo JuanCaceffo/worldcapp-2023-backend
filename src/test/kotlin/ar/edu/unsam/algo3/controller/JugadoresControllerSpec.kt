@@ -2,11 +2,10 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.bootstrap.FiguritasBoostrap
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
+import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
-import ar.edu.unsam.algo3.service.MENSAJE_ERROR_JUGADOR_UTILIZADO
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -65,7 +64,7 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
 
     @Test
     fun `Al realizar un llamado al metodo post para crear un jugador sale exitosamente`() {
-        val infoJugador = InfoCrearJugadorDTO(
+        val infoJugador = InfoCrearModificarJugadorDTO(
                 nombre = "Juanchito",
                 apellido = "Caceffo",
                 fechaNacimiento = "2003-02-01",
@@ -73,7 +72,7 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
                 peso = 67.0,
                 nroCamiseta = 10,
                 seleccion = "Argentina",
-                debut = "2022-01-02",
+                debut = 2022,
                 posicion = "Delantero",
                 posiciones = null,
                 esLider = true,
@@ -91,7 +90,7 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
     }
     @Test
     fun `El llamado al metodo post para crear un jugador falla por que la fecha no tiene el formato correcto`() {
-        val infoJugador = InfoCrearJugadorDTO(
+        val infoJugador = InfoCrearModificarJugadorDTO(
             nombre = "Juanchito",
             apellido = "Caceffo",
             fechaNacimiento = "01-02-2003",
@@ -99,7 +98,7 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
             peso = 67.0,
             nroCamiseta = 10,
             seleccion = "Argentina",
-            debut = "2022-01-02",
+            debut = 2022,
             posicion = "Delantero",
             posiciones = null,
             esLider = true,
@@ -116,7 +115,7 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
     }
     @Test
     fun `El llamado al metodo patch para modificar un jugador es exitoso`() {
-        val infoJugador = InfoCrearJugadorDTO(
+        val infoJugador = InfoCrearModificarJugadorDTO(
             nombre = "GonzaloElLoquicimo",
             apellido = "Martinez",
             fechaNacimiento = "1993-06-13",
@@ -124,7 +123,7 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
             peso =  70.0,
             nroCamiseta = 10,
             seleccion = "Argentina",
-            debut = "2008-01-02",
+            debut = 2008,
             posicion = "Mediocampista",
             posiciones = null,
             esLider = true,
@@ -162,5 +161,31 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
                     .delete("/jugador/0/eliminar")
             )
             .andExpect(MockMvcResultMatchers.status().is4xxClientError)
+    }
+
+    @Test
+    fun `El llamado al metodo get para obtener un jugador por id funciona`(){
+        val jugadorEncontrado = InfoCrearModificarJugadorDTO(
+            nombre = "Gonzalo",
+            apellido = "Martinez",
+            fechaNacimiento = "1993-06-13",
+            altura = 1.72,
+            peso =  70.0,
+            nroCamiseta = 10,
+            seleccion = "Argentina",
+            debut = 2008,
+            posicion = "Mediocampista",
+            posiciones = listOf<String>(),
+            esLider = true,
+            cotizacion = 9000000.0,
+        )
+
+        mockMvc
+            .perform(
+                MockMvcRequestBuilders
+                    .get("/jugador/0")
+            )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(jugadorEncontrado)))
     }
 }
