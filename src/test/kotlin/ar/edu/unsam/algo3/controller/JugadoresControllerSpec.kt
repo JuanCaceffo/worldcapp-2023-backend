@@ -2,10 +2,12 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.bootstrap.FiguritasBoostrap
 import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.dto.InfoCrearJugadorDTO
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import ar.edu.unsam.algo3.service.MENSAJE_ERROR_JUGADOR_UTILIZADO
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -33,13 +35,12 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
     @Autowired
     lateinit var figuritasRepository: FiguritasRepository
 
-    val argentina = Seleccion(pais = "Argentina", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 3)
     val jugador = Jugador(
         nombre = "Gonzalo",
         apellido = "Martinez",
         fechaNacimiento = LocalDate.of(1993, 6, 13),
         nroCamiseta = 10,
-        seleccionPerteneciente = argentina,
+        seleccionPerteneciente = seleccionArgentina,
         posicion = Mediocampista,
         anioDeDebut = 2008,
         altura = 1.72,
@@ -53,95 +54,89 @@ class JugadoresControllerSpec(@Autowired val mockMvc: MockMvc) {
         seleccionesRepository.clear()
         figuritasRepository.clear()
 
-        seleccionesRepository.create(argentina)
+        seleccionesRepository.create(seleccionArgentina)
         jugadoresRepository.create(jugador)
     }
     @AfterEach
     fun end(){
         figusBoostrap.afterPropertiesSet()
     }
+    val mapper= ObjectMapper()
 
     @Test
     fun `Al realizar un llamado al metodo post para crear un jugador sale exitosamente`() {
-        val jsonBodyInfoJugador =
-"""
-{
-  "nombre": "Juanchito",
-  "apellido": "Caceffo",
-  "nacimiento": "2003-02-01",
-  "altura": 1.70,
-  "peso": 67,
-  "camiseta": 10,
-  "seleccion": "Argentina",
-  "debut": "2022-01-02",
-  "posicion": "Delantero",
-  "esLider": true,
-  "cotizacion": 1000000,
-  "posiciones": []
-}                
-"""
+        val infoJugador = InfoCrearJugadorDTO(
+                nombre = "Juanchito",
+                apellido = "Caceffo",
+                fechaNacimiento = "2003-02-01",
+                altura = 1.70,
+                peso = 67.0,
+                nroCamiseta = 10,
+                seleccion = "Argentina",
+                debut = "2022-01-02",
+                posicion = "Delantero",
+                posiciones = null,
+                esLider = true,
+                cotizacion = 1000000.0,
+            )
+
         mockMvc
             .perform(
                 MockMvcRequestBuilders
                     .post("/jugador/crear")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonBodyInfoJugador)
+                    .content(mapper.writeValueAsString(infoJugador))
             )
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
     @Test
     fun `El llamado al metodo post para crear un jugador falla por que la fecha no tiene el formato correcto`() {
-        val jsonBodyInfoJugador =
-            """
-{
-  "nombre": "Juanchito",
-  "apellido": "Caceffo",
-  "nacimiento": "01-02-2003",
-  "altura": 1.70,
-  "peso": 67,
-  "camiseta": 10,
-  "seleccion": "Argentina",
-  "debut": "2022-01-02",
-  "posicion": "Delantero",
-  "esLider": true,
-  "cotizacion": 1000000,
-  "Posiciones": []
-}                
-"""
+        val infoJugador = InfoCrearJugadorDTO(
+            nombre = "Juanchito",
+            apellido = "Caceffo",
+            fechaNacimiento = "01-02-2003",
+            altura = 1.70,
+            peso = 67.0,
+            nroCamiseta = 10,
+            seleccion = "Argentina",
+            debut = "2022-01-02",
+            posicion = "Delantero",
+            posiciones = null,
+            esLider = true,
+            cotizacion = 1000000.0,
+        )
         mockMvc
             .perform(
                 MockMvcRequestBuilders
                     .post("/jugador/crear")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonBodyInfoJugador)
+                    .content(mapper.writeValueAsString((infoJugador)))
             )
             .andExpect(MockMvcResultMatchers.status().is5xxServerError)
     }
     @Test
     fun `El llamado al metodo patch para modificar un jugador es exitoso`() {
-        val jsonBodyInfoJugador =
-            """
-{
-  "nombre": "GonzaloElLoquicimo",
-  "apellido": "Martinez",
-  "nacimiento": "1993-06-13",
-  "altura": 1.72,
-  "peso": 70.0,
-  "camiseta": 10,
-  "seleccion": "Argentina",
-  "debut": "2008-01-02",
-  "posicion": "Mediocampista",
-  "esLider": true,
-  "cotizacion": 9000000.0,
-  "Posiciones": []
-}
-"""
+        val infoJugador = InfoCrearJugadorDTO(
+            nombre = "GonzaloElLoquicimo",
+            apellido = "Martinez",
+            fechaNacimiento = "1993-06-13",
+            altura = 1.72,
+            peso =  70.0,
+            nroCamiseta = 10,
+            seleccion = "Argentina",
+            debut = "2008-01-02",
+            posicion = "Mediocampista",
+            posiciones = null,
+            esLider = true,
+            cotizacion = 9000000.0,
+        )
+
         mockMvc
             .perform(
                 MockMvcRequestBuilders
                     .patch("/jugador/0/modificar")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonBodyInfoJugador)
+                    .content(mapper.writeValueAsString(infoJugador))
             )
             .andExpect(MockMvcResultMatchers.status().isOk)
     }
