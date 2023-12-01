@@ -26,7 +26,7 @@ class DashboardControllerSpec(@Autowired val mockMvc: MockMvc){
 		"name": "Figuritas Faltantes"
 	},
 	{
-		"quantity": 15,
+		"quantity": 16,
 		"name": "Puntos de Ventas"
 	},
 	{

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam
 open class BaseFilterParams(
   @RequestParam(name = "palabraClave", required = false)  val palabraClave: String = "",
 )
-
+//que pasa
 class FiguritaFilterParams(
   palabraClave: String,
   @RequestParam(name = "onFire", required = false) val onFire: Boolean = false,

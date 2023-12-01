@@ -1,23 +1,27 @@
 package ar.edu.unsam.algo3.bootstrap
 
-import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.domain.Direccion
+import ar.edu.unsam.algo3.domain.Nacionalista
+import ar.edu.unsam.algo3.domain.Par
+import ar.edu.unsam.algo3.domain.Usuario
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.context.annotation.DependsOn
 import org.springframework.core.annotation.Order
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 
-@Order(2)
-@Service
+@Component
+@Order(1)
+@DependsOn("figuritasBoostrap")
 class UsuariosBoostrap(
   val usuariosRepositorio: UsuariosRepository,
   val figuritaRepositorio: FiguritasRepository,
   val seleccionesRepositorio: SeleccionesRepository
 ) : InitializingBean {
-
   private val usuarios = mapOf(
     "Sol" to Usuario(
       apellido = "lopez",
@@ -136,9 +140,11 @@ class UsuariosBoostrap(
   }
 
   override fun afterPropertiesSet() {
+    println("INICIO EL PROCESO DE CREACIÓN DE USUARIOS")
     this.crearUsuarios()
-    this.agregarFiguritasFaltantes()
     this.agregarFigusEnUsuariosCreados()
+    this.agregarFiguritasFaltantes()
     this.cambiarCondicionParaDar()
+    println("FIN DE USUARIOS.")
   }
 }

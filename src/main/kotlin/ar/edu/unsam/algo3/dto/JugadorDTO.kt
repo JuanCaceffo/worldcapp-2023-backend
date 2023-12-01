@@ -2,6 +2,80 @@ package ar.edu.unsam.algo3.dto
 
 import ar.edu.unsam.algo3.domain.*
 
+data class PosicionesJugador(
+    val posicionesGenericas: List<String>,
+    val posiciones: List<String>
+)
+
+
+open class JugadorBaseDTO(
+    val nombre: String,
+    val apellido: String,
+    val fechaNacimiento: String,
+    val altura: Double,
+    val peso: Double,
+    val nroCamiseta: Int,
+    val seleccion: String,
+    val posicion: String,
+    val cotizacion: Double
+)
+
+class InfoCrearModificarJugadorDTO(
+    nombre: String,
+    apellido: String,
+    fechaNacimiento: String,
+    altura: Double,
+    peso: Double,
+    nroCamiseta: Int,
+    seleccion: String,
+    val debut: Int,
+    posicion: String,
+    val posiciones: List<String>?,
+    val esLider: Boolean,
+    cotizacion: Double
+) : JugadorBaseDTO(nombre, apellido, fechaNacimiento, altura, peso, nroCamiseta, seleccion, posicion, cotizacion)
+
+class JugadorDTO(
+    val id: Int,
+    nombre: String,
+    apellido: String,
+    fechaNacimiento: String,
+    altura: Double,
+    peso: Double,
+    nroCamiseta: Int,
+    seleccion: String,
+    posicion: String,
+    cotizacion: Double
+) : JugadorBaseDTO(nombre, apellido, fechaNacimiento, altura, peso, nroCamiseta, seleccion, posicion, cotizacion)
+
+fun Jugador.infoCrearModificarJugadorToDTO() = InfoCrearModificarJugadorDTO(
+    nombre = this.nombre,
+    apellido = this.apellido,
+    fechaNacimiento = this.fechaNacimiento.toString(),
+    altura = this.altura,
+    peso = this.peso,
+    nroCamiseta = this.nroCamiseta,
+    seleccion = this.seleccionPerteneciente.pais,
+    posicion = this.posicion.nombre,
+    cotizacion = this.cotizacion,
+    esLider = this.esLider,
+    debut = this.anioDeDebut,
+    posiciones = this.posicion.listaPosiciones()
+)
+
+fun Jugador.toDTO() = JugadorDTO(
+    id = this.id,
+    nombre = this.nombre,
+    apellido = this.apellido,
+    fechaNacimiento = this.fechaNacimiento.toString(),
+    altura = this.altura,
+    peso = this.peso,
+    nroCamiseta = this.nroCamiseta,
+    seleccion = this.seleccionPerteneciente.pais,
+    posicion = this.posicion.nombre,
+    cotizacion = this.cotizacion
+)
+
 data class JugadorCreateDTO(
     val nombre: String,
     val apellido: String,

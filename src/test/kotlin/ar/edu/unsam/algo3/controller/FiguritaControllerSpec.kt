@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("Dado un controller de puntos de venta")
+@DisplayName("Dado un controller de figuritas")
 class FiguritaControllerSpec(@Autowired val mockMvc: MockMvc){
   @Test
   fun `puedo mockear una llamada al endpoint via get con parametro de palabraClave y me responde correctamente`() {
