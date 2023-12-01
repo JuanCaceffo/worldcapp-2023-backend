@@ -14,5 +14,9 @@ class BussinesExpetion(msg:String) : RuntimeException(msg)
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class NotFoundException(msg: String) : RuntimeException(msg)
 
+@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+class IllegalArgumentException(msg: String) : RuntimeException(msg)
+
 @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
 class NotImplementedError(msg: String) : RuntimeException(msg)
+

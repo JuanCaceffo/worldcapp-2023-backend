@@ -21,6 +21,12 @@ open class FiguritaBaseDTO(
   val nivelImpresion: String,
   val valoracion: Double
 )
+open class FiguritaCreateModifyDTO(
+  val numero: Int,
+  val nombre: String,
+  val onFire: Boolean,
+  val nivelImpresion: String
+)
 class FiguritaFullDTO(
   id:Int,
   numero:Int,
@@ -49,6 +55,13 @@ class FiguritaFullDTO(
   val duenio: String,
   val idUsuario: Int
 ): FiguritaBaseDTO(id, numero, onFire, nombre, apellido, nivelImpresion, valoracion)
+
+fun Figurita.toCreateModifyDto() = FiguritaCreateModifyDTO(
+  numero = this.numero,
+  nombre = jugador.nombre,
+  onFire = this.onFire,
+  nivelImpresion = this.cantidadImpresa.nombre
+)
 
 fun Figurita.toBaseDTO() = FiguritaBaseDTO(
   id = this.id,
