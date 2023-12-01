@@ -92,7 +92,7 @@ class FiguritaService(
     val nombre = nombreApellido[0]
 
     return jugadorRepository.getAll().find { jugador ->
-      jugador.nombre == nombre}
+      jugador.nombre.toLowerCase() == nombre}
       ?: throw NotFoundException(ERROR_MSG_FIND_JUGADOR)
   }
   fun obtenerNivelImpresionDesdeString(nivelImpresionString: String): NivelImpresion {
