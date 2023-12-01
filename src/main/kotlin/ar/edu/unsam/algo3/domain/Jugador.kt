@@ -8,17 +8,17 @@ const val COTIZACIONBASE = 2000000
 const val LIMITEANIOSVETERANO = 2
 const val EDADLIMITEPROMESAFUTBOL = 22
 class Jugador (
-    val nombre:String,
-    val apellido:String,
-    val fechaNacimiento:LocalDate,
-    val nroCamiseta: Int,
-    val seleccionPerteneciente: Seleccion,
-    val posicion: Posicion,
-    val anioDeDebut: Int,
-    val altura: Double,
-    val peso: Double,
-    val esLider: Boolean,
-    val cotizacion: Double
+    var nombre:String,
+    var apellido:String,
+    var fechaNacimiento:LocalDate,
+    var nroCamiseta: Int,
+    var seleccionPerteneciente: Seleccion,
+    var posicion: Posicion,
+    var anioDeDebut: Int,
+    var altura: Double,
+    var peso: Double,
+    var esLider: Boolean,
+    var cotizacion: Double
 ): RepositorioProps(){
     init {
         validadorStrings.errorStringVacio(nombre, errorMessage =  MENSAJE_ERROR_INGRESAR_NOMBRE)

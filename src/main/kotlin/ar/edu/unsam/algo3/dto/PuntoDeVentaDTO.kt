@@ -8,6 +8,9 @@ open class MarketDTO(
   val nombre: String,
   val tipoPuntoDeVenta: String,
   val direccion: DireccionMarketDTO,
+  val direccionPlana: String,
+  val geoX: Double,
+  val geoY: Double,
   val stockSobres: Int,
   val pedidosPendientes: Int,
 )
@@ -17,17 +20,23 @@ class MarketCardDTO(
   nombre: String,
   tipoPuntoDeVenta: String,
   direccion: DireccionMarketDTO,
+  direccionPlana: String,
+  geoX: Double,
+  geoY: Double,
   stockSobres: Int,
   pedidosPendientes: Int,
   val distancia: Double,
   val precioSobres: Double,
-) : MarketDTO( id, nombre, tipoPuntoDeVenta, direccion, stockSobres, pedidosPendientes)
+) : MarketDTO( id, nombre, tipoPuntoDeVenta, direccion, direccionPlana, geoX, geoY, stockSobres, pedidosPendientes)
 
 fun PuntoDeVenta.toMarketCardDTO(user: Usuario) = MarketCardDTO(
   id = this.id,
   nombre = this.nombre,
   tipoPuntoDeVenta = this.tipoPuntoDeVenta(),
   direccion = this.direccion.toMarketCardDTO(),
+  direccionPlana = "${this.direccion.calle} ${this.direccion.altura}",
+  geoX = this.direccion.ubiGeografica.x,
+  geoY = this.direccion.ubiGeografica.y,
   distancia = this.distanciaPuntoVentaUsuario(user),
   stockSobres = this.stockSobres,
   pedidosPendientes = this.cantidadPedidosPendientes(),
@@ -39,6 +48,9 @@ fun PuntoDeVenta.toMarketDTO() = MarketDTO(
   nombre = this.nombre,
   tipoPuntoDeVenta = this.tipoPuntoDeVenta(),
   direccion = this.direccion.toMarketCardDTO(),
+  direccionPlana = "${this.direccion.calle} ${this.direccion.altura}",
+  geoX = this.direccion.ubiGeografica.x,
+  geoY = this.direccion.ubiGeografica.y,
   stockSobres = this.stockSobres,
   pedidosPendientes = this.cantidadPedidosPendientes(),
 )
