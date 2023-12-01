@@ -5,6 +5,7 @@ import ar.edu.unsam.algo3.domain.nombresPosicionesBasicas
 import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
 import ar.edu.unsam.algo3.dto.JugadorDTO
 import ar.edu.unsam.algo3.dto.PosicionesJugador
+import ar.edu.unsam.algo3.error.ErrorMessages
 import ar.edu.unsam.algo3.service.*
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -65,6 +66,10 @@ class JugadoresController(
 
     @GetMapping("jugador/{id}")
     @Operation(summary = "Permite obtener la data de un jugador en especifico")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "Ok"),
+        ApiResponse(responseCode = "404", description = ErrorMessages.ID_INEXISTENTE)
+    ])
     fun obtenerJugador(@PathVariable id: Int): InfoCrearModificarJugadorDTO {
         return jugadoresService.obtenerJugador(id)
     }
