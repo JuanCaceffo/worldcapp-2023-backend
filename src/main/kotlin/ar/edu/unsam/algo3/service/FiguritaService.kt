@@ -4,6 +4,7 @@ import ar.edu.unsam.algo3.controller.FiguritaFilterParams
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
 import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.MENSAJE_ERROR_ID_INEXISTENTE
@@ -13,6 +14,7 @@ import ar.edu.unsam.algo3.error.BussinesExpetion
 
 const val ERROR_MSG_FIND_JUGADOR = "El jugador a buscar es inexitente"
 const val ERROR_MSG_DATA_INCOMPLETA = "Los campos se encuentran incompletos"
+const val ERROR_MSG_PARAMETRO_INVALIDO = "El nivel de impresion es invalido"
 
 @Service
 class FiguritaService(
@@ -103,7 +105,7 @@ class FiguritaService(
     )
 
     return mapNivelesImpresion[nivelImpresionString.toLowerCase()]
-      ?: throw IllegalArgumentException("Nivel de impresión no válido: $nivelImpresionString")
+      ?: throw IllegalArgumentException(ERROR_MSG_PARAMETRO_INVALIDO)
   }
   fun validarDataFigurita(infoFigurita: FiguritaCreateModifyDTO){
     with(infoFigurita){
