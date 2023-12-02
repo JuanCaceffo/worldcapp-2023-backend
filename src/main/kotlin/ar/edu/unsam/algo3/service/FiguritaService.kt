@@ -3,12 +3,19 @@ package ar.edu.unsam.algo3.service
 import ar.edu.unsam.algo3.controller.FiguritaFilterParams
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.ErrorMessages
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
+import java.util.*
+
+const val ERROR_MSG_FIND_JUGADOR = "El jugador a buscar es inexitente"
+const val ERROR_MSG_DATA_INCOMPLETA = "Los campos se encuentran incompletos"
+const val ERROR_MSG_PARAMETRO_INVALIDO = "El nivel de impresion es invalido"
 
 @Service
 class FiguritaService(
@@ -55,4 +62,57 @@ class FiguritaService(
     val filtro = crearFiltroFigurita(params)
     return figus.filter { figu -> filtro.cumpleCondiciones(figu) }
   }
-}
+  fun getById(id:Int): FiguritaBaseDTO {
+      return figuritaRepository.getById(id).toBaseDTO()
+  }
+  fun delete(id: Int) {
+    val figurita = figuritaRepository.getById(id)
+    figuritaRepository.delete(figurita)
+  }
+  fun crearFigurita(infoFigurita : FiguritaCreateModifyDTO) {
+    val nuevaFigurita = Figurita (
+      numero = infoFigurita.numero,
+      onFire = infoFigurita.onFire,
+      cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion),
+      jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+    )
+    figuritaRepository.create(nuevaFigurita)
+  }
+  fun modificarFigurita(infoFigurita: FiguritaCreateModifyDTO, idFigurita: Int){
+    validarDataFigurita(infoFigurita)
+
+    val figurita = figuritaRepository.getById(idFigurita)
+
+    with(figurita) {
+      numero = infoFigurita.numero
+      onFire = infoFigurita.onFire
+      cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion)
+      jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+    }
+  }
+  fun buscarJugadorPorNombre ( jugadorNombre: String ) : Jugador{
+    val nombreApellido = jugadorNombre.split(" ")
+    val nombre = nombreApellido[0]
+
+    return jugadorRepository.getAll().find { jugador ->
+      jugador.nombre.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } == nombre}
+      ?: throw NotFoundException(ERROR_MSG_FIND_JUGADOR)
+  }
+  fun obtenerNivelImpresionDesdeString(nivelImpresionString: String): NivelImpresion {
+    val mapNivelesImpresion = mapOf(
+      "baja" to impresionBaja,
+      "media" to impresionMedia,
+      "alta" to impresionAlta
+    )
+
+    return mapNivelesImpresion[nivelImpresionString.lowercase()]
+      ?: throw IllegalArgumentException(ERROR_MSG_PARAMETRO_INVALIDO)
+  }
+  fun validarDataFigurita(infoFigurita: FiguritaCreateModifyDTO){
+    with(infoFigurita){
+      if(numero.toString().isEmpty() || onFire.toString().isEmpty() || nivelImpresion.isEmpty() || nombre.isEmpty()) {
+        throw BussinesExpetion(ERROR_MSG_DATA_INCOMPLETA)
+      }
+    }
+  }
+  }

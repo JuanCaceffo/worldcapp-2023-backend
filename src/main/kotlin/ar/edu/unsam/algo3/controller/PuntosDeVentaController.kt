@@ -1,9 +1,12 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.error.PuntoVentaErrorMessages
 import ar.edu.unsam.algo3.service.PuntosDeVentaService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.ResponseEntity
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -33,6 +36,12 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
   ): List<MarketCardDTO> {
     return this.puntosDeVentaService.puntosDeVentaOrdenados(idUsuario, params)
   }
+
+  @ApiResponses(value = [
+    ApiResponse(responseCode = "200", description = "Ok"),
+    ApiResponse(responseCode = "400", description = PuntoVentaErrorMessages.PUNTO_TIENE_STOCK),
+    ApiResponse(responseCode = "501", description = "Error Inesperado"),
+  ])
 
   @DeleteMapping("/punto-de-venta/{id}/eliminar")
   @Operation(summary="Permite eliminar un punto de venta")

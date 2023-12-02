@@ -42,4 +42,26 @@ class FiguritaController(val figuritaService: FiguritaService) {
     val printsLevel: List<NivelImpresion> = listOf(impresionBaja, impresionMedia, impresionAlta)
     return DataCreateFigurita(players, printsLevel)
   }
+  @GetMapping("/figurita/{id}")
+  @Operation(summary = "Obtiene una figurita")
+  fun getById(
+    @PathVariable id: Int
+  ): FiguritaBaseDTO {
+    return this.figuritaService.getById(id)
+  }
+  @DeleteMapping("/figurita/eliminar/{id}")
+  @Operation(summary="Elimina una figurita segun su id")
+  fun delete(@PathVariable id: Int){
+    figuritaService.delete(id)
+  }
+  @PostMapping("/figurita/crear")
+  @Operation(summary = "Permite crear una figurita")
+  fun crearFigurita(@RequestBody infoFigurita: FiguritaCreateModifyDTO ){
+    figuritaService.crearFigurita(infoFigurita)
+  }
+  @PatchMapping("/figurita/modificar/{id}")
+  @Operation(summary = "Permite modificar una figurita existente")
+  fun modificarFigurita(@RequestBody infoFigurita: FiguritaCreateModifyDTO, @PathVariable id: Int ) {
+    figuritaService.modificarFigurita(infoFigurita, id)
+  }
 }

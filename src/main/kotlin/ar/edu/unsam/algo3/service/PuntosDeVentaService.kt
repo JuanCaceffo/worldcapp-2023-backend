@@ -2,10 +2,14 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.controller.MarketFilterParams
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.dto.MarketCardDTO
+import ar.edu.unsam.algo3.dto.MarketDTO
+import ar.edu.unsam.algo3.dto.toMarketCardDTO
+import ar.edu.unsam.algo3.dto.toMarketDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.ErrorMessages
 import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.error.PuntoVentaErrorMessages
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -55,7 +59,7 @@ class PuntosDeVentaService(
 
   private fun validarBorrado(puntoDeVenta: PuntoDeVenta){
     if(!sePuedeBorrar(puntoDeVenta)) {
-      throw BussinesExpetion(ErrorMessages.PUNTO_TIENE_STOCK)
+      throw BussinesExpetion(PuntoVentaErrorMessages.PUNTO_TIENE_STOCK)
     }
   }
 
