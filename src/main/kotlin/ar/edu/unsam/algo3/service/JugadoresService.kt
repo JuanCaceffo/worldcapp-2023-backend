@@ -7,6 +7,7 @@ import ar.edu.unsam.algo3.dto.JugadorDTO
 import ar.edu.unsam.algo3.dto.infoCrearModificarJugadorToDTO
 import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
+import ar.edu.unsam.algo3.error.JugadorErrorMessages
 import ar.edu.unsam.algo3.error.NotImplementedError
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
@@ -14,11 +15,6 @@ import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
-
-const val MENSAJE_ERROR_POSICION_INEXISTENTE = "La posicion que a seleccionado no existe"
-const val MENSAJE_ERROR_SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
-const val MENSAJE_ERROR_DATA_INCOMPLETA = "Necesita ingresar mas campos"
-const val MENSAJE_ERROR_JUGADOR_UTILIZADO = "El jugador se encuentra utilizado actualmente"
 
 @Service
 class JugadoresService(
@@ -41,11 +37,11 @@ class JugadoresService(
             val posiciones = keysPosiciones.map { key -> stringAPosicion(key) }
             return Polivalente(posiciones)
         }
-        throw BussinesExpetion(MENSAJE_ERROR_POSICION_INEXISTENTE)
+        throw BussinesExpetion(JugadorErrorMessages.POSICION_INEXISTENTE)
     }
 
     fun stirngASeleccion(strSeleccion:String): Seleccion {
-        return seleccionesRepo.getAll().find { seleccion -> seleccion.pais == strSeleccion} ?: throw BussinesExpetion(MENSAJE_ERROR_SELECCION_INEXISTENTE)
+        return seleccionesRepo.getAll().find { seleccion -> seleccion.pais == strSeleccion} ?: throw BussinesExpetion(JugadorErrorMessages.SELECCION_INEXISTENTE)
     }
 
     fun fechaParser(anio: String): LocalDate{
@@ -120,14 +116,14 @@ class JugadoresService(
     //VALIDACIONES
     fun validarJugadorInutilizado(id: Int){
         if (figuritasRepository.getAll().any { figu -> figu.jugador.id == id }){
-            throw BussinesExpetion(MENSAJE_ERROR_JUGADOR_UTILIZADO)
+            throw BussinesExpetion(JugadorErrorMessages.JUGADOR_UTILIZADO)
         }
     }
 
     fun validarDataJugador(infoJugador: InfoCrearModificarJugadorDTO){
         with(infoJugador){
             if(nombre.isEmpty() || apellido.isEmpty() || fechaNacimiento.isEmpty() || seleccion.isEmpty()  || posicion.isEmpty()) {
-                throw BussinesExpetion(MENSAJE_ERROR_DATA_INCOMPLETA)
+                throw BussinesExpetion(JugadorErrorMessages.DATA_INCOMPLETA)
             }
         }
     }
