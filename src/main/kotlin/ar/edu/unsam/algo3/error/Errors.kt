@@ -7,7 +7,9 @@ object ErrorMessages {
 }
 
 object PuntoVentaErrorMessages {
-  const val PUNTO_TIENE_STOCK = "El Punto de venta tiene stock de sobres o esta pronto a recibir nuevos."
+  const val TIENE_STOCK = "El Punto de venta tiene stock de sobres o esta pronto a recibir nuevos."
+  const val FALLO_EDICION = "El Punto de Venta no se pudo editar."
+  const val FALLO_CREACION = "El Punto de Venta no se pudo crear."
 }
 
 object JugadorErrorMessages {

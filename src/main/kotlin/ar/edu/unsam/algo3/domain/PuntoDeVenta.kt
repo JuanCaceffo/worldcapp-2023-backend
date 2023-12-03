@@ -20,7 +20,7 @@ abstract class PuntoDeVenta(
   val direccion : Direccion,
   var stockSobres: Int
 ): Cloneable, RepositorioProps(){
-  val pedidosPendientes: MutableSet<Pedido> = mutableSetOf()
+  var pedidosPendientes: MutableList<Pedido> = mutableListOf()
   private var maxKmEnvio: Double = 10.0
   private var baseDeEnvio = 1000.0
   companion object {
@@ -38,10 +38,8 @@ abstract class PuntoDeVenta(
     baseDeEnvio=nuevaBase
   }
 
-  fun crearDireccionFromJson(dataMarket: MarketDTO) {}
+  fun cantidadPedidosPendientes() = pedidosPendientes.size
 
-  fun fromJson(marketdata: MarketDTO) {}
-  fun cantidadPedidosPendientes() = pedidosPendientes.sumOf { pedido -> pedido.cantSobres }
 
   fun importeACobrar(usuario: Usuario,cantSobres: Int): Double = (costoMinimoSobre * cantSobres + baseDeEnvio + extraPorKm(usuario)) * modificadorCosto(cantSobres)
 
@@ -84,7 +82,7 @@ abstract class PuntoDeVenta(
   }
 }
 
-class Kiosco(nombre: String, direccion: Direccion, stockSobres: Int, var hayEmpleados: Boolean) : PuntoDeVenta(nombre, direccion, stockSobres){
+class Kiosco(nombre: String, direccion: Direccion, stockSobres: Int, var hayEmpleados: Boolean = false) : PuntoDeVenta(nombre, direccion, stockSobres){
 
   private var porcentajeEmpelados = 1.25 //25% extra
   private var porcentajeDuenios = 1.1 //%10 extra

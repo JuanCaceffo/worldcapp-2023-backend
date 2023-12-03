@@ -103,7 +103,6 @@ class PuntosDeVentasSpec: DescribeSpec({
         it(name = "un negocio puede agregar un pedido si la fecha de entrega del mismo es la misma que la actual o superior"){
             every { LocalDate.now() } returns LocalDate.of(2023,5,11)
             negocioRegular.addPedidosPendientes(Pedido(100,LocalDate.of(2023,5,11)))
-            println(negocioRegular.pedidosPendientes)
             negocioRegular.pedidosPendientes.size shouldBe 1
         }
 

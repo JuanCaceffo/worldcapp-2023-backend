@@ -39,16 +39,20 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
 
   @ApiResponses(value = [
     ApiResponse(responseCode = "200", description = "Ok"),
-    ApiResponse(responseCode = "400", description = PuntoVentaErrorMessages.PUNTO_TIENE_STOCK),
+    ApiResponse(responseCode = "400", description = PuntoVentaErrorMessages.TIENE_STOCK),
     ApiResponse(responseCode = "501", description = "Error Inesperado"),
   ])
-
   @DeleteMapping("/punto-de-venta/{id}/eliminar")
   @Operation(summary="Permite eliminar un punto de venta")
   fun delete(@PathVariable id: Int){
     puntosDeVentaService.delete(id)
   }
 
+  @ApiResponses(value = [
+    ApiResponse(responseCode = "200", description = "Ok"),
+    ApiResponse(responseCode = "400", description = PuntoVentaErrorMessages.FALLO_CREACION),
+    ApiResponse(responseCode = "501", description = "Error Inesperado"),
+  ])
   @PostMapping("/punto-de-venta/nuevo")
   @Operation(summary = "Permite crear un nuevo punto de venta")
   fun createMarket(@RequestBody marketDTO: MarketDTO): ResponseEntity<String> {
@@ -56,6 +60,11 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
     return ResponseEntity.ok("Market created successfully")
   }
 
+  @ApiResponses(value = [
+    ApiResponse(responseCode = "200", description = "Ok"),
+    ApiResponse(responseCode = "400", description = PuntoVentaErrorMessages.FALLO_EDICION),
+    ApiResponse(responseCode = "501", description = "Error Inesperado"),
+  ])
   @PutMapping("/punto-de-venta/editar")
   @Operation(summary = "Permite editar un puntos de venta")
   fun updateMarket(@RequestBody marketDTO: MarketDTO): ResponseEntity<String> {
