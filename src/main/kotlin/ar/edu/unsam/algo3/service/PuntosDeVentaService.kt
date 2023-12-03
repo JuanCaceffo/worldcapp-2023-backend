@@ -2,9 +2,8 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.controller.MarketFilterParams
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.MarketCardDTO
 import ar.edu.unsam.algo3.dto.MarketDTO
-import ar.edu.unsam.algo3.dto.toMarketCardDTO
+import ar.edu.unsam.algo3.dto.toDireccionDTO
 import ar.edu.unsam.algo3.dto.toMarketDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.ErrorMessages
@@ -22,7 +21,7 @@ class PuntosDeVentaService(
 ) {
   fun getById(id:Int):MarketDTO{
      try {
-      return puntosDeVentaRepository.getById(id).toMarketDTO()
+      return puntosDeVentaRepository.getById(id).toMarketDTO(null)
     } catch (ex: Exception) {
       throw NotFoundException(ErrorMessages.ID_INEXISTENTE)
     }
@@ -31,11 +30,11 @@ class PuntosDeVentaService(
   fun getAll(params: MarketFilterParams): List<MarketDTO> {
     val puntosDeVenta = puntosDeVentaRepository.getAll()
     return filtrar(puntosDeVenta, params).map {
-      it.toMarketDTO()
+      it.toMarketDTO(null)
     }
   }
 
-  fun puntosDeVentaOrdenados(userId: Int, params: MarketFilterParams): List<MarketCardDTO> {
+  fun puntosDeVentaOrdenados(userId: Int, params: MarketFilterParams): List<MarketDTO> {
     var listaOrdenada: List<PuntoDeVenta> = mutableListOf()
 
     when (params.opcionElegida) {
@@ -47,7 +46,7 @@ class PuntosDeVentaService(
     }
 
     return filtrar(listaOrdenada, params).map {
-      it.toMarketCardDTO(usuariosRepository.getById(userId))
+      it.toMarketDTO(usuariosRepository.getById(userId))
     }
   }
 
@@ -80,18 +79,18 @@ class PuntosDeVentaService(
 
   //TODO: Fix hardcodeo de valores
   fun createMarket(dataMarket: MarketDTO){
-    val direccion = Direccion(
-      "Buenos Aires",
-      "San Martin",
-      dataMarket.direccion.calle,
-      dataMarket.direccion.altura,
-      Point(dataMarket.geoX,dataMarket.geoY))
-    val puntoDeVenta = Kioscos(dataMarket.nombre, direccion, dataMarket.stockSobres, false)
-    puntosDeVentaRepository.create(puntoDeVenta)
+//    val direccion = Direccion(
+//      "Buenos Aires",
+//      "San Martin",
+//      dataMarket.direccion.calle,
+//      dataMarket.direccion.altura,
+//      Point(dataMarket.geoX,dataMarket.geoY))
+//    puntosDeVentaRepository.create(puntoDeVenta)
+
   }
 
   fun updateMarket(dataMarket: MarketDTO){
-    val puntoDeVenta = puntosDeVentaRepository.getById(dataMarket.id)
-    puntosDeVentaRepository.update(puntoDeVenta)
+
+//    puntosDeVentaRepository.update(puntoDeVenta)
   }
 }

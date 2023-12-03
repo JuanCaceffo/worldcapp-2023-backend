@@ -19,7 +19,7 @@ class PuntosDeVentaControllerSpec(@Autowired val mockMvc: MockMvc){
                                  {
                                     "id": 2,
                                     "nombre": "Señor Kioskero",
-                                    "tipoPuntoDeVenta": "Kioscos",
+                                    "tipoPuntoDeVenta": "Kiosco",
                                     "direccion": {
                                       "calle": "Urquiza",
                                       "altura": 31,

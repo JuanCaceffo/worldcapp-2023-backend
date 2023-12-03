@@ -33,7 +33,7 @@ class PuntosDeVentaController(val puntosDeVentaService: PuntosDeVentaService) {
   fun getAll(
     @PathVariable idUsuario: Int,
     params: MarketFilterParams
-  ): List<MarketCardDTO> {
+  ): List<MarketDTO> {
     return this.puntosDeVentaService.puntosDeVentaOrdenados(idUsuario, params)
   }
 

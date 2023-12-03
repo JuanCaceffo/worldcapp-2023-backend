@@ -8,7 +8,7 @@ data class DireccionMarketDTO(
   val ubiGeografica: String
 )
 
-fun Direccion.toMarketCardDTO() = DireccionMarketDTO(
+fun Direccion.toDireccionDTO() = DireccionMarketDTO(
   calle = this.calle,
   altura = this.altura,
   ubiGeografica = this.ubiGeografica.toString()
