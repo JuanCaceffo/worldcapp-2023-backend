@@ -26,7 +26,7 @@ class ProcesosSpec: DescribeSpec  ({
         val userActivo1 = sol.copy()
         val userActivo2 = alejo.copy()
         val userInactivo = pablo.copy()
-        val negocioActivo = Kioscos(
+        val negocioActivo = Kiosco(
             nombre = "almacencito",
             direccion = Direccion(
                 provincia = "Buenos Aires",
@@ -38,7 +38,7 @@ class ProcesosSpec: DescribeSpec  ({
             stockSobres = 0,
             hayEmpleados = false
         )
-        val negocioInactivo = Kioscos(
+        val negocioInactivo = Kiosco(
             nombre = "almacenJose",
             direccion = Direccion(
                 provincia = "Buenos Aires",

@@ -3,14 +3,15 @@ package ar.edu.unsam.algo3.service
 import ar.edu.unsam.algo3.controller.FiguritaFilterParams
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.ErrorMessages
-import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.error.IllegalArgumentException
+import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
-import ar.edu.unsam.algo3.error.BussinesExpetion
+import java.util.*
 
 const val ERROR_MSG_FIND_JUGADOR = "El jugador a buscar es inexitente"
 const val ERROR_MSG_DATA_INCOMPLETA = "Los campos se encuentran incompletos"
@@ -94,7 +95,7 @@ class FiguritaService(
     val nombre = nombreApellido[0]
 
     return jugadorRepository.getAll().find { jugador ->
-      jugador.nombre.capitalize() == nombre}
+      jugador.nombre.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } == nombre}
       ?: throw NotFoundException(ERROR_MSG_FIND_JUGADOR)
   }
   fun obtenerNivelImpresionDesdeString(nivelImpresionString: String): NivelImpresion {
@@ -104,7 +105,7 @@ class FiguritaService(
       "alta" to impresionAlta
     )
 
-    return mapNivelesImpresion[nivelImpresionString.toLowerCase()]
+    return mapNivelesImpresion[nivelImpresionString.lowercase()]
       ?: throw IllegalArgumentException(ERROR_MSG_PARAMETRO_INVALIDO)
   }
   fun validarDataFigurita(infoFigurita: FiguritaCreateModifyDTO){

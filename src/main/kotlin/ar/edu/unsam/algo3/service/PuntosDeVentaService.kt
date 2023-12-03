@@ -2,14 +2,19 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.controller.MarketFilterParams
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.dto.MarketDTO
+import ar.edu.unsam.algo3.dto.toDireccionDTO
+import ar.edu.unsam.algo3.dto.toMarketDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.ErrorMessages
 import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.error.PuntoVentaErrorMessages
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
 import org.uqbar.geodds.Point
+import java.time.LocalDate
+import kotlin.random.Random
 
 @Service
 class PuntosDeVentaService(
@@ -18,7 +23,7 @@ class PuntosDeVentaService(
 ) {
   fun getById(id:Int):MarketDTO{
      try {
-      return puntosDeVentaRepository.getById(id).toMarketDTO()
+      return puntosDeVentaRepository.getById(id).toMarketDTO(null)
     } catch (ex: Exception) {
       throw NotFoundException(ErrorMessages.ID_INEXISTENTE)
     }
@@ -27,11 +32,11 @@ class PuntosDeVentaService(
   fun getAll(params: MarketFilterParams): List<MarketDTO> {
     val puntosDeVenta = puntosDeVentaRepository.getAll()
     return filtrar(puntosDeVenta, params).map {
-      it.toMarketDTO()
+      it.toMarketDTO(null)
     }
   }
 
-  fun puntosDeVentaOrdenados(userId: Int, params: MarketFilterParams): List<MarketCardDTO> {
+  fun puntosDeVentaOrdenados(userId: Int, params: MarketFilterParams): List<MarketDTO> {
     var listaOrdenada: List<PuntoDeVenta> = mutableListOf()
 
     when (params.opcionElegida) {
@@ -43,7 +48,7 @@ class PuntosDeVentaService(
     }
 
     return filtrar(listaOrdenada, params).map {
-      it.toMarketCardDTO(usuariosRepository.getById(userId))
+      it.toMarketDTO(usuariosRepository.getById(userId))
     }
   }
 
@@ -55,7 +60,7 @@ class PuntosDeVentaService(
 
   private fun validarBorrado(puntoDeVenta: PuntoDeVenta){
     if(!sePuedeBorrar(puntoDeVenta)) {
-      throw BussinesExpetion(ErrorMessages.PUNTO_TIENE_STOCK)
+      throw BussinesExpetion(PuntoVentaErrorMessages.TIENE_STOCK)
     }
   }
 
@@ -74,15 +79,62 @@ class PuntosDeVentaService(
     return markets.filter { market -> filtro.cumpleCondiciones(market) }
   }
 
-  //TODO: Fix hardcodeo de valores
-  fun createMarket(dataMarket: MarketDTO){
-    val direccion = Direccion(
+  private fun stringToPoint(point: String = "x: 0, y: 0") : Point {
+    val partes = point.split(",")
+    val x = partes[0].substringAfter("x: ").toDouble()
+    val y = partes[1].substringAfter("y: ").toDouble()
+    return Point(x, y)
+  }
+
+  private fun crearDireccion(dataMarket: MarketDTO) =
+    Direccion(
       "Buenos Aires",
       "San Martin",
       dataMarket.direccion.calle,
       dataMarket.direccion.altura,
-      Point(dataMarket.geoX,dataMarket.geoY))
-    val puntoDeVenta = Kioscos(dataMarket.nombre, direccion, dataMarket.stockSobres, false)
-    puntosDeVentaRepository.create(puntoDeVenta)
+      stringToPoint(dataMarket.direccion.ubiGeografica)
+    )
+
+  fun crearPuntoDeVentaDesdeDTO(marketDTO: MarketDTO): PuntoDeVenta {
+    val puntoDeVenta = when (marketDTO.tipoPuntoDeVenta.lowercase()) {
+      "kiosco" -> {
+        Kiosco(
+          marketDTO.nombre,
+          crearDireccion(marketDTO),
+          marketDTO.stockSobres
+        )
+      }
+      "libreria" -> {
+        Libreria(
+          marketDTO.nombre,
+          crearDireccion(marketDTO),
+          marketDTO.stockSobres
+        )
+      }
+      "supermercado" -> {
+        Supermercado(
+          marketDTO.nombre,
+          crearDireccion(marketDTO),
+          marketDTO.stockSobres
+        )
+      }
+      else -> throw IllegalArgumentException("Tipo de punto de venta desconocido: ${marketDTO.tipoPuntoDeVenta}")
+    }
+
+    val pedidos = mutableListOf<Pedido>()
+    repeat(marketDTO.pedidosPendientes) {
+      pedidos.add(Pedido(Random.nextInt(1,50), LocalDate.now().plusDays(Random.nextLong(1,50))))
+    }
+    puntoDeVenta.id(marketDTO.id)
+    puntoDeVenta.pedidosPendientes = pedidos
+    return puntoDeVenta
+  }
+
+  fun updateMarket(dataMarket: MarketDTO){
+    puntosDeVentaRepository.update(crearPuntoDeVentaDesdeDTO(dataMarket))
+  }
+
+  fun createMarket(dataMarket: MarketDTO){
+    puntosDeVentaRepository.create(crearPuntoDeVentaDesdeDTO(dataMarket))
   }
 }

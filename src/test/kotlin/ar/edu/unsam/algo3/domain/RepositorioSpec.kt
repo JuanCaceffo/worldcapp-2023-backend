@@ -124,7 +124,7 @@ class RepositorioSpec: DescribeSpec({
         }
 
         describe("Dada una repositorio de Puntos de Venta"){
-            val negocioRegular = Kioscos(
+            val negocioRegular = Kiosco(
                 nombre = "almacencito",
                 direccion = Direccion(
                     provincia = "Buenos Aires",
@@ -137,7 +137,7 @@ class RepositorioSpec: DescribeSpec({
                 hayEmpleados = false
             )
 
-            val negocioPedidoBajoUmbral = Librerias(
+            val negocioPedidoBajoUmbral = Libreria(
                 nombre = "heidi",
                 stockSobres = 2,
                 direccion = Direccion(

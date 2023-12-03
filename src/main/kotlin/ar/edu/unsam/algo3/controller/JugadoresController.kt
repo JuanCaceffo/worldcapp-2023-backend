@@ -6,6 +6,7 @@ import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
 import ar.edu.unsam.algo3.dto.JugadorDTO
 import ar.edu.unsam.algo3.dto.PosicionesJugador
 import ar.edu.unsam.algo3.error.ErrorMessages
+import ar.edu.unsam.algo3.error.JugadorErrorMessages
 import ar.edu.unsam.algo3.service.*
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -20,7 +21,7 @@ class JugadoresController(
 
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
-        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MENSAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
+        ApiResponse(responseCode = "400", description = JugadorErrorMessages.POSICION_INEXISTENTE + "<br />" + JugadorErrorMessages.SELECCION_INEXISTENTE + "<br />" + JugadorErrorMessages.DATA_INCOMPLETA),
         ApiResponse(responseCode = "501", description = "Error al parsear la fecha"),
     ])
     @PostMapping("jugador/crear")
@@ -31,7 +32,7 @@ class JugadoresController(
 
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
-        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_POSICION_INEXISTENTE + "<br />" + MENSAJE_ERROR_SELECCION_INEXISTENTE + "<br />" + MENSAJE_ERROR_DATA_INCOMPLETA),
+        ApiResponse(responseCode = "400", description = JugadorErrorMessages.POSICION_INEXISTENTE + "<br />" + JugadorErrorMessages.SELECCION_INEXISTENTE + "<br />" + JugadorErrorMessages.DATA_INCOMPLETA),
         ApiResponse(responseCode = "501", description = "Error al parsear la fecha"),
     ])
     @PatchMapping("jugador/{id}/modificar")
@@ -52,7 +53,7 @@ class JugadoresController(
     @Operation(summary = "Permite eliminar un jugador de la base de datos si no esta en ninguna figurtia")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
-        ApiResponse(responseCode = "400", description = MENSAJE_ERROR_JUGADOR_UTILIZADO)
+        ApiResponse(responseCode = "400", description = JugadorErrorMessages.JUGADOR_UTILIZADO)
     ])
     fun eliminarJugador(@PathVariable id: Int){
         jugadoresService.eliminarJugador(id)
