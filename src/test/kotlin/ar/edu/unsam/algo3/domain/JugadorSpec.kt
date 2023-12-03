@@ -7,6 +7,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.doubles.plusOrMinus
 import java.time.LocalDate
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 
 //-------------------------JUGADORES-----------------------//
 
