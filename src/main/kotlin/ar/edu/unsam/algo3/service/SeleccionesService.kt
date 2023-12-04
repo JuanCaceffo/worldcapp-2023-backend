@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.controller.BaseFilterParams
 import ar.edu.unsam.algo3.domain.*
+import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
 import ar.edu.unsam.algo3.error.SeleccionErrorMessages
 import ar.edu.unsam.algo3.repository.JugadorRepository
@@ -32,6 +33,18 @@ class SeleccionesService(
     fun getAll(params: BaseFilterParams): List<Seleccion> {
         val selecciones = seleccionesRepo.getAll()
         return filtrar(selecciones, params)
+    }
+
+    fun crearSeleccion(infoSeleccion: Seleccion) {
+        validarDataSeleccion(infoSeleccion)
+
+        val nuevaSeleccion = Seleccion(
+            pais = infoSeleccion.pais,
+            confederacion = infoSeleccion.confederacion,
+            copasDelMundo = infoSeleccion.copasDelMundo,
+            copasConfederacion = infoSeleccion.copasConfederacion
+        )
+        seleccionesRepo.create(nuevaSeleccion)
     }
 
     fun modificarSeleccion(infoSeleccion: Seleccion, idSeleccion: Int) {

@@ -1,6 +1,8 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Seleccion
+import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
+import ar.edu.unsam.algo3.error.JugadorErrorMessages
 import ar.edu.unsam.algo3.error.SeleccionErrorMessages
 import ar.edu.unsam.algo3.service.SeleccionesService
 import io.swagger.v3.oas.annotations.Operation
@@ -23,6 +25,15 @@ class SeleccionesControler(
     @GetMapping("")
     @Operation(summary = "Obtiene todas las selecciones")
     fun getAllTeams(params: BaseFilterParams): List<Seleccion> = seleccionesService.getAll(BaseFilterParams(params.palabraClave))
+
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "Ok"),
+    ])
+    @PostMapping("/crear")
+    @Operation(summary = "Permite crear una seleccion")
+    fun crearSeleccion(@RequestBody infoSeleccion: Seleccion) {
+        seleccionesService.crearSeleccion(infoSeleccion)
+    }
 
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
