@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3.controller
 import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.dto.FiguritaBaseDTO
 import ar.edu.unsam.algo3.dto.FiguritaCreateModifyDTO
+import ar.edu.unsam.algo3.error.NotFoundException
 import ar.edu.unsam.algo3.service.FiguritaService
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.every
@@ -97,6 +98,15 @@ class FiguritaControllerTest {
         .content(mapper.writeValueAsString(infoFigurita))
     )
       .andExpect(MockMvcResultMatchers.status().isOk)
+  }
+  @Test
+  fun `debería manejar error al intentar eliminar una figurita inexistente`() {
+    val figuritaId = 999
+
+    every { figuritaService.delete(figuritaId) } throws NotFoundException("Figurita no encontrada")
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/figurita/eliminar/$figuritaId"))
+      .andExpect(MockMvcResultMatchers.status().isNotFound)
   }
 }
 
