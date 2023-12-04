@@ -21,6 +21,7 @@ object JugadorErrorMessages {
 
 object SeleccionErrorMessages {
   const val SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
+  const val DATA_INCOMPLETA = "Necesita completar los campos requeridos"
   const val SELECCION_UTILIZADA = "La seleccion se encuentra asociada a un jugador actualmente"
 }
 

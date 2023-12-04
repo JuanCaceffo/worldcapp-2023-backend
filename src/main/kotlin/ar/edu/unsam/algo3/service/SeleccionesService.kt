@@ -2,10 +2,7 @@ package ar.edu.unsam.algo3.service
 
 import ar.edu.unsam.algo3.controller.BaseFilterParams
 import ar.edu.unsam.algo3.domain.*
-import ar.edu.unsam.algo3.dto.JugadorDTO
-import ar.edu.unsam.algo3.dto.toDTO
 import ar.edu.unsam.algo3.error.BussinesExpetion
-import ar.edu.unsam.algo3.error.JugadorErrorMessages
 import ar.edu.unsam.algo3.error.SeleccionErrorMessages
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
@@ -37,6 +34,19 @@ class SeleccionesService(
         return filtrar(selecciones, params)
     }
 
+    fun modificarSeleccion(infoSeleccion: Seleccion, idSeleccion: Int) {
+        validarDataSeleccion(infoSeleccion)
+
+        val seleccion = seleccionesRepo.getById(idSeleccion)
+
+        with(seleccion) {
+            pais = infoSeleccion.pais
+            confederacion = infoSeleccion.confederacion
+            copasDelMundo = infoSeleccion.copasDelMundo
+            copasConfederacion = infoSeleccion.copasConfederacion
+        }
+    }
+
     fun eliminarSeleccion(id: Int) {
         validarSeleccionInutilizada(id)
         val seleccion = seleccionesRepo.getById(id)
@@ -47,6 +57,14 @@ class SeleccionesService(
     fun validarSeleccionInutilizada(id: Int){
         if (jugadorRepository.getAll().any { jugador -> jugador.seleccionPerteneciente.id == id }){
             throw BussinesExpetion(SeleccionErrorMessages.SELECCION_UTILIZADA)
+        }
+    }
+
+    fun validarDataSeleccion(infoSeleccion: Seleccion){
+        with(infoSeleccion){
+            if(pais.isEmpty() || copasDelMundo < 0 || copasConfederacion < 0) {
+                throw BussinesExpetion(SeleccionErrorMessages.DATA_INCOMPLETA)
+            }
         }
     }
 }

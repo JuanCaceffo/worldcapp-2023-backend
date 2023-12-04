@@ -19,6 +19,7 @@ class FiguritasBoostrap(
 
   private val selecciones = mapOf(
     "Argentina" to Seleccion(pais = "Argentina", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 3),
+    "Chile" to Seleccion(pais = "Chile", Confederacion.CONMEBOL, copasConfederacion = 2, copasDelMundo = 0 ),
     "Brasil" to Seleccion(pais = "Brasil", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 5),
     "España" to Seleccion(pais = "España", Confederacion.UEFA, copasConfederacion = 8, copasDelMundo = 4),
     "Polonia" to Seleccion(pais = "Polonia", Confederacion.UEFA, copasConfederacion = 7, copasDelMundo = 3),
