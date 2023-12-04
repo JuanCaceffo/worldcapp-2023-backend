@@ -3,6 +3,7 @@ package ar.edu.unsam.algo3.domain
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
+import ar.edu.unsam.algo3.repository.SeleccionesRepository
 
 
 class Filtro<T>{
@@ -40,6 +41,16 @@ class FiltroPalabraClavePuntoDeVenta(private val palabraClave: String, val repos
 
 class FiltroPalabraClaveJugador(private val palabraClave: String, val repository: JugadorRepository) : CondicionesFiltrado<Jugador>{
   override fun filtro(elemento: Jugador): Boolean {
+    return if (palabraClave != "") {
+      return elemento in repository.search(palabraClave)
+    } else {
+      true
+    }
+  }
+}
+
+class FiltroPalabraClaveSeleccion(private val palabraClave: String, val repository: SeleccionesRepository) : CondicionesFiltrado<Seleccion>{
+  override fun filtro(elemento: Seleccion): Boolean {
     return if (palabraClave != "") {
       return elemento in repository.search(palabraClave)
     } else {

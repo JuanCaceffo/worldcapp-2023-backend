@@ -1,5 +1,9 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.domain.Seleccion
+import ar.edu.unsam.algo3.dto.JugadorDTO
+import ar.edu.unsam.algo3.dto.MarketDTO
+import ar.edu.unsam.algo3.service.PuntosDeVentaService
 import ar.edu.unsam.algo3.service.SeleccionesService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.stereotype.Controller
@@ -19,4 +23,8 @@ class SeleccionesControler(
     fun getAllNames(): List<String>{
         return seleccionesService.getAllNames()
     }
+
+    @GetMapping("")
+    @Operation(summary = "Obtiene todas las selecciones")
+    fun getAllTeams(params: BaseFilterParams): List<Seleccion> = seleccionesService.getAll(BaseFilterParams(params.palabraClave))
 }

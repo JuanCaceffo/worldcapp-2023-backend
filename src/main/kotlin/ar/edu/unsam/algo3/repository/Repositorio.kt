@@ -41,7 +41,10 @@ class Repositorio<T : RepositorioProps> {
     return elementos[id] ?: throw NotFoundException(ErrorMessages.ID_INEXISTENTE)
   }
 
-  fun search(value: String) = elementos.values.filter { it.validSearchCondition(value) }
+  fun search(value: String):List<T>{
+    return elementos.values.filter {team -> team.validSearchCondition(value)}
+    return elementos.values.filter { it.validSearchCondition(value) }
+  }
 }
 
 
