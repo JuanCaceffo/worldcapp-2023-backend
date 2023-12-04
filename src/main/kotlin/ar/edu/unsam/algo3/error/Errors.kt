@@ -19,6 +19,11 @@ object JugadorErrorMessages {
   const val JUGADOR_UTILIZADO = "El jugador se encuentra utilizado actualmente"
 }
 
+object SeleccionErrorMessages {
+  const val SELECCION_INEXISTENTE= "La seleccion que a seleccionado no existe"
+  const val SELECCION_UTILIZADA = "La seleccion se encuentra asociada a un jugador actualmente"
+}
+
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 class BussinesExpetion(msg:String) : RuntimeException(msg)
 

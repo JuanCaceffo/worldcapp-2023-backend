@@ -28,7 +28,8 @@ class FiguritasBoostrap(
     "Japón" to Seleccion(pais = "Japón", Confederacion.AFC, copasConfederacion = 3, copasDelMundo = 0),
     "China" to Seleccion(pais = "China", Confederacion.AFC, copasConfederacion = 1, copasDelMundo = 0),
     "Corea del Sur" to Seleccion(pais = "Corea del Sur", Confederacion.AFC, copasConfederacion = 2, copasDelMundo = 0),
-    "México" to Seleccion(pais = "México", Confederacion.CONCACAF, copasConfederacion = 1, copasDelMundo = 0)
+    "México" to Seleccion(pais = "México", Confederacion.CONCACAF, copasConfederacion = 1, copasDelMundo = 0),
+    "Corea del Norte" to Seleccion(pais = "Corea del Norte", Confederacion.AFC, copasConfederacion = 0, copasDelMundo = 0 )
   )
 
   private val jugadores = mapOf(
