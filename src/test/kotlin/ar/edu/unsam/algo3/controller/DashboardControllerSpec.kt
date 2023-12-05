@@ -34,7 +34,7 @@ class DashboardControllerSpec(@Autowired val mockMvc: MockMvc){
 		"name": "Usuarios Activos"
 	},
 	{
-		"quantity": 11,
+		"quantity": 13,
 		"name": "Selecciones Activas"
 	}
 ]
