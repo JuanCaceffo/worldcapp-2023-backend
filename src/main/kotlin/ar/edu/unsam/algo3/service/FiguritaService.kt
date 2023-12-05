@@ -11,7 +11,6 @@ import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 const val ERROR_MSG_FIND_JUGADOR = "El jugador a buscar es inexitente"
 const val ERROR_MSG_DATA_INCOMPLETA = "Los campos se encuentran incompletos"
@@ -74,7 +73,8 @@ class FiguritaService(
       numero = infoFigurita.numero,
       onFire = infoFigurita.onFire,
       cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion),
-      jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+      jugador = buscarJugadorPorNombre(infoFigurita.nombreApellido),
+      urlImage = infoFigurita.urlImage
     )
     figuritaRepository.create(nuevaFigurita)
   }
@@ -87,7 +87,8 @@ class FiguritaService(
       numero = infoFigurita.numero
       onFire = infoFigurita.onFire
       cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion)
-      jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+      jugador = buscarJugadorPorNombre(infoFigurita.nombreApellido)
+      urlImage = infoFigurita.urlImage
     }
   }
   fun buscarJugadorPorNombre ( jugadorNombre: String ) : Jugador{
@@ -95,7 +96,7 @@ class FiguritaService(
     val nombre = nombreApellido[0]
 
     return jugadorRepository.getAll().find { jugador ->
-      jugador.nombre.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } == nombre}
+      jugador.nombre.lowercase()  == nombre.lowercase()}
       ?: throw NotFoundException(ERROR_MSG_FIND_JUGADOR)
   }
   fun obtenerNivelImpresionDesdeString(nivelImpresionString: String): NivelImpresion {
@@ -110,7 +111,7 @@ class FiguritaService(
   }
   fun validarDataFigurita(infoFigurita: FiguritaCreateModifyDTO){
     with(infoFigurita){
-      if(numero.toString().isEmpty() || onFire.toString().isEmpty() || nivelImpresion.isEmpty() || nombre.isEmpty()) {
+      if(numero.toString().isEmpty() || onFire.toString().isEmpty() || nivelImpresion.isEmpty() || nombreApellido.isEmpty()) {
         throw BussinesExpetion(ERROR_MSG_DATA_INCOMPLETA)
       }
     }

@@ -1,6 +1,5 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.dto.FiguritaBaseDTO
 import ar.edu.unsam.algo3.dto.FiguritaCreateModifyDTO
 import ar.edu.unsam.algo3.error.NotFoundException
@@ -8,13 +7,19 @@ import ar.edu.unsam.algo3.service.FiguritaService
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
+@SpringBootTest
+@AutoConfigureMockMvc
+@DisplayName("Dado un controller de figuritas")
 class FiguritaControllerTest {
 
   private val figuritaService = mockk<FiguritaService>()
@@ -26,8 +31,7 @@ class FiguritaControllerTest {
     id = 1,
     numero = 1,
     onFire = false,
-    nombre = "NombreEjemplo",
-    apellido = "ApellidoEjemplo",
+    nombreApellido = "NombreEjemplo ApellidoEjemplo",
     nivelImpresion = "alta",
     valoracion = 95.5
   )
@@ -68,7 +72,7 @@ class FiguritaControllerTest {
   fun `crearFigurita debería crear una nueva figurita`() {
     val infoFigurita = FiguritaCreateModifyDTO(
       numero = 2,
-      nombre = "Nicolas Otamendi",
+      nombreApellido = "Nicolas Otamendi",
       onFire = true,
       nivelImpresion = "media"
     )
@@ -87,7 +91,7 @@ class FiguritaControllerTest {
     val figuritaId = 1
     val infoFigurita = FiguritaCreateModifyDTO(
       numero = 1,
-      nombre = "Lionel Messi",
+      nombreApellido = "Lionel Messi",
       onFire = false,
       nivelImpresion = "baja"
     )

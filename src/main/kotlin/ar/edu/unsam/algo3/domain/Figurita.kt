@@ -6,7 +6,8 @@ class Figurita (
     var numero:Int,
     var onFire:Boolean,
     var cantidadImpresa: NivelImpresion,
-    var jugador: Jugador
+    var jugador: Jugador,
+    var urlImage: String? = null
 ): RepositorioProps(){
     init {
         validarNumero()
