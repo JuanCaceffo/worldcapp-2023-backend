@@ -34,6 +34,7 @@ class SeleccionesService(
         val selecciones = seleccionesRepo.getAll()
         return filtrar(selecciones, params)
     }
+    fun obtenerSeleccion(id: Int): Seleccion = seleccionesRepo.getById(id)
 
     fun crearSeleccion(infoSeleccion: Seleccion) {
         validarDataSeleccion(infoSeleccion)

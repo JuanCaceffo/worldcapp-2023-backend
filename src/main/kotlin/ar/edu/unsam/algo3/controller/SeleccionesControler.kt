@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Seleccion
 import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
+import ar.edu.unsam.algo3.error.ErrorMessages
 import ar.edu.unsam.algo3.error.JugadorErrorMessages
 import ar.edu.unsam.algo3.error.SeleccionErrorMessages
 import ar.edu.unsam.algo3.service.SeleccionesService
@@ -25,6 +26,16 @@ class SeleccionesControler(
     @GetMapping("")
     @Operation(summary = "Obtiene todas las selecciones")
     fun getAllTeams(params: BaseFilterParams): List<Seleccion> = seleccionesService.getAll(BaseFilterParams(params.palabraClave))
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtiene una seleccion especifica")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "Ok"),
+        ApiResponse(responseCode = "404", description = ErrorMessages.ID_INEXISTENTE)
+    ])
+    fun obtenerSeleccion(@PathVariable id: Int): Seleccion {
+        return seleccionesService.obtenerSeleccion(id)
+    }
 
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
