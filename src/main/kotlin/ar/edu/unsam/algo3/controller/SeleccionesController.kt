@@ -1,9 +1,7 @@
 package ar.edu.unsam.algo3.controller
 
 import ar.edu.unsam.algo3.domain.Seleccion
-import ar.edu.unsam.algo3.dto.InfoCrearModificarJugadorDTO
 import ar.edu.unsam.algo3.error.ErrorMessages
-import ar.edu.unsam.algo3.error.JugadorErrorMessages
 import ar.edu.unsam.algo3.error.SeleccionErrorMessages
 import ar.edu.unsam.algo3.service.SeleccionesService
 import io.swagger.v3.oas.annotations.Operation
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/selecciones")
-class SeleccionesControler(
+class SeleccionesController(
     val seleccionesService: SeleccionesService
 ) {
     @GetMapping("/pais")
@@ -31,6 +29,7 @@ class SeleccionesControler(
     @Operation(summary = "Obtiene una seleccion especifica")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
+        ApiResponse(responseCode = "400", description = SeleccionErrorMessages.DATA_INCOMPLETA),
         ApiResponse(responseCode = "404", description = ErrorMessages.ID_INEXISTENTE)
     ])
     fun obtenerSeleccion(@PathVariable id: Int): Seleccion {
@@ -48,6 +47,7 @@ class SeleccionesControler(
 
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Ok"),
+        ApiResponse(responseCode = "400", description = SeleccionErrorMessages.DATA_INCOMPLETA),
         ApiResponse(responseCode = "404", description = SeleccionErrorMessages.SELECCION_INEXISTENTE)
     ])
     @PutMapping("/{id}/modificar")
