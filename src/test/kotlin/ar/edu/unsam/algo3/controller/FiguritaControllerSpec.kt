@@ -62,7 +62,7 @@ class FiguritaControllerTest {
 
   @Test
   fun `delete debería eliminar una figurita por ID`() {
-    val figuritaId = 1
+    val figuritaId = 16
 
     mockMvc.perform(MockMvcRequestBuilders.delete("/figurita/eliminar/$figuritaId"))
       .andExpect(MockMvcResultMatchers.status().isOk)

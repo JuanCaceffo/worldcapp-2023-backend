@@ -66,6 +66,7 @@ class FiguritaService(
     figuritaRepository.delete(figurita)
   }
   fun crearFigurita(infoFigurita : FiguritaCreateModifyDTO) {
+    validarDataFigurita(infoFigurita)
     val nuevaFigurita = Figurita (
       numero = infoFigurita.numero,
       onFire = infoFigurita.onFire,
