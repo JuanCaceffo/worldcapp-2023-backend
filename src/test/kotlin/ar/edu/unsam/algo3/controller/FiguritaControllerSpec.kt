@@ -1,80 +1,116 @@
 package ar.edu.unsam.algo3.controller
 
+import ar.edu.unsam.algo3.domain.Figurita
+import ar.edu.unsam.algo3.dto.FiguritaBaseDTO
 import ar.edu.unsam.algo3.dto.FiguritaCreateModifyDTO
-import org.junit.jupiter.api.DisplayName
+import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.service.FiguritaService
+import com.fasterxml.jackson.databind.ObjectMapper
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@DisplayName("Dado un controller de figuritas")
-class FiguritaControllerSpec(@Autowired val mockMvc: MockMvc){
+class FiguritaControllerTest {
 
-  /*
-  @Test
-  fun `puedo obtener una figurita por su ID`() {
-    mockMvc
-      .perform(MockMvcRequestBuilders.get("/figurita/1"))
-      .andExpect(MockMvcResultMatchers.status().isOk)
+  private val figuritaService = mockk<FiguritaService>()
+
+  private val mockMvc: MockMvc = setupMockMvc()
+
+  // Instancia de FiguritaBaseDTO accesible para todos los tests
+  private val figuritaBaseDTO = FiguritaBaseDTO(
+    id = 1,
+    numero = 1,
+    onFire = false,
+    nombre = "NombreEjemplo",
+    apellido = "ApellidoEjemplo",
+    nivelImpresion = "alta",
+    valoracion = 95.5
+  )
+
+  private fun setupMockMvc(): MockMvc {
+    // Configurar el servicio simulado
+    every { figuritaService.crearFigurita(any()) } returns Unit
+    every { figuritaService.delete(any()) } returns Unit
+    every { figuritaService.delete(any()) } returns Unit
+    every { figuritaService.modificarFigurita(any(), any()) } returns Unit
+
+    val controller = FiguritaController(figuritaService)
+    return MockMvcBuilders.standaloneSetup(controller).build()
   }
 
-   */
+  private val mapper = ObjectMapper()
+
   @Test
-  fun `puedo mockear una llamada al endpoint via get con parametro de palabraClave y me responde correctamente`() {
-    val figuritaPepe = """
-  [
-    {
-      "id": 2,
-      "idUsuario": 1,
-      "onFire": true,
-      "numero": 3,
-      "valorBase": 100,
-      "nivelImpresion": "media",
-      "promesa": false,
-      "peso": 69,
-      "nombre": "Pepe",
-      "apellido": "Argento",
-      "nroCamiseta": 5,
-      "fechaNac": "1993-02-12",
-      "edad": 30,
-      "seleccion": "Argentina",
-      "posicion": "Arquero",
-      "cotizacion": 1700000,
-      "anioDebut": 2012,
-      "copasDelMundo": 3,
-      "confederacion": "CONMEBOL",
-      "confederacionCopas": 22,
-      "esLider": true,
-      "valoracion": 100,
-      "altura": 1.69,
-      "duenio": "madescoses"
-    }
-  ]
-  """
-    mockMvc
-      .perform(MockMvcRequestBuilders.get("/figuritas/intercambiar/0")
-        .param("palabraClave","Pepe"))
+  fun `getById debería devolver una figurita por ID`() {
+    val figuritaId = 1
+
+    every { figuritaService.getById(figuritaId) } returns figuritaBaseDTO
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/figurita/$figuritaId"))
       .andExpect(MockMvcResultMatchers.status().isOk)
-      .andExpect(MockMvcResultMatchers.content().json(figuritaPepe))
+      .andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(figuritaBaseDTO)))
   }
 
   @Test
-  fun `puedo hacer una llamada al endpoint via get con un ID inexistente y obtengo error 404`() {
-    mockMvc
-      .perform(MockMvcRequestBuilders.get("/figuritas/intercambiar/-1"))
-      .andExpect(MockMvcResultMatchers.status().is4xxClientError)
+  fun `delete debería eliminar una figurita por ID`() {
+    val figuritaId = 1
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/figurita/eliminar/$figuritaId"))
+      .andExpect(MockMvcResultMatchers.status().isOk)
   }
 
   @Test
-  fun `puedo eliminar una figurita por su ID`() {
-    mockMvc
-      .perform(MockMvcRequestBuilders.delete("/figurita/eliminar/1"))
+  fun `crearFigurita debería crear una nueva figurita`() {
+    val infoFigurita = FiguritaCreateModifyDTO(
+      numero = 2,
+      nombre = "Nicolas Otamendi",
+      onFire = true,
+      nivelImpresion = "media"
+    )
+
+    mockMvc.perform(
+      MockMvcRequestBuilders.post("/figurita/crear")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(mapper.writeValueAsString(infoFigurita))
+    )
       .andExpect(MockMvcResultMatchers.status().isOk)
 
+  }
+
+  @Test
+  fun `modificarFigurita debería modificar una figurita existente`() {
+    val figuritaId = 1
+    val infoFigurita = FiguritaCreateModifyDTO(
+      numero = 1,
+      nombre = "Lionel Messi",
+      onFire = false,
+      nivelImpresion = "baja"
+    )
+
+    mockMvc.perform(
+      MockMvcRequestBuilders.patch("/figurita/modificar/$figuritaId")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(mapper.writeValueAsString(infoFigurita))
+    )
+      .andExpect(MockMvcResultMatchers.status().isOk)
+  }
+  @Test
+  fun `debería manejar error al intentar eliminar una figurita inexistente`() {
+    val figuritaId = 999
+
+    every { figuritaService.delete(figuritaId) } throws NotFoundException("Figurita no encontrada")
+
+    mockMvc.perform(MockMvcRequestBuilders.delete("/figurita/eliminar/$figuritaId"))
+      .andExpect(MockMvcResultMatchers.status().isNotFound)
   }
 }
+
+
+
+
+
