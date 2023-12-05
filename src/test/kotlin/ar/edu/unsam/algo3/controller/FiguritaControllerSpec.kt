@@ -1,6 +1,5 @@
 package ar.edu.unsam.algo3.controller
 
-import ar.edu.unsam.algo3.domain.Figurita
 import ar.edu.unsam.algo3.dto.FiguritaBaseDTO
 import ar.edu.unsam.algo3.dto.FiguritaCreateModifyDTO
 import ar.edu.unsam.algo3.error.NotFoundException
@@ -32,8 +31,7 @@ class FiguritaControllerTest {
     id = 1,
     numero = 1,
     onFire = false,
-    nombre = "NombreEjemplo",
-    apellido = "ApellidoEjemplo",
+    nombreApellido = "NombreEjemplo ApellidoEjemplo",
     nivelImpresion = "alta",
     valoracion = 95.5
   )
@@ -74,7 +72,7 @@ class FiguritaControllerTest {
   fun `crearFigurita debería crear una nueva figurita`() {
     val infoFigurita = FiguritaCreateModifyDTO(
       numero = 2,
-      nombre = "Nicolas Otamendi",
+      nombreApellido = "Nicolas Otamendi",
       onFire = true,
       nivelImpresion = "media"
     )
@@ -93,7 +91,7 @@ class FiguritaControllerTest {
     val figuritaId = 1
     val infoFigurita = FiguritaCreateModifyDTO(
       numero = 1,
-      nombre = "Lionel Messi",
+      nombreApellido = "Lionel Messi",
       onFire = false,
       nivelImpresion = "baja"
     )
