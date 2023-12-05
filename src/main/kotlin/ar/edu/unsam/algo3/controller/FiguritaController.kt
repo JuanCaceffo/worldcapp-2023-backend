@@ -52,11 +52,13 @@ class FiguritaController(val figuritaService: FiguritaService) {
   @DeleteMapping("/figurita/eliminar/{id}")
   @Operation(summary="Elimina una figurita segun su id")
   fun delete(@PathVariable id: Int){
+    figuritaService.validarFiguInutilizada(id)
     figuritaService.delete(id)
   }
   @PostMapping("/figurita/crear")
   @Operation(summary = "Permite crear una figurita")
   fun crearFigurita(@RequestBody infoFigurita: FiguritaCreateModifyDTO ){
+    figuritaService.validarDataFigurita(infoFigurita)
     figuritaService.crearFigurita(infoFigurita)
   }
   @PatchMapping("/figurita/modificar/{id}")

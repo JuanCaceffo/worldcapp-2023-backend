@@ -3,10 +3,7 @@ package ar.edu.unsam.algo3.service
 import ar.edu.unsam.algo3.controller.FiguritaFilterParams
 import ar.edu.unsam.algo3.domain.*
 import ar.edu.unsam.algo3.dto.*
-import ar.edu.unsam.algo3.error.BussinesExpetion
-import ar.edu.unsam.algo3.error.ErrorMessages
-import ar.edu.unsam.algo3.error.IllegalArgumentException
-import ar.edu.unsam.algo3.error.NotFoundException
+import ar.edu.unsam.algo3.error.*
 import ar.edu.unsam.algo3.repository.FiguritasRepository
 import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
@@ -20,8 +17,8 @@ const val ERROR_MSG_PARAMETRO_INVALIDO = "El nivel de impresion es invalido"
 class FiguritaService(
   val figuritaRepository: FiguritasRepository,
   val usuariosRepository: UsuariosRepository,
-  val jugadorRepository: JugadorRepository
-) {
+  val jugadorRepository: JugadorRepository)
+{
   fun getAll(params: FiguritaFilterParams): List<FiguritaBaseDTO>{
     val figuritas = figuritaRepository.getAll()
     return filtrar(figuritas, params).map { it.toBaseDTO() }
@@ -109,6 +106,8 @@ class FiguritaService(
     return mapNivelesImpresion[nivelImpresionString.lowercase()]
       ?: throw IllegalArgumentException(ERROR_MSG_PARAMETRO_INVALIDO)
   }
+
+  //VALIDACIONES
   fun validarDataFigurita(infoFigurita: FiguritaCreateModifyDTO){
     with(infoFigurita){
       if(numero.toString().isEmpty() || onFire.toString().isEmpty() || nivelImpresion.isEmpty() || nombreApellido.isEmpty()) {
@@ -116,4 +115,16 @@ class FiguritaService(
       }
     }
   }
+
+  fun validarFiguInutilizada(id: Int){
+    val usuarios: List<Usuario> = usuariosRepository.getAll()
+    val figu = figuritaRepository.getById(id)
+
+    val hayFaltantes = usuarios.any { it.figuritasFaltantes.contains(figu) }
+    val hayRepetidas = usuarios.any { it.figuritasRepetidas.contains(figu) }
+
+    if (hayFaltantes || hayRepetidas){
+      throw BussinesExpetion(FiguritaErrorMessages.FIGURITA_UTILIZADA)
+    }
   }
+}

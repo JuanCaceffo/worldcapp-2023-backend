@@ -25,6 +25,12 @@ object SeleccionErrorMessages {
   const val SELECCION_UTILIZADA = "La seleccion se encuentra asociada a un jugador actualmente"
 }
 
+object FiguritaErrorMessages {
+  const val FIGURITA_INEXISTENTE= "La figurita no existe"
+  const val DATA_INCOMPLETA = "Necesita completar los campos requeridos"
+  const val FIGURITA_UTILIZADA = "La figurita se encuentra asociada a un usuario actualmente"
+}
+
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 class BussinesExpetion(msg:String) : RuntimeException(msg)
 
