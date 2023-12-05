@@ -7,11 +7,6 @@ abstract class FiltroBaseDTO(
   val palabraClave:String = ""
 )
 
-class FiltroPuntoDeVentaDTO(
-  palabraClave: String,
-  var opcionElegida: String = "",
-): FiltroBaseDTO(palabraClave)
-
 open class FiguritaBaseDTO(
   val id: Int,
   val numero: Int,
@@ -25,7 +20,8 @@ open class FiguritaCreateModifyDTO(
   val numero: Int,
   val nombre: String,
   val onFire: Boolean,
-  val nivelImpresion: String
+  val nivelImpresion: String,
+  val urlImage: String? = null
 )
 class FiguritaFullDTO(
   id:Int,
@@ -60,7 +56,8 @@ fun Figurita.toCreateModifyDto() = FiguritaCreateModifyDTO(
   numero = this.numero,
   nombre = jugador.nombre,
   onFire = this.onFire,
-  nivelImpresion = this.cantidadImpresa.nombre
+  nivelImpresion = this.cantidadImpresa.nombre,
+  urlImage = this.urlImage
 )
 
 fun Figurita.toBaseDTO() = FiguritaBaseDTO(

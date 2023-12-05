@@ -74,7 +74,8 @@ class FiguritaService(
       numero = infoFigurita.numero,
       onFire = infoFigurita.onFire,
       cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion),
-      jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+      jugador = buscarJugadorPorNombre(infoFigurita.nombre),
+      urlImage = infoFigurita.urlImage
     )
     figuritaRepository.create(nuevaFigurita)
   }
@@ -88,6 +89,7 @@ class FiguritaService(
       onFire = infoFigurita.onFire
       cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion)
       jugador = buscarJugadorPorNombre(infoFigurita.nombre)
+      urlImage = infoFigurita.urlImage
     }
   }
   fun buscarJugadorPorNombre ( jugadorNombre: String ) : Jugador{
