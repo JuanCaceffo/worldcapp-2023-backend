@@ -13,7 +13,7 @@ import java.time.LocalDate
 
 
 //---------------------- TESTS ----------------------//
-class PuntosDeVentasSpec: DescribeSpec({
+class PuntosDeVentaSpec: DescribeSpec({
 
 
 //---------------------- PUNTOS DE VENTA ----------------------//

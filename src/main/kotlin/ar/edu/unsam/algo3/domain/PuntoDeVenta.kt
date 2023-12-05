@@ -1,8 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
-import ar.edu.unsam.algo3.dto.MarketDTO
 import ar.edu.unsam.algo3.repository.RepositorioProps
-import org.uqbar.geodds.Point
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import kotlin.math.ceil
@@ -32,7 +30,7 @@ abstract class PuntoDeVenta(
     validadorStrings.errorStringVacio(nombre,MENSAJE_ERROR_PV_NOMBRE_VACIO)
   }
   fun tipoPuntoDeVenta() = this::class.simpleName.toString()
-  fun copy(): PuntoDeVenta = this.clone() as PuntoDeVenta
+
   fun cambiarBaseDeEnvio(nuevaBase:Double) {
     validadorNumeros.errorNumeroNegativo(nuevaBase, MENSAJE_ERROR_PV_BASE_ENVIO_NEGATIVA)
     baseDeEnvio=nuevaBase

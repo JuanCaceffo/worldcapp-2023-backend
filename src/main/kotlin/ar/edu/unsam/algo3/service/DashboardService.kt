@@ -1,8 +1,7 @@
 package ar.edu.unsam.algo3.service
 
-import ar.edu.unsam.algo3.dto.*
+import ar.edu.unsam.algo3.dto.dashboardStatics
 import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
-import ar.edu.unsam.algo3.repository.Repositorio
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import ar.edu.unsam.algo3.repository.UsuariosRepository
 import org.springframework.stereotype.Service
@@ -23,6 +22,6 @@ class DashboardService(
         val usuariosActivos = dashboardStatics(usuariosRepository.getTotalEntities(), "Usuarios Activos")
         val seleccionesActivas = dashboardStatics(seleccionesRepository.getTotalEntities(), "Selecciones Activas")
 
-        return listOf(figuritasOfrecidas, figuritasFaltantes, puntosDeVentas, usuariosActivos, seleccionesActivas)
+        return listOf(figuritasOfrecidas, figuritasFaltantes, puntosDeVenta, usuariosActivos, seleccionesActivas)
     }
 }

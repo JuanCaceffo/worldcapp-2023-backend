@@ -112,7 +112,7 @@ class PuntosDeVentaBootstrap(
     )
   )
 
-  fun createPuntosDeVentas() {
+  fun createPuntosDeVenta() {
     puntosDeVenta["kiosko1"]?.addPedidosPendientes(Pedido(2, LocalDate.now()))
     puntosDeVenta["libreria1"]?.addPedidosPendientes(Pedido(1, LocalDate.now()))
     puntosDeVenta.values.forEach { punto -> puntosDeVentaRepository.apply { create(punto) } }
@@ -120,7 +120,7 @@ class PuntosDeVentaBootstrap(
 
   override fun afterPropertiesSet() {
     println("INICIO EL PROCESO DE CREACIÓN DE PUNTOS DE VENTA.")
-    this.createPuntosDeVentas()
+    this.createPuntosDeVenta()
     println("FIN DE PUNTOS DE VENTA.")
   }
 }
