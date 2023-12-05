@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 @CrossOrigin("*")
 class DashboardController(val dashboardService: DashboardService) {
     @GetMapping("/dashboard")
-    @Operation(summary = "Devuelve una lista con las figus ofrecidas, faltantes, puntos de ventas y usuarios activos")
+    @Operation(summary = "Devuelve una lista con las figus ofrecidas, faltantes, puntos de venta y usuarios activos")
     fun getDashboardStatics(): List<dashboardStatics> {
         return dashboardService.getDashboardStatics()
     }

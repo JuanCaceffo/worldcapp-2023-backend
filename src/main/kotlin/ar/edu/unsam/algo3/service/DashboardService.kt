@@ -19,7 +19,7 @@ class DashboardService(
     fun getDashboardStatics(): List<dashboardStatics> {
         val figuritasOfrecidas = dashboardStatics(usuariosRepository.getAllFiguritasRepetidas(), "Figuritas Ofrecidas")
         val figuritasFaltantes = dashboardStatics(usuariosRepository.getAllFiguritasFaltantes(), "Figuritas Faltantes")
-        val puntosDeVentas = dashboardStatics(puntosDeVentaRepository.getTotalEntities(), "Puntos de Ventas")
+        val puntosDeVenta = dashboardStatics(puntosDeVentaRepository.getTotalEntities(), "Puntos de Venta")
         val usuariosActivos = dashboardStatics(usuariosRepository.getTotalEntities(), "Usuarios Activos")
         val seleccionesActivas = dashboardStatics(seleccionesRepository.getTotalEntities(), "Selecciones Activas")
 
