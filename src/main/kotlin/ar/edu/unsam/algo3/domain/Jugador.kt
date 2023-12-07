@@ -10,7 +10,7 @@ const val LIMITEANIOSVETERANO = 2
 const val EDADLIMITEPROMESAFUTBOL = 22
 
 //TODO: cambiar props a un data class para poder realizar la validacionde campos al modificar un jugador ya instanciado
-class Jugador (
+data class Jugador (
     var nombre:String,
     var apellido:String,
     var fechaNacimiento:LocalDate,
@@ -24,10 +24,7 @@ class Jugador (
     var cotizacion: Double
 ): RepositorioProps(){
     init {
-        validadorStrings.errorStringVacio(nombre, errorMessage =  MENSAJE_ERROR_INGRESAR_NOMBRE)
-        validadorStrings.errorStringVacio(apellido, errorMessage = MENSAJE_ERROR_INGRESAR_APELLIDO)
-        validarNumeroCamiseta()
-        validarCamposNumericosPositivos()
+        validarTodosLosCampos()
     }
     //Obtiene las primeras 3 letras de la Selección
     fun pais(): String = seleccionPerteneciente.pais.slice(0..2)
@@ -56,5 +53,12 @@ class Jugador (
         if( listOf(anioDeDebut.toDouble(), altura, peso, cotizacion).any{ !HelperNumerosEnteros.esPositivo( it ) }){
             throw IllegalArgumentException(MENSAJE_ERROR_NUM_NEGATIVO)
         }
+    }
+
+    fun validarTodosLosCampos(){
+        validadorStrings.errorStringVacio(nombre, errorMessage =  MENSAJE_ERROR_INGRESAR_NOMBRE)
+        validadorStrings.errorStringVacio(apellido, errorMessage = MENSAJE_ERROR_INGRESAR_APELLIDO)
+        validarNumeroCamiseta()
+        validarCamposNumericosPositivos()
     }
 }

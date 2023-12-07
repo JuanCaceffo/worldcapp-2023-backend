@@ -70,9 +70,7 @@ class JugadoresService(
     }
 
     //TODO: validar modificaion
-    fun modificarJugador(infoJugador: InfoCrearModificarJugadorDTO, idJugador: Int) {
-        val jugador = jugadoresRepo.getById(idJugador)
-
+    fun validacionModificaicon(jugador: Jugador,infoJugador: InfoCrearModificarJugadorDTO){
         with(jugador) {
             fechaNacimiento = fechaParser(infoJugador.fechaNacimiento)
             altura = infoJugador.altura
@@ -85,7 +83,16 @@ class JugadoresService(
             nroCamiseta = infoJugador.nroCamiseta
             posicion = stringAPosicion(infoJugador.posicion, infoJugador.posiciones)
             seleccionPerteneciente = stirngASeleccion(infoJugador.seleccion)
+            validarTodosLosCampos()
         }
+    }
+
+    fun modificarJugador(infoJugador: InfoCrearModificarJugadorDTO, idJugador: Int) {
+        val jugador = jugadoresRepo.getById(idJugador)
+
+        //Si pasa la primera modificaicon con la validacion final es por que puede ser guardado
+        validacionModificaicon(jugador.copy(),infoJugador)
+        validacionModificaicon(jugador,infoJugador)
     }
 
     fun getAll(params: BaseFilterParams): List<JugadorDTO> {
