@@ -17,6 +17,7 @@ val figuritaDevaluada = Figurita(numero = 35, onFire = false, cantidadImpresa = 
 val figuritaValorMaximo = Figurita(numero = 10, onFire = true, cantidadImpresa = impresionBaja, jugador = lionelMessi)
 val figuritaValorMedio = Figurita(numero = 27, onFire = true, cantidadImpresa = impresionMedia, jugador = nicolasOtamendi)
 val figuritaMenorValoracion = Figurita(numero = 50, onFire = true, cantidadImpresa = impresionMedia, jugador = lisandroMartinez)
+val figuConNumeroBueno = Figurita(numero = 9, onFire = false, cantidadImpresa = impresionBaja, jugador = emilianoMartinez)
 
 class FiguritaSpec: DescribeSpec ({
     isolationMode = IsolationMode.InstancePerTest
@@ -48,12 +49,12 @@ class FiguritaSpec: DescribeSpec ({
             figuritaOnfireImpresionMedia.valoracion().shouldBe(282)
         }
         it("al cambiar un nro de una figurita funciona por que es valido"){
-            figuritaBase.cambiarNumero(3)
-            figuritaBase.numero.shouldBe(3)
+            figuConNumeroBueno.cambiarNumero(3)
+            figuConNumeroBueno.numero.shouldBe(3)
         }
         it("al cambiar un nro de una figurita salta une expecion por que es invalido"){
             shouldThrow<IllegalArgumentException> {
-                figuritaBase.cambiarNumero(-1)
+                figuConNumeroBueno.cambiarNumero(-1)
             }.message shouldBe MENSAJE_ERROR_NUM_NEGATIVO
         }
     }
