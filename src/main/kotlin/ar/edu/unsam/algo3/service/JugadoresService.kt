@@ -53,8 +53,6 @@ class JugadoresService(
     }
 
     fun crearJugador(infoJugador: InfoCrearModificarJugadorDTO) {
-        validarDataJugador(infoJugador)
-
         val nuevoJugador = Jugador(
             nombre = infoJugador.nombre,
             apellido = infoJugador.apellido,
@@ -72,8 +70,6 @@ class JugadoresService(
     }
 
     fun modificarJugador(infoJugador: InfoCrearModificarJugadorDTO, idJugador: Int) {
-        validarDataJugador(infoJugador)
-
         val jugador = jugadoresRepo.getById(idJugador)
 
         with(jugador) {
@@ -117,14 +113,6 @@ class JugadoresService(
     fun validarJugadorInutilizado(id: Int){
         if (figuritasRepository.getAll().any { figu -> figu.jugador.id == id }){
             throw BussinesExpetion(JugadorErrorMessages.JUGADOR_UTILIZADO)
-        }
-    }
-
-    fun validarDataJugador(infoJugador: InfoCrearModificarJugadorDTO){
-        with(infoJugador){
-            if(nombre.isEmpty() || apellido.isEmpty() || fechaNacimiento.isEmpty() || seleccion.isEmpty()  || posicion.isEmpty()) {
-                throw BussinesExpetion(JugadorErrorMessages.DATA_INCOMPLETA)
-            }
         }
     }
 
