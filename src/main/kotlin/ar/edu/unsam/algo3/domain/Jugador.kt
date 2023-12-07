@@ -2,29 +2,29 @@ package ar.edu.unsam.algo3.domain
 
 import ar.edu.unsam.algo3.repository.RepositorioProps
 import java.time.LocalDate
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 
 const val MENSAJE_ERROR_NUM_CAMISETA = "No se puede ingresar un numero de camiseta menor a 1 o mayor a 99"
 const val COTIZACIONBASE = 2000000
 const val LIMITEANIOSVETERANO = 2
 const val EDADLIMITEPROMESAFUTBOL = 22
-class Jugador (
-    val nombre:String,
-    val apellido:String,
-    val fechaNacimiento:LocalDate,
-    val nroCamiseta: Int,
-    val seleccionPerteneciente: Seleccion,
-    val posicion: Posicion,
-    val anioDeDebut: Int,
-    val altura: Double,
-    val peso: Double,
-    val esLider: Boolean,
-    val cotizacion: Double
+
+//TODO: cambiar props a un data class para poder realizar la validacionde campos al modificar un jugador ya instanciado
+data class Jugador (
+    var nombre:String,
+    var apellido:String,
+    var fechaNacimiento:LocalDate,
+    var nroCamiseta: Int,
+    var seleccionPerteneciente: Seleccion,
+    var posicion: Posicion,
+    var anioDeDebut: Int,
+    var altura: Double,
+    var peso: Double,
+    var esLider: Boolean,
+    var cotizacion: Double
 ): RepositorioProps(){
     init {
-        validadorStrings.errorStringVacio(nombre, errorMessage =  MENSAJE_ERROR_INGRESAR_NOMBRE)
-        validadorStrings.errorStringVacio(apellido, errorMessage = MENSAJE_ERROR_INGRESAR_APELLIDO)
-        validarNumeroCamiseta()
-        validarCamposNumericosPositivos()
+        validarTodosLosCampos()
     }
     //Obtiene las primeras 3 letras de la Selección
     fun pais(): String = seleccionPerteneciente.pais.slice(0..2)
@@ -53,5 +53,12 @@ class Jugador (
         if( listOf(anioDeDebut.toDouble(), altura, peso, cotizacion).any{ !HelperNumerosEnteros.esPositivo( it ) }){
             throw IllegalArgumentException(MENSAJE_ERROR_NUM_NEGATIVO)
         }
+    }
+
+    fun validarTodosLosCampos(){
+        validadorStrings.errorStringVacio(nombre, errorMessage =  MENSAJE_ERROR_INGRESAR_NOMBRE)
+        validadorStrings.errorStringVacio(apellido, errorMessage = MENSAJE_ERROR_INGRESAR_APELLIDO)
+        validarNumeroCamiseta()
+        validarCamposNumericosPositivos()
     }
 }

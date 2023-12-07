@@ -33,7 +33,7 @@ class UserController(val userService: UsuarioService) {
 
     @GetMapping("/get-figurita-intercambio/usuario/{userID}/figurita/{figuritaId}")
     @Operation(summary = "Devuelve la figurita del usuario de la lita de figuritas a regalar")
-    fun getFiguritaIntercambio(@PathVariable userID: Int, @PathVariable figuritaId: Int): FiguritaDTO{
+    fun getFiguritaIntercambio(@PathVariable userID: Int, @PathVariable figuritaId: Int): FiguritaFullDTO{
         return userService.getGiftableFigurita(figuritaId,userID)
     }
     @PatchMapping("/request-figurita")
@@ -50,13 +50,13 @@ class UserController(val userService: UsuarioService) {
 
     @GetMapping("/{id}/lista-figus-repetidas")
     @Operation(summary = "permite obtener la lista de figuritas repetidas del usaurio")
-    fun getFigusRepes(@PathVariable id: Int): List<FiguritaDTO> {
+    fun getFigusRepes(@PathVariable id: Int): List<FiguritaFullDTO> {
         return userService.getFigusRepes(id)
     }
 
     @GetMapping("/{id}/lista-figus-faltantes")
     @Operation(summary = "permite obtener la lista de figuritas faltantes del usaurio")
-    fun getFigusFaltantes(@PathVariable id: Int): List<FiguritaDTO> {
+    fun getFigusFaltantes(@PathVariable id: Int): List<FiguritaFullDTO> {
         return userService.getFigusFaltantes(id)
     }
 

@@ -5,6 +5,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 
 //-------------------------FIGURITAS-----------------------//
 val figuritaBase = Figurita(numero = 9, onFire = false, cantidadImpresa = impresionBaja, jugador = emilianoMartinez)
@@ -16,6 +17,7 @@ val figuritaDevaluada = Figurita(numero = 35, onFire = false, cantidadImpresa = 
 val figuritaValorMaximo = Figurita(numero = 10, onFire = true, cantidadImpresa = impresionBaja, jugador = lionelMessi)
 val figuritaValorMedio = Figurita(numero = 27, onFire = true, cantidadImpresa = impresionMedia, jugador = nicolasOtamendi)
 val figuritaMenorValoracion = Figurita(numero = 50, onFire = true, cantidadImpresa = impresionMedia, jugador = lisandroMartinez)
+val figuConNumeroBueno = Figurita(numero = 9, onFire = false, cantidadImpresa = impresionBaja, jugador = emilianoMartinez)
 
 class FiguritaSpec: DescribeSpec ({
     isolationMode = IsolationMode.InstancePerTest
@@ -45,6 +47,15 @@ class FiguritaSpec: DescribeSpec ({
 
         it("Valoracion figurita NO PAR, que esta ONFIRE y que tiene una cantidad de impresiones MEDIA") {
             figuritaOnfireImpresionMedia.valoracion().shouldBe(282)
+        }
+        it("al cambiar un nro de una figurita funciona por que es valido"){
+            figuConNumeroBueno.cambiarNumero(3)
+            figuConNumeroBueno.numero.shouldBe(3)
+        }
+        it("al cambiar un nro de una figurita salta une expecion por que es invalido"){
+            shouldThrow<IllegalArgumentException> {
+                figuConNumeroBueno.cambiarNumero(-1)
+            }.message shouldBe MENSAJE_ERROR_NUM_NEGATIVO
         }
     }
 })

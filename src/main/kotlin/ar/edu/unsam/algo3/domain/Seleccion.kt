@@ -3,10 +3,10 @@ package ar.edu.unsam.algo3.domain
 import ar.edu.unsam.algo3.repository.RepositorioProps
 
 class Seleccion(
-    val pais: String,
-    val confederacion: Confederacion,
-    val copasDelMundo: Int,
-    val copasConfederacion: Int
+    var pais: String,
+    var confederacion: Confederacion,
+    var copasDelMundo: Int,
+    var copasConfederacion: Int
 ): RepositorioProps() {
     companion object {
         fun crear(dataExterna: SeleccionDataExterna): Seleccion {

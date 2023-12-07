@@ -1,13 +1,91 @@
 package ar.edu.unsam.algo3.domain
 
-data class FiltroFigurita(
-  var palabraClave: String = "",
-  var onFire: Boolean = false,
-  var esPromesa: Boolean = false,
-  var rangoValoracion: ClosedRange<Double> = (0.0..0.0),
-)
+import ar.edu.unsam.algo3.repository.FiguritasRepository
+import ar.edu.unsam.algo3.repository.JugadorRepository
+import ar.edu.unsam.algo3.repository.PuntosDeVentaRepository
+import ar.edu.unsam.algo3.repository.SeleccionesRepository
 
-data class FiltroPuntoDeVenta(
-  var palabraClave: String = "",
-  var opcionElegida: String = "",
-)
+
+class Filtro<T>{
+  private val condiciones = mutableListOf<CondicionesFiltrado<T>>()
+
+  fun addCondiconFiltrado(condicion:CondicionesFiltrado<T>){
+    condiciones.add(condicion)
+  }
+  fun cumpleCondiciones(elemento: T) = condiciones.all{ it.filtro(elemento)}
+}
+
+interface CondicionesFiltrado<T>{
+  fun filtro(elemento: T): Boolean
+}
+
+class FiltroPalabraClaveFigurita(private val palabraClave: String, val repository: FiguritasRepository) : CondicionesFiltrado<Figurita>{
+  override fun filtro(elemento: Figurita): Boolean {
+    return if (palabraClave != "") {
+      return elemento in repository.search(palabraClave)
+    } else {
+      true
+    }
+  }
+}
+
+class FiltroPalabraClavePuntoDeVenta(private val palabraClave: String, val repository: PuntosDeVentaRepository) : CondicionesFiltrado<PuntoDeVenta>{
+  override fun filtro(elemento: PuntoDeVenta): Boolean {
+    return if (palabraClave != "") {
+      return elemento in repository.search(palabraClave)
+    } else {
+      true
+    }
+  }
+}
+
+class FiltroPalabraClaveJugador(private val palabraClave: String, val repository: JugadorRepository) : CondicionesFiltrado<Jugador>{
+  override fun filtro(elemento: Jugador): Boolean {
+    return if (palabraClave != "") {
+      return elemento in repository.search(palabraClave)
+    } else {
+      true
+    }
+  }
+}
+
+class FiltroPalabraClaveSeleccion(private val palabraClave: String, val repository: SeleccionesRepository) : CondicionesFiltrado<Seleccion>{
+  override fun filtro(elemento: Seleccion): Boolean {
+    return if (palabraClave != "") {
+      return elemento in repository.search(palabraClave)
+    } else {
+      true
+    }
+  }
+}
+
+
+class FiltroOnfire(private val condicion:Boolean) : CondicionesFiltrado<Figurita> {
+  override fun filtro(elemento: Figurita): Boolean {
+    return if(condicion){
+      elemento.estaOnfire()
+    } else {
+      true
+    }
+  }
+}
+
+class FiltroEspromesa(private val condicion: Boolean) : CondicionesFiltrado<Figurita> {
+  override fun filtro(elemento: Figurita): Boolean {
+    return if(condicion){
+      elemento.jugador.promesaDelFutbol()
+    } else {
+      true
+    }
+  }
+}
+
+class FiltroValoracion(private val rango:ClosedRange<Double>) : CondicionesFiltrado<Figurita> {
+  override fun filtro(elemento: Figurita): Boolean {
+    return if (rango != (0.0..0.0)) {
+      return elemento.valoracion() in rango
+    } else {
+      true
+    }
+  }
+}

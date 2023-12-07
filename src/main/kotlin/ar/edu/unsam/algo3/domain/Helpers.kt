@@ -2,6 +2,7 @@ package ar.edu.unsam.algo3.domain
 
 import java.time.LocalDate
 import java.time.Period
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 
 const val MENSAJE_ERROR_NUM_NEGATIVO = "los campos numericos deben ser positivos"
 const val MENSAJE_ERROR_INGRESAR_NOMBRE = "debe ingresar un nombre"

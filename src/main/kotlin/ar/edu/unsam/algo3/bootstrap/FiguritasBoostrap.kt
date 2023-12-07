@@ -6,11 +6,11 @@ import ar.edu.unsam.algo3.repository.JugadorRepository
 import ar.edu.unsam.algo3.repository.SeleccionesRepository
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.core.annotation.Order
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.time.LocalDate
 
-@Order(1)
-@Service
+@Component
+@Order(0)
 class FiguritasBoostrap(
   val figuritasRepository: FiguritasRepository,
   val jugadorRepository: JugadorRepository,
@@ -19,6 +19,7 @@ class FiguritasBoostrap(
 
   private val selecciones = mapOf(
     "Argentina" to Seleccion(pais = "Argentina", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 3),
+    "Chile" to Seleccion(pais = "Chile", Confederacion.CONMEBOL, copasConfederacion = 2, copasDelMundo = 0 ),
     "Brasil" to Seleccion(pais = "Brasil", Confederacion.CONMEBOL, copasConfederacion = 22, copasDelMundo = 5),
     "España" to Seleccion(pais = "España", Confederacion.UEFA, copasConfederacion = 8, copasDelMundo = 4),
     "Polonia" to Seleccion(pais = "Polonia", Confederacion.UEFA, copasConfederacion = 7, copasDelMundo = 3),
@@ -28,7 +29,8 @@ class FiguritasBoostrap(
     "Japón" to Seleccion(pais = "Japón", Confederacion.AFC, copasConfederacion = 3, copasDelMundo = 0),
     "China" to Seleccion(pais = "China", Confederacion.AFC, copasConfederacion = 1, copasDelMundo = 0),
     "Corea del Sur" to Seleccion(pais = "Corea del Sur", Confederacion.AFC, copasConfederacion = 2, copasDelMundo = 0),
-    "México" to Seleccion(pais = "México", Confederacion.CONCACAF, copasConfederacion = 1, copasDelMundo = 0)
+    "México" to Seleccion(pais = "México", Confederacion.CONCACAF, copasConfederacion = 1, copasDelMundo = 0),
+    "Corea del Norte" to Seleccion(pais = "Corea del Norte", Confederacion.AFC, copasConfederacion = 0, copasDelMundo = 0 )
   )
 
   private val jugadores = mapOf(
@@ -276,20 +278,27 @@ class FiguritasBoostrap(
   )
 
   fun crearFiguritas() {
+    println("INICIO EL PROCESO DE CREACIÓN DE FIGURITAS")
     figuritas.forEach { figurita -> figuritasRepository.apply { create(figurita) } }
   }
 
   fun crearJugador() {
+    println("INICIO EL PROCESO DE CREACIÓN DE JUGADORES")
     jugadores.values.forEach { jugador -> jugadorRepository.apply { create(jugador) } }
   }
 
   fun crearSelecciones() {
+    println("INICIO EL PROCESO DE CREACIÓN DE SELECCIONES")
     selecciones.values.forEach { seleccion -> seleccionesRepository.apply { create(seleccion) } }
   }
 
   override fun afterPropertiesSet() {
+    println("INICIO EL PROCESO DE CREACION DE SELECCIONES")
     this.crearSelecciones()
+    println("INICIO EL PROCESO DE CREACION DE JUGADORES")
     this.crearJugador()
+    println("INICIO EL PROCESO DE CREACION DE FIGURITAS")
     this.crearFiguritas()
+    println("FIN DE CREACION DE FIGURITAS")
   }
 }

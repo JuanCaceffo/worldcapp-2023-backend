@@ -1,5 +1,5 @@
 package ar.edu.unsam.algo3.domain
-enum class Confederacion(val nombre: String) {
+enum class Confederacion(var nombre: String) {
   AFC("AFC"),
   CAF("CAF"),
   CONCACAF("CONCACAF"),
