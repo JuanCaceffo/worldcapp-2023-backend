@@ -11,6 +11,7 @@ class Figurita (
     var urlImage: String? = null
 ): RepositorioProps(){
     init {
+
         validarNumero(numero)
     }
 

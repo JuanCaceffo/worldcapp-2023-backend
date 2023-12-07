@@ -63,6 +63,7 @@ class FiguritaService(
   }
   fun delete(id: Int) {
     val figurita = figuritaRepository.getById(id)
+    validarFiguInutilizada(figurita)
     figuritaRepository.delete(figurita)
   }
   fun crearFigurita(infoFigurita : FiguritaCreateModifyDTO) {
@@ -105,15 +106,9 @@ class FiguritaService(
       ?: throw IllegalArgumentException(ERROR_MSG_PARAMETRO_INVALIDO)
   }
 
-  fun validarFiguInutilizada(id: Int){
+  fun validarFiguInutilizada(figurita: Figurita){
     val usuarios: List<Usuario> = usuariosRepository.getAll()
-    val figu = figuritaRepository.getById(id)
 
-    val hayFaltantes = usuarios.any { it.figuritasFaltantes.contains(figu) }
-    val hayRepetidas = usuarios.any { it.figuritasRepetidas.contains(figu) }
-
-    if (hayFaltantes || hayRepetidas){
-      throw BussinesExpetion(FiguritaErrorMessages.FIGURITA_UTILIZADA)
-    }
+    usuarios.forEach { user -> user.validarFiguritaAEliminar(figurita) }
   }
 }

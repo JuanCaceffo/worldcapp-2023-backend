@@ -1,6 +1,7 @@
 package ar.edu.unsam.algo3.domain
 
 import ar.edu.unsam.algo3.error.BussinesExpetion
+import ar.edu.unsam.algo3.error.FiguritaErrorMessages
 import ar.edu.unsam.algo3.repository.RepositorioProps
 import java.time.LocalDate
 
@@ -119,6 +120,11 @@ data class Usuario(
         figuritasFaltantes.map { it.numero }.contains(figurita.numero)
 
     //---------------------- VALIDACIONES -------------------------//
+    fun validarFiguritaAEliminar(figurita: Figurita){
+        if(figuritasRepetidas.contains(figurita) || figuritasFaltantes.contains(figurita)) {
+            throw BussinesExpetion(FiguritaErrorMessages.FIGURITA_UTILIZADA)
+        }
+    }
     private fun validarRepetidaExistente(figurita: Figurita) {
         if (figuritasRepetidas.contains(figurita)){
             throw BussinesExpetion(MENSAJE_ERROR_FIGURITA_ENREPETIDAS)
