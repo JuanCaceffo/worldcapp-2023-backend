@@ -5,6 +5,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.IsolationMode
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 
 //-------------------------FIGURITAS-----------------------//
 val figuritaBase = Figurita(numero = 9, onFire = false, cantidadImpresa = impresionBaja, jugador = emilianoMartinez)
@@ -45,6 +46,15 @@ class FiguritaSpec: DescribeSpec ({
 
         it("Valoracion figurita NO PAR, que esta ONFIRE y que tiene una cantidad de impresiones MEDIA") {
             figuritaOnfireImpresionMedia.valoracion().shouldBe(282)
+        }
+        it("al cambiar un nro de una figurita funciona por que es valido"){
+            figuritaBase.cambiarNumero(3)
+            figuritaBase.numero.shouldBe(3)
+        }
+        it("al cambiar un nro de una figurita salta une expecion por que es invalido"){
+            shouldThrow<IllegalArgumentException> {
+                figuritaBase.cambiarNumero(-1)
+            }.message shouldBe MENSAJE_ERROR_NUM_NEGATIVO
         }
     }
 })

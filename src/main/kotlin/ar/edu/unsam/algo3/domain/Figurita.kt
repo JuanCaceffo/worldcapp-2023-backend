@@ -1,5 +1,6 @@
 package ar.edu.unsam.algo3.domain
 
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 import ar.edu.unsam.algo3.repository.RepositorioProps
 
 class Figurita (
@@ -10,7 +11,7 @@ class Figurita (
     var urlImage: String? = null
 ): RepositorioProps(){
     init {
-        validarNumero()
+        validarNumero(numero)
     }
 
     val valorInicial = 100.0
@@ -24,9 +25,14 @@ class Figurita (
         onFire = status
     }
 
+    fun cambiarNumero(nro: Int) {
+        validarNumero(nro)
+        numero = nro
+    }
+
     //------------------------- VALIDACIONES -------------------------- //
-    fun validarNumero(){
-        if (!HelperNumerosEnteros.esPositivo(numero)){
+    fun validarNumero(nro: Int){
+        if (!HelperNumerosEnteros.esPositivo(nro)){
             throw IllegalArgumentException(MENSAJE_ERROR_NUM_NEGATIVO)
         }
     }

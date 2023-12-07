@@ -79,12 +79,10 @@ class FiguritaService(
     figuritaRepository.create(nuevaFigurita)
   }
   fun modificarFigurita(infoFigurita: FiguritaCreateModifyDTO, idFigurita: Int){
-    validarDataFigurita(infoFigurita)
-
     val figurita = figuritaRepository.getById(idFigurita)
 
     with(figurita) {
-      numero = infoFigurita.numero
+      cambiarNumero(infoFigurita.numero)
       onFire = infoFigurita.onFire
       cantidadImpresa = obtenerNivelImpresionDesdeString(infoFigurita.nivelImpresion)
       jugador = buscarJugadorPorNombre(infoFigurita.nombreApellido)
@@ -109,11 +107,4 @@ class FiguritaService(
     return mapNivelesImpresion[nivelImpresionString.lowercase()]
       ?: throw IllegalArgumentException(ERROR_MSG_PARAMETRO_INVALIDO)
   }
-  fun validarDataFigurita(infoFigurita: FiguritaCreateModifyDTO){
-    with(infoFigurita){
-      if(numero.toString().isEmpty() || onFire.toString().isEmpty() || nivelImpresion.isEmpty() || nombreApellido.isEmpty()) {
-        throw BussinesExpetion(ERROR_MSG_DATA_INCOMPLETA)
-      }
-    }
-  }
-  }
+}

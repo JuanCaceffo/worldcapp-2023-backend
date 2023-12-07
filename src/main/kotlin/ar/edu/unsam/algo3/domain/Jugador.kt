@@ -55,4 +55,6 @@ class Jugador (
             throw IllegalArgumentException(MENSAJE_ERROR_NUM_NEGATIVO)
         }
     }
+
+//    fun validacionDeUsuarioCompleta()
 }
