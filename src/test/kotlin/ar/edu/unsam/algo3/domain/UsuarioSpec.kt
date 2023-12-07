@@ -9,6 +9,7 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
 import org.uqbar.geodds.Point
 import java.time.LocalDate
+import ar.edu.unsam.algo3.error.IllegalArgumentException
 
 //-------------------------USUARIOS-----------------------//
 val sol = Usuario(

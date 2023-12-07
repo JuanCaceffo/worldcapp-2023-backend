@@ -42,7 +42,6 @@ class Repositorio<T : RepositorioProps> {
   }
 
   fun search(value: String):List<T>{
-    return elementos.values.filter {team -> team.validSearchCondition(value)}
     return elementos.values.filter { it.validSearchCondition(value) }
   }
 }
