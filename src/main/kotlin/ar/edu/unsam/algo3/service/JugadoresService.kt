@@ -69,6 +69,7 @@ class JugadoresService(
         jugadoresRepo.create(nuevoJugador)
     }
 
+    //TODO: validar modificaion
     fun modificarJugador(infoJugador: InfoCrearModificarJugadorDTO, idJugador: Int) {
         val jugador = jugadoresRepo.getById(idJugador)
 

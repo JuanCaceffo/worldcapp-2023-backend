@@ -8,6 +8,8 @@ const val MENSAJE_ERROR_NUM_CAMISETA = "No se puede ingresar un numero de camise
 const val COTIZACIONBASE = 2000000
 const val LIMITEANIOSVETERANO = 2
 const val EDADLIMITEPROMESAFUTBOL = 22
+
+//TODO: cambiar props a un data class para poder realizar la validacionde campos al modificar un jugador ya instanciado
 class Jugador (
     var nombre:String,
     var apellido:String,
@@ -55,6 +57,4 @@ class Jugador (
             throw IllegalArgumentException(MENSAJE_ERROR_NUM_NEGATIVO)
         }
     }
-
-//    fun validacionDeUsuarioCompleta()
 }
