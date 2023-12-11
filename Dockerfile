@@ -18,7 +18,7 @@ RUN sed -i 's/\r$//' gradlew
 RUN ./gradlew build
 
 # Exponer el puerto 8080
-EXPOSE 9000
+EXPOSE 8000
 
 # Ejecutar la aplicación Spring Boot
 CMD ["java", "-jar", "build/libs/WorldCapp08-0.0.1-SNAPSHOT.war"]
