@@ -21,4 +21,4 @@ RUN ./gradlew build
 EXPOSE 8000
 
 # Ejecutar la aplicación Spring Boot
-CMD ["java", "-jar", "build/libs/WorldCapp08-0.0.1-SNAPSHOT.war"]
+ENTRYPOINT ["java", "-jar", "build/libs/WorldCapp08-0.0.1-SNAPSHOT.war"]
