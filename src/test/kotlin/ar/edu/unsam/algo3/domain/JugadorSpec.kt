@@ -8,6 +8,8 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.doubles.plusOrMinus
 import java.time.LocalDate
 import ar.edu.unsam.algo3.error.IllegalArgumentException
+import io.mockk.every
+import io.mockk.mockkStatic
 
 //-------------------------JUGADORES-----------------------//
 
@@ -142,8 +144,11 @@ val mbappe = Jugador(
 
 class JugadorSpec: DescribeSpec ({
     isolationMode = IsolationMode.InstancePerTest
+    mockkStatic(LocalDate::class)
+    every { LocalDate.now() } returns LocalDate.of(2023,5,11)
 
     describe (name= "Test validaciones Jugadores"){
+
         it("No se permite inicializar la variable de nro camsiseta menor a 1 o mayor a 99"){
             shouldThrow<IllegalArgumentException> {
                 Jugador(
@@ -182,6 +187,7 @@ class JugadorSpec: DescribeSpec ({
     }
 
     describe(name= "Test Jugadores") {
+
         it("Jugador alto debe tener una valoración igual a la valoracion por puesto Arquero * su altura") {
             emilianoMartinez.valoracionJugador().shouldBe(180.0)
         }
@@ -215,6 +221,7 @@ class JugadorSpec: DescribeSpec ({
         }
     }
     describe("Test Jugador Polivalente"){
+
         val enzoPerez = Jugador(
             nombre = "Enzo",
             apellido = "Perez",

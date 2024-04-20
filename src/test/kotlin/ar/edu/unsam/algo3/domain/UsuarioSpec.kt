@@ -10,6 +10,8 @@ import io.kotest.matchers.shouldBe
 import org.uqbar.geodds.Point
 import java.time.LocalDate
 import ar.edu.unsam.algo3.error.IllegalArgumentException
+import io.mockk.every
+import io.mockk.mockkStatic
 
 //-------------------------USUARIOS-----------------------//
 val sol = Usuario(
@@ -95,9 +97,10 @@ class UsuarioSpec: DescribeSpec ({
     isolationMode = IsolationMode.InstancePerTest
 
     val usuarioConFigus = sol.copy()
+    mockkStatic(LocalDate::class)
 
     describe("Test Usuarios") {
-
+        every { LocalDate.now() } returns LocalDate.of(2023,5,11)
         usuarioConFigus.apply {
             addFiguritaFaltante(figuritaBase)
             addFiguritaFaltante(figuritaValorMaximo)
